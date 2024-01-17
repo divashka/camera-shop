@@ -6,6 +6,7 @@ import Basket from '../../pages/basket/basket';
 import Product from '../../pages/product/product';
 
 function App(): JSX.Element {
+
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -19,7 +20,7 @@ function App(): JSX.Element {
             element={<Basket />}
           />
           <Route
-            path={AppRoute.Product}
+            path={`${AppRoute.Product}:id`}
             element={<Product />}
           />
         </Routes>
