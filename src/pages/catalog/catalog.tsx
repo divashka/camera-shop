@@ -1,35 +1,41 @@
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import CardsList from '../../components/cards-list/cards-list';
 import { useAppSelector } from '../../hooks';
 import { getProducts } from '../../store/camera-slice/selectors';
+import Banner from '../../components/banner/banner';
+import Pagination from '../../components/pagination/pagination';
+
+const MAX_COUNT_PER_PAGE = 9;
 
 function Catalog(): JSX.Element {
 
   const products = useAppSelector(getProducts);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [productsPerPage] = useState(9);
+
+  const currentPage = Number(searchParams.get('page') || '1');
+
+  const start = Number(currentPage - 1) * productsPerPage;
+
+  const end = start + productsPerPage;
+
+  const currentProducts = products.slice(start, end);
+
+  function calculatePaginate(pageNumber: number) {
+    setSearchParams({ page: String(pageNumber) });
+  }
 
   return (
     <div className="wrapper">
       <Header></Header>
 
       <main>
-        <div className="banner">
-          <picture>
-            <source type="image/webp" srcSet="img/content/banner-bg.webp, img/content/banner-bg@2x.webp 2x"></source>
-            <img
-              src="img/content/banner-bg.jpg" srcSet="img/content/banner-bg@2x.jpg 2x" width="1280" height="280"
-              alt="баннер"
-            />
-          </picture>
-          <p className="banner__info"><span className="banner__message">Новинка!</span>
-            <span className="title title--h1">Cannonball&nbsp;Pro&nbsp;MX&nbsp;8i
-            </span>
-            <span className="banner__text">Профессиональная камера от&nbsp;известного производителя</span>
-            <a className="btn" href="#">
-              Подробнее
-            </a>
-          </p>
-        </div>
+        <Banner></Banner>
+
         <div className="page-content">
           <div className="breadcrumbs">
             <div className="container">
@@ -179,21 +185,14 @@ function Catalog(): JSX.Element {
                     </form>
                   </div>
 
-                  <CardsList products={products}></CardsList>
+                  <CardsList products={currentProducts}></CardsList>
 
-                  <div className="pagination">
-                    <ul className="pagination__list">
-                      <li className="pagination__item"><a className="pagination__link pagination__link--active" href="1">1</a>
-                      </li>
-                      <li className="pagination__item"><a className="pagination__link" href="2">2</a>
-                      </li>
-                      <li className="pagination__item"><a className="pagination__link" href="3">3</a>
-                      </li>
-                      <li className="pagination__item"><a className="pagination__link pagination__link--text" href="2">Далее</a>
-                      </li>
-                    </ul>
-                  </div>
-
+                  {products.length > MAX_COUNT_PER_PAGE &&
+                    <Pagination currentPage={currentPage} totalProducts={products.length} productsPerPage={productsPerPage}
+                      end={end}
+                      onPaginateButtonClick={calculatePaginate}
+                    >
+                    </Pagination>}
                 </div>
               </div>
             </div>
