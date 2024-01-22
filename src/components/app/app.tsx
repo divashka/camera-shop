@@ -4,8 +4,17 @@ import { AppRoute } from '../../const/const';
 import Catalog from '../../pages/catalog/catalog';
 import Basket from '../../pages/basket/basket';
 import Product from '../../pages/product/product';
+import { useAppSelector } from '../../hooks';
+import { getLoadingStatus } from '../../store/camera-slice/selectors';
+import Loading from '../../pages/loading/loading';
 
 function App(): JSX.Element {
+
+  const loading = useAppSelector(getLoadingStatus);
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
 
   return (
     <HelmetProvider>

@@ -5,6 +5,7 @@ import { fetchProductsAction } from '../api-actions';
 
 const initialState: CameraSlice = {
   products: [],
+  loading: false,
   oneProduct: null,
   similarProducts: []
 };
@@ -18,6 +19,10 @@ export const cameraReducer = createSlice({
     builder
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
         state.products = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchProductsAction.pending, (state) => {
+        state.loading = true;
       });
   }
 });
