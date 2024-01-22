@@ -19,3 +19,5 @@ export enum SliceNameSpace {
   Order = 'ORDER'
 }
 
+export const PER_PAGES_COUNT = 3;
+

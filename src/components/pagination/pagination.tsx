@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import { PER_PAGES_COUNT } from '../../const/const';
+
 type PaginationProps = {
   currentPage: number;
   totalProducts: number;
@@ -10,15 +11,15 @@ type PaginationProps = {
 
 function Pagination({ currentPage, totalProducts, productsPerPage, end, onPaginateButtonClick }: PaginationProps): JSX.Element {
 
-  const pageNumbers = [];
+  const pagesCount = Math.ceil(totalProducts / productsPerPage);
 
-  const pageNumbersCount = Math.ceil(totalProducts / productsPerPage);
+  const pageNumbers = Array.from({ length: pagesCount }, (_, i) => i + 1);
 
-  for (let i = 1; i <= pageNumbersCount; i++) {
-    pageNumbers.push(i);
-  }
+  const currentPerPages = Math.ceil(currentPage / PER_PAGES_COUNT);
 
-  const [perPage, setPerPage] = useState(pageNumbers.slice(0, 3));
+  const startPage = (currentPerPages - 1) * PER_PAGES_COUNT + 1;
+
+  const endPage = Math.min(currentPerPages * PER_PAGES_COUNT, pagesCount);
 
   function handlePaginateButtonClick(pageNumber: number) {
     onPaginateButtonClick(pageNumber);
@@ -47,7 +48,7 @@ function Pagination({ currentPage, totalProducts, productsPerPage, end, onPagina
           </li>
         }
         {
-          perPage.map((number) => (
+          pageNumbers.slice(startPage - 1, endPage).map((number) => (
             <li key={number} className="pagination__item">
               <a
                 onClick={() => handlePaginateButtonClick(number)}
