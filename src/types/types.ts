@@ -25,8 +25,10 @@ type ProductLevel = 'Нулевой' | 'Любительский' | 'Профе�
 
 export type CameraSlice = {
   products: Product[];
-  loading: boolean;
+  isLoadingProducts: boolean;
+  isLoadingOneProduct: boolean;
   oneProduct: Product | null;
+  error: boolean;
   similarProducts: Product[];
 }
 

@@ -1,7 +1,61 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { fetchOneProductAction } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks';
+import { getOneProduct, getLoadingOneProductStatus } from '../../store/camera-slice/selectors';
+import { useAppDispatch } from '../../hooks';
+import { dropProduct } from '../../store/camera-slice/camera-slice';
+import NotFound from '../not-found/not-found';
+import Loading from '../loading/loading';
+import classNames from 'classnames';
+
+type TabType = 'feature' | 'description';
+
+enum TabsName {
+  Description = 'description',
+  Feature = 'feature'
+}
 
 function Product(): JSX.Element {
+
+  const dispatch = useAppDispatch();
+  const { id } = useParams();
+
+  const [activeTabParams, setActiveTabParams] = useSearchParams();
+
+  const currentTab = activeTabParams.get('tab') || TabsName.Description;
+
+  const product = useAppSelector(getOneProduct);
+  const isLoading = useAppSelector(getLoadingOneProductStatus);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    dispatch(fetchOneProductAction(id));
+
+    return () => {
+      dispatch(dropProduct());
+    };
+  }, [id, dispatch]);
+
+  if (!product && isLoading) {
+    return <Loading />;
+  }
+
+  if (!product || !id) {
+    return <NotFound />;
+  }
+
+  function handleTabButtonClick(type: TabType) {
+    setActiveTabParams({ tab: type });
+  }
+
+  const { name, type, category, vendorCode, level, description, price, rating, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = product;
+
   return (
     <div className="wrapper">
       <Header></Header>
@@ -28,7 +82,7 @@ function Product(): JSX.Element {
                 </li>
                 <li className="breadcrumbs__item">
                   <span className="breadcrumbs__link breadcrumbs__link--active">
-                    Ретрокамера Das Auge IV
+                    {name}
                   </span>
                 </li>
               </ul>
@@ -41,42 +95,32 @@ function Product(): JSX.Element {
                   <picture>
                     <source
                       type="image/webp"
-                      srcSet="img/content/das-auge.webp, img/content/das-auge@2x.webp 2x"
+                      srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`}
                     />
                     <img
-                      src="img/content/das-auge.jpg"
-                      srcSet="img/content/das-auge@2x.jpg 2x"
+                      src={previewImg}
+                      srcSet={`${previewImg2x} 2x`}
                       width={560}
                       height={480}
-                      alt="Ретрокамера Das Auge IV"
+                      alt={name}
                     />
                   </picture>
                 </div>
                 <div className="product__content">
-                  <h1 className="title title--h3">Ретрокамера Das Auge IV</h1>
+                  <h1 className="title title--h3">{name}</h1>
                   <div className="rate product__rate">
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-star" />
-                    </svg>
-                    <p className="visually-hidden">Рейтинг: 4</p>
+                    {Array.from({ length: 5 }, (_, index) => index).map((item) => (
+                      <svg key={item} width="17" height="16" aria-hidden="true">
+                        <use xlinkHref={item < rating ? '#icon-full-star' : '#icon-star'}></use>
+                      </svg>
+                    ))}
+                    <p className="visually-hidden">Рейтинг: {rating}</p>
                     <p className="rate__count">
-                      <span className="visually-hidden">Всего оценок:</span>12
+                      <span className="visually-hidden">Всего оценок:</span>{reviewCount}
                     </p>
                   </div>
                   <p className="product__price">
-                    <span className="visually-hidden">Цена:</span>73 450 ₽
+                    <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
                   </p>
                   <button className="btn btn--purple" type="button">
                     <svg width={24} height={16} aria-hidden="true">
@@ -86,47 +130,62 @@ function Product(): JSX.Element {
                   </button>
                   <div className="tabs product__tabs">
                     <div className="tabs__controls product__tabs-controls">
-                      <button className="tabs__control" type="button">
+                      <button
+                        type="button"
+                        onClick={() => handleTabButtonClick(TabsName.Feature)}
+                        className={classNames(
+                          'tabs__control',
+                          { 'is-active': currentTab === TabsName.Feature }
+                        )}
+                      >
                         Характеристики
                       </button>
-                      <button className="tabs__control is-active" type="button">
+                      <button
+                        type="button"
+                        onClick={() => handleTabButtonClick(TabsName.Description)}
+                        className={classNames(
+                          'tabs__control',
+                          { 'is-active': currentTab === TabsName.Description }
+                        )}
+                      >
                         Описание
                       </button>
                     </div>
                     <div className="tabs__content">
-                      <div className="tabs__element">
+                      <div
+                        className={classNames(
+                          'tabs__element',
+                          { 'is-active': currentTab === TabsName.Feature }
+                        )}
+                      >
                         <ul className="product__tabs-list">
                           <li className="item-list">
                             <span className="item-list__title">Артикул:</span>
-                            <p className="item-list__text"> DA4IU67AD5</p>
+                            <p className="item-list__text"> {vendorCode}</p>
                           </li>
                           <li className="item-list">
                             <span className="item-list__title">Категория:</span>
-                            <p className="item-list__text">Видеокамера</p>
+                            <p className="item-list__text">{category}</p>
                           </li>
                           <li className="item-list">
                             <span className="item-list__title">Тип камеры:</span>
-                            <p className="item-list__text">Коллекционная</p>
+                            <p className="item-list__text">{type}</p>
                           </li>
                           <li className="item-list">
                             <span className="item-list__title">Уровень:</span>
-                            <p className="item-list__text">Любительский</p>
+                            <p className="item-list__text">{level}</p>
                           </li>
                         </ul>
                       </div>
-                      <div className="tabs__element is-active">
+                      <div
+                        className={classNames(
+                          'tabs__element',
+                          { 'is-active': currentTab === TabsName.Description }
+                        )}
+                      >
                         <div className="product__tabs-text">
                           <p>
-                            Немецкий концерн BRW разработал видеокамеру Das Auge IV
-                            в&nbsp;начале 80-х годов, однако она до&nbsp;сих пор
-                            пользуется популярностью среди коллекционеров
-                            и&nbsp;яростных почитателей старинной техники.
-                          </p>
-                          <p>
-                            Вы&nbsp;тоже можете прикоснуться к&nbsp;волшебству
-                            аналоговой съёмки, заказав этот чудо-аппарат. Кто знает,
-                            может с&nbsp;Das Auge IV&nbsp;начнётся ваш путь
-                            к&nbsp;наградам всех престижных кинофестивалей.
+                            {description}
                           </p>
                         </div>
                       </div>
@@ -136,6 +195,7 @@ function Product(): JSX.Element {
               </div>
             </section>
           </div>
+
           <div className="page-content__section">
             <section className="product-similar">
               <div className="container">
@@ -496,6 +556,7 @@ function Product(): JSX.Element {
               </div>
             </section>
           </div>
+
           <div className="page-content__section">
             <section className="review-block">
               <div className="container">
@@ -657,10 +718,10 @@ function Product(): JSX.Element {
               </div>
             </section>
           </div>
-        </div>
-      </main>
+        </div >
+      </main >
       <Footer></Footer>
-    </div>
+    </div >
   );
 }
 
