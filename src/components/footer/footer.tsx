@@ -1,4 +1,6 @@
-function Footer(): JSX.Element {
+import { memo } from 'react';
+
+function FooterComponent(): JSX.Element {
   return (
     <footer className="footer">
       <div className="container">
@@ -90,5 +92,7 @@ function Footer(): JSX.Element {
     </footer>
   );
 }
+
+const Footer = memo(FooterComponent);
 
 export default Footer;

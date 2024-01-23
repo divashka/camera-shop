@@ -1,7 +1,7 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { fetchOneProductAction } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks';
 import { getOneProduct, getLoadingOneProductStatus } from '../../store/camera-slice/selectors';
@@ -9,14 +9,9 @@ import { useAppDispatch } from '../../hooks';
 import { dropProduct } from '../../store/camera-slice/camera-slice';
 import NotFound from '../not-found/not-found';
 import Loading from '../loading/loading';
-import classNames from 'classnames';
-
-type TabType = 'feature' | 'description';
-
-enum TabsName {
-  Description = 'description',
-  Feature = 'feature'
-}
+import ProductTabs from '../../components/product-tabs/product-tabs';
+import { TabType } from '../../types/types';
+import { TabsName } from '../../const/const';
 
 function Product(): JSX.Element {
 
@@ -25,7 +20,9 @@ function Product(): JSX.Element {
 
   const [activeTabParams, setActiveTabParams] = useSearchParams();
 
-  const currentTab = activeTabParams.get('tab') || TabsName.Description;
+  const handleTabButtonClick = useCallback((type: TabType) => setActiveTabParams({ tab: type }), [setActiveTabParams]);
+
+  const currentTab = activeTabParams.get('tab') as TabType || TabsName.Description;
 
   const product = useAppSelector(getOneProduct);
   const isLoading = useAppSelector(getLoadingOneProductStatus);
@@ -50,11 +47,9 @@ function Product(): JSX.Element {
     return <NotFound />;
   }
 
-  function handleTabButtonClick(type: TabType) {
-    setActiveTabParams({ tab: type });
-  }
-
   const { name, type, category, vendorCode, level, description, price, rating, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = product;
+
+  const features = { type, category, vendorCode, level };
 
   return (
     <div className="wrapper">
@@ -128,69 +123,9 @@ function Product(): JSX.Element {
                     </svg>
                     Добавить в корзину
                   </button>
-                  <div className="tabs product__tabs">
-                    <div className="tabs__controls product__tabs-controls">
-                      <button
-                        type="button"
-                        onClick={() => handleTabButtonClick(TabsName.Feature)}
-                        className={classNames(
-                          'tabs__control',
-                          { 'is-active': currentTab === TabsName.Feature }
-                        )}
-                      >
-                        Характеристики
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleTabButtonClick(TabsName.Description)}
-                        className={classNames(
-                          'tabs__control',
-                          { 'is-active': currentTab === TabsName.Description }
-                        )}
-                      >
-                        Описание
-                      </button>
-                    </div>
-                    <div className="tabs__content">
-                      <div
-                        className={classNames(
-                          'tabs__element',
-                          { 'is-active': currentTab === TabsName.Feature }
-                        )}
-                      >
-                        <ul className="product__tabs-list">
-                          <li className="item-list">
-                            <span className="item-list__title">Артикул:</span>
-                            <p className="item-list__text"> {vendorCode}</p>
-                          </li>
-                          <li className="item-list">
-                            <span className="item-list__title">Категория:</span>
-                            <p className="item-list__text">{category}</p>
-                          </li>
-                          <li className="item-list">
-                            <span className="item-list__title">Тип камеры:</span>
-                            <p className="item-list__text">{type}</p>
-                          </li>
-                          <li className="item-list">
-                            <span className="item-list__title">Уровень:</span>
-                            <p className="item-list__text">{level}</p>
-                          </li>
-                        </ul>
-                      </div>
-                      <div
-                        className={classNames(
-                          'tabs__element',
-                          { 'is-active': currentTab === TabsName.Description }
-                        )}
-                      >
-                        <div className="product__tabs-text">
-                          <p>
-                            {description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
+                  <ProductTabs onTabButtonClick={handleTabButtonClick} currentTab={currentTab} features={features} description={description}></ProductTabs>
+
                 </div>
               </div>
             </section>

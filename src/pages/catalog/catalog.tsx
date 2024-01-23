@@ -7,6 +7,7 @@ import { useAppSelector } from '../../hooks';
 import { getProducts } from '../../store/camera-slice/selectors';
 import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
+import { useCallback } from 'react';
 
 const MAX_COUNT_PER_PAGE = 9;
 
@@ -25,9 +26,7 @@ function Catalog(): JSX.Element {
 
   const currentProducts = products.slice(start, end);
 
-  function calculatePaginate(pageNumber: number) {
-    setSearchParams({ page: String(pageNumber) });
-  }
+  const calculatePaginate = useCallback((pageNumber: number) => setSearchParams({ page: String(pageNumber) }), [setSearchParams]);
 
   return (
     <div className="wrapper">

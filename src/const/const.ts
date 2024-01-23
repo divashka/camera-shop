@@ -19,5 +19,10 @@ export enum SliceNameSpace {
   Order = 'ORDER'
 }
 
+export enum TabsName {
+  Description = 'description',
+  Feature = 'feature'
+}
+
 export const PER_PAGES_COUNT = 3;
 

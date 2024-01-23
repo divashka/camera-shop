@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
+import { memo } from 'react';
 
-function Header(): JSX.Element {
+function HeaderComponent(): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container">
@@ -53,5 +54,7 @@ function Header(): JSX.Element {
     </header>
   );
 }
+
+const Header = memo(HeaderComponent);
 
 export default Header;
