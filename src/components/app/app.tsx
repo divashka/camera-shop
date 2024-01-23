@@ -5,12 +5,13 @@ import Catalog from '../../pages/catalog/catalog';
 import Basket from '../../pages/basket/basket';
 import Product from '../../pages/product/product';
 import { useAppSelector } from '../../hooks';
-import { getLoadingStatus } from '../../store/camera-slice/selectors';
+import { getLoadingProductsStatus } from '../../store/camera-slice/selectors';
 import Loading from '../../pages/loading/loading';
+import NotFound from '../../pages/not-found/not-found';
 
 function App(): JSX.Element {
 
-  const loading = useAppSelector(getLoadingStatus);
+  const loading = useAppSelector(getLoadingProductsStatus);
 
   if (loading) {
     return <Loading></Loading>;
@@ -31,6 +32,10 @@ function App(): JSX.Element {
           <Route
             path={`${AppRoute.Product}:id`}
             element={<Product />}
+          />
+          <Route
+            path='*'
+            element={<NotFound />}
           />
         </Routes>
       </BrowserRouter>
