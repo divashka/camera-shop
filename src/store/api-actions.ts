@@ -26,3 +26,16 @@ export const fetchOneProductAction = createAsyncThunk<Product, string, {
     return data;
   },
 );
+
+export const fetchRelatedProductsAction = createAsyncThunk<Product[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'camera/fetchRelatedProducts',
+  async (id, { extra: api }) => {
+    const { data } = await api.get<Product[]>(`${APIRoute.Camera}/${id}/similar`);
+    return data;
+  },
+);
+

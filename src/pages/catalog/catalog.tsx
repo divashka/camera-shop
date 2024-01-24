@@ -184,7 +184,7 @@ function Catalog(): JSX.Element {
                     </form>
                   </div>
 
-                  <CardsList products={currentProducts}></CardsList>
+                  <CardsList products={currentProducts} className={'cards catalog__cards'}></CardsList>
 
                   {products.length > MAX_COUNT_PER_PAGE &&
                     <Pagination currentPage={currentPage} totalProducts={products.length} productsPerPage={productsPerPage}

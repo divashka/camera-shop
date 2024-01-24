@@ -10,3 +10,5 @@ export const getErrorStatus = (state: State) => state[SliceNameSpace.Camera].err
 export const getLoadingProductsStatus = (state: State) => state[SliceNameSpace.Camera].isLoadingProducts;
 
 export const getLoadingOneProductStatus = (state: State) => state[SliceNameSpace.Camera].isLoadingOneProduct;
+
+export const getRelatedProducts = (state: State) => state[SliceNameSpace.Camera].similarProducts;
