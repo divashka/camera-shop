@@ -2,9 +2,9 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
-import { fetchOneProductAction } from '../../store/api-actions';
+import { fetchOneProductAction, fetchRelatedProductsAction } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks';
-import { getOneProduct, getLoadingOneProductStatus } from '../../store/camera-slice/selectors';
+import { getOneProduct, getLoadingOneProductStatus, getRelatedProducts } from '../../store/camera-slice/selectors';
 import { useAppDispatch } from '../../hooks';
 import { dropProduct } from '../../store/camera-slice/camera-slice';
 import NotFound from '../not-found/not-found';
@@ -28,12 +28,15 @@ function Product(): JSX.Element {
   const product = useAppSelector(getOneProduct);
   const isLoading = useAppSelector(getLoadingOneProductStatus);
 
+  const relatedProducts = useAppSelector(getRelatedProducts);
+
   useEffect(() => {
     if (!id) {
       return;
     }
 
     dispatch(fetchOneProductAction(id));
+    dispatch(fetchRelatedProductsAction(id));
 
     return () => {
       dispatch(dropProduct());
@@ -132,7 +135,7 @@ function Product(): JSX.Element {
             </section>
           </div>
 
-          <RelatedProducts id={id}></RelatedProducts>
+          {relatedProducts.length !== 0 && <RelatedProducts products={relatedProducts}></RelatedProducts>}
 
           <div className="page-content__section">
             <section className="review-block">

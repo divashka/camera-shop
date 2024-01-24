@@ -1,26 +1,20 @@
 
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getRelatedProducts } from '../../store/camera-slice/selectors';
-import { fetchRelatedProductsAction } from '../../store/api-actions';
+import { Product } from '../../types/types';
 import './related-products.css';
 
 type RelatedProductsProps = {
-  id: string;
+  products: Product[];
 }
 
 const PER_SLIDES_COUNT = 3;
 
-function RelatedProductsComponent({ id }: RelatedProductsProps): JSX.Element {
-
-  const dispatch = useAppDispatch();
-
-  const relatedProducts = useAppSelector(getRelatedProducts);
+function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Element {
 
   const customeSlider = useRef<Slider | null>(null);
 
@@ -29,10 +23,6 @@ function RelatedProductsComponent({ id }: RelatedProductsProps): JSX.Element {
   function afterChange(next: number) {
     setIndexSlide(next);
   }
-
-  useEffect(() => {
-    dispatch(fetchRelatedProductsAction(id));
-  }, [id, dispatch]);
 
   const settings = {
     dots: false,
@@ -64,7 +54,7 @@ function RelatedProductsComponent({ id }: RelatedProductsProps): JSX.Element {
 
           <div className="product-similar__slider">
             <Slider ref={customeSlider} {...settings} className="product-similar__slider-list">
-              {relatedProducts.map((product) => (
+              {products.map((product) => (
                 <div
                   key={product.id}
                   className={classNames(
@@ -126,7 +116,7 @@ function RelatedProductsComponent({ id }: RelatedProductsProps): JSX.Element {
               type="button"
               aria-label="Следующий слайд"
               onClick={goToNext}
-              disabled={indexSlide === relatedProducts.length - PER_SLIDES_COUNT}
+              disabled={indexSlide === products.length - PER_SLIDES_COUNT}
             >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow" />
