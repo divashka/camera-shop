@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CameraSlice } from '../../types/types';
+import { CameraSlice } from '../../types/slices';
 import { SliceNameSpace } from '../../const/const';
 import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction } from '../api-actions';
 

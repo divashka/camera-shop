@@ -16,7 +16,8 @@ export enum SliceNameSpace {
   Camera = 'CAMERA',
   Promo = 'PROMO',
   Review = 'REVIEW',
-  Order = 'ORDER'
+  Order = 'ORDER',
+  App = 'APP'
 }
 
 export enum TabsName {
@@ -24,5 +25,9 @@ export enum TabsName {
   Feature = 'feature'
 }
 
-export const PER_PAGES_COUNT = 3;
+export const PAGES_PER_COUNT = 3;
+
+export const ESCAPE_KEY_NAME = 'Escape';
+
+export const REVIEWS_PER_COUNT = 3;
 

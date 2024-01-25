@@ -1,16 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReviewSlice } from '../../types/types';
+import { ReviewSlice } from '../../types/slices';
 import { SliceNameSpace } from '../../const/const';
 import { fetchReviewsAction } from '../api-actions';
 
 const initialState: ReviewSlice = {
-  reviews: []
+  reviews: [],
 };
 
 export const reviewReducer = createSlice({
   name: SliceNameSpace.Review,
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {

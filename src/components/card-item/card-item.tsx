@@ -1,4 +1,4 @@
-import { Product } from '../../types/types';
+import { Product } from '../../types';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 

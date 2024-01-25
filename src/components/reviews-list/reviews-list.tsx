@@ -1,19 +1,20 @@
-import { useEffect, useState, memo } from 'react';
+import { useEffect, useState, memo, MutableRefObject } from 'react';
 import dayjs from 'dayjs';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchReviewsAction } from '../../store/api-actions';
 import { getReviews } from '../../store/review-slice/selectors';
 import { sortByDate } from '../../utils/utils';
-import { Review } from '../../types/types';
+import { Review } from '../../types';
+import { REVIEWS_PER_COUNT } from '../../const/const';
+import { setModalActive } from '../../store/app-slice/app-slice';
 
 type ReviewsListProps = {
   id: string;
+  focusElement: MutableRefObject<HTMLInputElement | null>;
 }
 
-const REVIEWS_PER_COUNT = 3;
-
-function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
+function ReviewsListComponent({ id, focusElement }: ReviewsListProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -35,13 +36,27 @@ function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
     setShownReviews(shownReviews + REVIEWS_PER_COUNT);
   }
 
+  function handleReviewButtonClick() {
+    dispatch(setModalActive());
+  }
+
+  useEffect(() => {
+    if (focusElement.current) {
+      focusElement.current.focus();
+    }
+  }, [focusElement]);
+
   return (
     <div className="page-content__section">
       <section className="review-block">
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            <button className="btn" type="button">
+            <button
+              className="btn"
+              type="button"
+              onClick={handleReviewButtonClick}
+            >
               Оставить свой отзыв
             </button>
           </div>

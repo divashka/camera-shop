@@ -1,4 +1,4 @@
-import { Review } from '../types/types';
+import { Review } from '../types';
 import dayjs from 'dayjs';
 
 export function sortByDate(reviewA: Review, reviewB: Review) {

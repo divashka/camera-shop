@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { PER_PAGES_COUNT } from '../../const/const';
+import { PAGES_PER_COUNT } from '../../const/const';
 import { memo } from 'react';
 
 type PaginationProps = {
@@ -16,11 +16,11 @@ function PaginationComponent({ currentPage, totalProducts, productsPerPage, end,
 
   const pageNumbers = Array.from({ length: pagesCount }, (_, i) => i + 1);
 
-  const currentPerPages = Math.ceil(currentPage / PER_PAGES_COUNT);
+  const currentPerPages = Math.ceil(currentPage / PAGES_PER_COUNT);
 
-  const startPage = (currentPerPages - 1) * PER_PAGES_COUNT + 1;
+  const startPage = (currentPerPages - 1) * PAGES_PER_COUNT + 1;
 
-  const endPage = Math.min(currentPerPages * PER_PAGES_COUNT, pagesCount);
+  const endPage = Math.min(currentPerPages * PAGES_PER_COUNT, pagesCount);
 
   function handlePaginateButtonClick(pageNumber: number) {
     onPaginateButtonClick(pageNumber);

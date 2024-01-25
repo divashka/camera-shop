@@ -1,5 +1,5 @@
 import CardItem from '../card-item/card-item';
-import { Product } from '../../types/types';
+import { Product } from '../../types';
 
 type CardsListProps = {
   products: Product[];

@@ -34,19 +34,6 @@ type ProductCategory = 'Видеокамера' | 'Фотоаппарат';
 
 type ProductLevel = 'Нулевой' | 'Любительский' | 'Профессиональный';
 
-export type CameraSlice = {
-  products: Product[];
-  isLoadingProducts: boolean;
-  isLoadingOneProduct: boolean;
-  oneProduct: Product | null;
-  error: boolean;
-  similarProducts: Product[];
-}
-
-export type ReviewSlice = {
-  reviews: Review[];
-}
-
 export type AppDispatch = typeof store.dispatch;
 
 export type State = ReturnType<typeof store.getState>;

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { TabType } from '../../types/types';
+import { TabType } from '../../types';
 import { TabsName } from '../../const/const';
 import { memo } from 'react';
 
