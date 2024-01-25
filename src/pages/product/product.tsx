@@ -14,6 +14,7 @@ import { TabType } from '../../types/types';
 import { TabsName } from '../../const/const';
 import RelatedProducts from '../../components/related-products/related-products';
 import ReviewsList from '../../components/reviews-list/reviews-list';
+import ButtonScrollUp from '../../components/button-scroll-up/button-scroll-up';
 
 function Product(): JSX.Element {
 
@@ -139,13 +140,11 @@ function Product(): JSX.Element {
           {relatedProducts.length !== 0 && <RelatedProducts products={relatedProducts}></RelatedProducts>}
 
           <ReviewsList id={id}></ReviewsList>
-        </div >
-      </main >
-      <a className="up-btn" href="#header">
-        <svg width="12" height="18" aria-hidden="true">
-          <use xlinkHref="#icon-arrow2"></use>
-        </svg>
-      </a>
+        </div>
+      </main>
+
+      <ButtonScrollUp></ButtonScrollUp>
+
       <Footer></Footer>
     </div >
   );

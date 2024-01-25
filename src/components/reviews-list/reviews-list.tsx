@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import dayjs from 'dayjs';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -13,7 +13,7 @@ type ReviewsListProps = {
 
 const REVIEWS_PER_COUNT = 3;
 
-function ReviewsList({ id }: ReviewsListProps): JSX.Element {
+function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -102,5 +102,7 @@ function ReviewsList({ id }: ReviewsListProps): JSX.Element {
     </div>
   );
 }
+
+const ReviewsList = memo(ReviewsListComponent);
 
 export default ReviewsList;
