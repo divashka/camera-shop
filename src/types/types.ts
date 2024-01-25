@@ -17,6 +17,17 @@ export type Product = {
   previewImgWebp2x: string;
 }
 
+export type Review = {
+  id: string;
+  createAt: string;
+  cameraId: number;
+  userName: string;
+  advantage: string;
+  disadvantage: string;
+  review: string;
+  rating: number;
+}
+
 type ProductType = 'Коллекционная' | 'Моментальная' | 'Цифровая' | 'Плёночная';
 
 type ProductCategory = 'Видеокамера' | 'Фотоаппарат';
@@ -30,6 +41,10 @@ export type CameraSlice = {
   oneProduct: Product | null;
   error: boolean;
   similarProducts: Product[];
+}
+
+export type ReviewSlice = {
+  reviews: Review[];
 }
 
 export type AppDispatch = typeof store.dispatch;
