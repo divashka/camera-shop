@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-const BASE_URL = 'https://camera-shop.accelerator.pages.academy/';
+const BASE_URL = 'https://camera-shop.accelerator.htmlacademy.pro';
 
 const TIMEOUT_DURATION = 5000;
 

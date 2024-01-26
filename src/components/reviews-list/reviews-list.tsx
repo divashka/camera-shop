@@ -1,4 +1,4 @@
-import { useEffect, useState, memo, MutableRefObject } from 'react';
+import { useEffect, useState, memo } from 'react';
 import dayjs from 'dayjs';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -11,10 +11,9 @@ import { setModalActive } from '../../store/app-slice/app-slice';
 
 type ReviewsListProps = {
   id: string;
-  focusElement: MutableRefObject<HTMLInputElement | null>;
 }
 
-function ReviewsListComponent({ id, focusElement }: ReviewsListProps): JSX.Element {
+function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -39,12 +38,6 @@ function ReviewsListComponent({ id, focusElement }: ReviewsListProps): JSX.Eleme
   function handleReviewButtonClick() {
     dispatch(setModalActive());
   }
-
-  useEffect(() => {
-    if (focusElement.current) {
-      focusElement.current.focus();
-    }
-  }, [focusElement]);
 
   return (
     <div className="page-content__section">

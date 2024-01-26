@@ -18,6 +18,7 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import ButtonScrollUp from '../../components/button-scroll-up/button-scroll-up';
 import Modal from '../../components/modal/modal';
 import ClosePopupButton from '../../components/close-popup-button/close-popup-button';
+import { getIsActiveModalStatus } from '../../store/app-slice/selectors';
 
 function Product(): JSX.Element {
 
@@ -37,11 +38,15 @@ function Product(): JSX.Element {
 
   const relatedProducts = useAppSelector(getRelatedProducts);
 
-  // const handleElementFocus = useCallback(() => {
-  //   if (focusElement.current) {
-  //     focusElement.current.focus();
-  //   }
-  // }, []);
+  const isActiveModal = useAppSelector(getIsActiveModalStatus);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (focusElement.current) {
+        focusElement.current.focus();
+      }
+    }, 300);
+  }, [isActiveModal]);
 
   useEffect(() => {
     if (!id) {
@@ -150,7 +155,7 @@ function Product(): JSX.Element {
 
           {relatedProducts.length !== 0 && <RelatedProducts products={relatedProducts}></RelatedProducts>}
 
-          <ReviewsList id={id} focusElement={focusElement}></ReviewsList>
+          <ReviewsList id={id} ></ReviewsList>
         </div>
       </main>
 
@@ -252,6 +257,7 @@ function Product(): JSX.Element {
                     name="user-name"
                     placeholder="Введите ваше имя"
                     required
+                    autoFocus
                   />
                 </label>
                 <p className="custom-input__error">Нужно указать имя</p>
