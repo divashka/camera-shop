@@ -11,6 +11,7 @@ export type CameraSlice = {
 
 export type ReviewSlice = {
   reviews: Review[];
+  isLoadingReview: boolean;
 }
 
 export type AppSlice = {

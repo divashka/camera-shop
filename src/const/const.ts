@@ -31,3 +31,5 @@ export const ESCAPE_KEY_NAME = 'Escape';
 
 export const REVIEWS_PER_COUNT = 3;
 
+export const RATING_TITLES = ['Ужасно', 'Плохо', 'Нормально', 'Хорошо', 'Отлично'];
+

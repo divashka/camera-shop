@@ -28,6 +28,15 @@ export type Review = {
   rating: number;
 }
 
+export type ReviewData = {
+  cameraId: number;
+  userName: string;
+  advantage: string;
+  disadvantage: string;
+  review: string;
+  rating: number;
+}
+
 type ProductType = 'Коллекционная' | 'Моментальная' | 'Цифровая' | 'Плёночная';
 
 type ProductCategory = 'Видеокамера' | 'Фотоаппарат';
