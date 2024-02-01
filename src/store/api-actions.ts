@@ -15,7 +15,7 @@ export const fetchProductsAction = createAsyncThunk<Product[], undefined, {
   },
 );
 
-export const fetchOneProductAction = createAsyncThunk<Product, string, {
+export const fetchOneProductAction = createAsyncThunk<Product, number, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -27,7 +27,7 @@ export const fetchOneProductAction = createAsyncThunk<Product, string, {
   },
 );
 
-export const fetchRelatedProductsAction = createAsyncThunk<Product[], string, {
+export const fetchRelatedProductsAction = createAsyncThunk<Product[], number, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -39,7 +39,7 @@ export const fetchRelatedProductsAction = createAsyncThunk<Product[], string, {
   },
 );
 
-export const fetchReviewsAction = createAsyncThunk<Review[], string, {
+export const fetchReviewsAction = createAsyncThunk<Review[], number, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
