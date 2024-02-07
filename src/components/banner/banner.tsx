@@ -1,9 +1,31 @@
 import Flickity from 'react-flickity-component';
 import './flickity.css';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const/const';
 
-const SLIDES_COUNT = 3;
+const slides = [
+  {
+    id: 1,
+    message: 'Новинка!',
+    title: 'Ретрокамера Dus Auge lV',
+    description: 'Вы тоже можете прикоснуться к волшебству аналоговой съёмки, заказав этот чудо-аппарат.'
+  },
+  {
+    id: 2,
+    message: 'Новинка!',
+    title: 'FastShot MR-5',
+    description: 'Вы тоже можете прикоснуться к волшебству аналоговой съёмки, заказав этот чудо-аппарат.'
+  },
+  {
+    id: 3,
+    message: 'Новинка!',
+    title: 'Instaprinter P2',
+    description: 'Вы тоже можете прикоснуться к волшебству аналоговой съёмки, заказав этот чудо-аппарат.'
+  }
+];
 
 function Banner(): JSX.Element {
+
   return (
     <Flickity
       disableImagesLoaded={false}
@@ -15,8 +37,8 @@ function Banner(): JSX.Element {
       static
     >
       {
-        Array.from({ length: SLIDES_COUNT }, (_, index) => index).map((index) => (
-          <div key={index} className='banner'>
+        slides.map((product) => (
+          <div key={product.id} className='banner' data-testid="slide">
             <picture>
               <source type="image/webp" srcSet="img/content/banner-bg.webp, img/content/banner-bg@2x.webp 2x"></source>
               <img
@@ -24,13 +46,13 @@ function Banner(): JSX.Element {
                 alt="баннер"
               />
             </picture>
-            <p className="banner__info"><span className="banner__message">Новинка!</span>
-              <span className="title title--h1">Cannonball&nbsp;Pro&nbsp;MX&nbsp;8i
+            <p className="banner__info"><span className="banner__message">{product.message}</span>
+              <span className="title title--h1">{product.title}
               </span>
-              <span className="banner__text">Профессиональная камера от&nbsp;известного производителя</span>
-              <a className="btn" href="#">
+              <span className="banner__text">{product.description}</span>
+              <Link className="btn" to={`${AppRoute.Product}${product.id}`}>
                 Подробнее
-              </a>
+              </Link>
             </p>
           </div>
         )

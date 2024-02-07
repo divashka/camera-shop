@@ -2,13 +2,7 @@ import classNames from 'classnames';
 import { TabType } from '../../types';
 import { TabsName } from '../../const/const';
 import { memo } from 'react';
-
-type Features = {
-  type: string;
-  category: string;
-  vendorCode: string;
-  level: string;
-}
+import { Features } from '../../types';
 
 type ProductTabsProps = {
   onTabButtonClick: (type: TabType) => void;
@@ -26,6 +20,7 @@ function ProductTabsComponent({ onTabButtonClick, currentTab, features, descript
       <div className="tabs__controls product__tabs-controls">
         <button
           type="button"
+          aria-label="Features"
           onClick={() => onTabButtonClick(TabsName.Feature)}
           className={classNames(
             'tabs__control',
@@ -36,6 +31,7 @@ function ProductTabsComponent({ onTabButtonClick, currentTab, features, descript
         </button>
         <button
           type="button"
+          aria-label="Description"
           onClick={() => onTabButtonClick(TabsName.Description)}
           className={classNames(
             'tabs__control',
@@ -51,6 +47,7 @@ function ProductTabsComponent({ onTabButtonClick, currentTab, features, descript
             'tabs__element',
             { 'is-active': currentTab === TabsName.Feature }
           )}
+          data-testid="tabFeatureContent"
         >
           <ul className="product__tabs-list">
             <li className="item-list">
@@ -76,6 +73,7 @@ function ProductTabsComponent({ onTabButtonClick, currentTab, features, descript
             'tabs__element',
             { 'is-active': currentTab === TabsName.Description }
           )}
+          data-testid="tabDescriptionContent"
         >
           <div className="product__tabs-text">
             <p>

@@ -58,7 +58,7 @@ export const fetchAddReviewAction = createAsyncThunk<Review, ReviewData, {
 }>(
   'review/fetchAddReview',
   async (arg, { extra: api }) => {
-    const { data } = await api.post<Review>('/reviews', arg);
+    const { data } = await api.post<Review>(APIRoute.Reviews, arg);
     return data;
   },
 );

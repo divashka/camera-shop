@@ -1,5 +1,5 @@
-import { Product } from '../types';
-import { Review } from '../types';
+import { Product, Review, State } from '../types';
+import { Action } from 'redux';
 
 export const mockProduct: Product = {
   id: 1,
@@ -81,3 +81,23 @@ export const review: Review = {
   rating: 5
 };
 
+export const makeMockStore = (initialState?: Partial<State>): State => ({
+  APP: {
+    modalIsActive: false
+  },
+  CAMERA: {
+    products: [],
+    isLoadingProducts: false,
+    isLoadingOneProduct: false,
+    oneProduct: null,
+    error: false,
+    similarProducts: []
+  },
+  REVIEW: {
+    reviews: [],
+    isLoadingReview: false,
+  },
+  ...initialState ?? {},
+});
+
+export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);

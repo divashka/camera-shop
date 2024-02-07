@@ -1,4 +1,14 @@
 import { store } from '../store/store';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { createAPI } from '../services/api';
+import { Action } from 'redux';
+
+export type Features = {
+  type: string;
+  category: string;
+  vendorCode: string;
+  level: string;
+}
 
 export type Product = {
   id: number;
@@ -48,3 +58,5 @@ export type AppDispatch = typeof store.dispatch;
 export type State = ReturnType<typeof store.getState>;
 
 export type TabType = 'feature' | 'description';
+
+export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;

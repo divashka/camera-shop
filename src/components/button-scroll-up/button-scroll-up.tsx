@@ -15,6 +15,8 @@ function ButtonScrollUpComponent(): JSX.Element {
     <a
       className="up-btn"
       onClick={handleUpButtonClick}
+      aria-label="Подняться вверх"
+      data-testid="scroll up"
     >
       <svg width="12" height="18" aria-hidden="true">
         <use xlinkHref="#icon-arrow2"></use>

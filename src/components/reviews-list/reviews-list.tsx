@@ -10,7 +10,7 @@ import { REVIEWS_PER_COUNT } from '../../const/const';
 import { setModalActive } from '../../store/app-slice/app-slice';
 
 type ReviewsListProps = {
-  id: string;
+  id: number;
 }
 
 function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
@@ -21,14 +21,14 @@ function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
 
   const reviewsSorted = reviews.slice().sort(sortByDate);
 
-  const [shownReviews, setShownReviews] = useState(3);
+  const [shownReviews, setShownReviews] = useState(REVIEWS_PER_COUNT);
 
   let currentPerReviews: Review[] = [];
 
   currentPerReviews = reviewsSorted.slice(0, shownReviews);
 
   useEffect(() => {
-    dispatch(fetchReviewsAction(id));
+    dispatch(fetchReviewsAction(Number(id)));
   }, [dispatch, id]);
 
   function handleLoadMoreClick() {

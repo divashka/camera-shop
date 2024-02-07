@@ -226,6 +226,7 @@ function ProductReviewModalComponent({ id }: ProductReviewModalProps): JSX.Eleme
               className="btn btn--purple form-review__btn"
               type="submit"
               disabled={isLoadingReview}
+              aria-label="отправить отзыв"
               onClick={(event) =>
                 void handleSubmit(handleFormSubmit)(event)}
             >

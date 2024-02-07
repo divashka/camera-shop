@@ -16,7 +16,7 @@ function Catalog(): JSX.Element {
   const products = useAppSelector(getProducts);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const [productsPerPage] = useState(9);
+  const [productsPerPage] = useState(MAX_COUNT_PER_PAGE);
 
   const currentPage = Number(searchParams.get('page') || '1');
 
@@ -184,7 +184,7 @@ function Catalog(): JSX.Element {
                     </form>
                   </div>
 
-                  <CardsList products={currentProducts} className={'cards catalog__cards'}></CardsList>
+                  <CardsList products={currentProducts}></CardsList>
 
                   {products.length > MAX_COUNT_PER_PAGE &&
                     <Pagination currentPage={currentPage} totalProducts={products.length} productsPerPage={productsPerPage}

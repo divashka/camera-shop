@@ -41,8 +41,8 @@ function Product(): JSX.Element {
       return;
     }
 
-    dispatch(fetchOneProductAction(id));
-    dispatch(fetchRelatedProductsAction(id));
+    dispatch(fetchOneProductAction(Number(id)));
+    dispatch(fetchRelatedProductsAction(Number(id)));
 
     return () => {
       dispatch(dropProduct());
@@ -143,7 +143,7 @@ function Product(): JSX.Element {
 
           {relatedProducts.length !== 0 && <RelatedProducts products={relatedProducts}></RelatedProducts>}
 
-          <ReviewsList id={id} ></ReviewsList>
+          <ReviewsList id={Number(id)} ></ReviewsList>
         </div>
       </main>
 

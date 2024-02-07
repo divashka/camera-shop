@@ -3,12 +3,11 @@ import { Product } from '../../types';
 
 type CardsListProps = {
   products: Product[];
-  className: string;
 }
 
-function CardsList({ products, className }: CardsListProps): JSX.Element {
+function CardsList({ products }: CardsListProps): JSX.Element {
   return (
-    <div className={className}>
+    <div className="cards catalog__cards" data-testid="cardsListWrapper">
       {
         products.map((product) => (
           <CardItem key={product.id} product={product}></CardItem>

@@ -34,6 +34,7 @@ function ModalComponent({ children }: ModalProps):
         { 'is-active': isActiveModal }
       )}
       onKeyDown={handleEscapeKeydown}
+      data-testid="modal-wrapper"
     >
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={handleOverlayClick} />

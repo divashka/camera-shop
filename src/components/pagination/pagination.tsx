@@ -35,7 +35,7 @@ function PaginationComponent({ currentPage, totalProducts, productsPerPage, end,
   }
 
   return (
-    <div className="pagination">
+    <div className="pagination" data-testid="pagination">
       <ul className="pagination__list">
         {
           currentPage > 1 &&
