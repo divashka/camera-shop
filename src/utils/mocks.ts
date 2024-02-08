@@ -1,5 +1,7 @@
 import { Product, Review, State } from '../types';
 import { Action } from 'redux';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { createAPI } from '../services/api';
 
 export const mockProduct: Product = {
   id: 1,
@@ -101,3 +103,5 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
 });
 
 export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
+
+export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
