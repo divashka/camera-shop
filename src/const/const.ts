@@ -35,3 +35,5 @@ export const RATING_TITLES = ['Ужасно', 'Плохо', 'Нормально'
 
 export const RATE_COUNT = 5;
 
+export const MAX_COUNT_PER_PAGE = 9;
+

@@ -8,8 +8,7 @@ import { getProducts } from '../../store/camera-slice/selectors';
 import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
 import { useCallback } from 'react';
-
-const MAX_COUNT_PER_PAGE = 9;
+import { MAX_COUNT_PER_PAGE } from '../../const/const';
 
 function Catalog(): JSX.Element {
 
