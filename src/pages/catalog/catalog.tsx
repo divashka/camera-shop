@@ -187,7 +187,10 @@ function Catalog(): JSX.Element {
                   <CardsList products={currentProducts}></CardsList>
 
                   {products.length > MAX_COUNT_PER_PAGE &&
-                    <Pagination currentPage={currentPage} totalProducts={products.length} productsPerPage={productsPerPage}
+                    <Pagination
+                      currentPage={currentPage}
+                      totalProducts={products.length}
+                      productsPerPage={productsPerPage}
                       end={end}
                       onPaginateButtonClick={calculatePaginate}
                     >
