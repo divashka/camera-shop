@@ -7,7 +7,7 @@ describe('Component Banner', () => {
   describe('should render correctly', () => {
 
     it('should render slides', () => {
-      const preparedComponent = withHistory(<Banner />);
+      const preparedComponent = getHistory(<Banner />);
 
       render(preparedComponent);
 
