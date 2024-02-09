@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import ReviewsList from './reviews-list';
 import { makeMockStore } from '../../utils/mocks';
 import { withStore } from '../../utils/with-store';
-import { withHistory } from '../../utils/with-history';
+import { getHistory } from '../../utils/get-history';
 
 describe('Component ReviewsList', () => {
 
@@ -14,7 +14,7 @@ describe('Component ReviewsList', () => {
 
       const { withStoreComponent } = withStore(<ReviewsList id={1} />, mockStore);
 
-      const preparedComponent = withHistory(withStoreComponent);
+      const preparedComponent = getHistory(withStoreComponent);
 
       render(preparedComponent);
 

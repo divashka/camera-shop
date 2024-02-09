@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
+import { RATE_COUNT } from '../../const/const';
 import { Product } from '../../types';
 import './related-products.css';
 
@@ -71,7 +71,7 @@ function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Eleme
                   </div>
                   <div className="product-card__info">
                     <div className="rate product-card__rate">
-                      {Array.from({ length: 5 }, (_, index) => index).map((item) => (
+                      {Array.from({ length: RATE_COUNT }, (_, index) => index).map((item) => (
                         <svg key={item} width="17" height="16" aria-hidden="true">
                           <use xlinkHref={item < product.rating ? '#icon-full-star' : '#icon-star'}></use>
                         </svg>

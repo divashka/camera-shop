@@ -1,6 +1,5 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
-
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { fetchOneProductAction, fetchRelatedProductsAction } from '../../store/api-actions';
@@ -12,7 +11,7 @@ import NotFound from '../not-found/not-found';
 import Loading from '../loading/loading';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import { TabType } from '../../types';
-import { TabsName } from '../../const/const';
+import { TabsName, RATE_COUNT } from '../../const/const';
 import RelatedProducts from '../../components/related-products/related-products';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import ButtonScrollUp from '../../components/button-scroll-up/button-scroll-up';
@@ -114,7 +113,7 @@ function Product(): JSX.Element {
                 <div className="product__content">
                   <h1 className="title title--h3">{name}</h1>
                   <div className="rate product__rate">
-                    {Array.from({ length: 5 }, (_, index) => index).map((item) => (
+                    {Array.from({ length: RATE_COUNT }, (_, index) => index).map((item) => (
                       <svg key={item} width="17" height="16" aria-hidden="true">
                         <use xlinkHref={item < rating ? '#icon-full-star' : '#icon-star'}></use>
                       </svg>

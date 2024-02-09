@@ -1,12 +1,11 @@
 import { useEffect, useState, memo } from 'react';
 import dayjs from 'dayjs';
-
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchReviewsAction } from '../../store/api-actions';
 import { getReviews } from '../../store/review-slice/selectors';
 import { sortByDate } from '../../utils/utils';
 import { Review } from '../../types';
-import { REVIEWS_PER_COUNT } from '../../const/const';
+import { REVIEWS_PER_COUNT, RATE_COUNT } from '../../const/const';
 import { setModalActive } from '../../store/app-slice/app-slice';
 
 type ReviewsListProps = {
@@ -63,7 +62,7 @@ function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
                   </time>
                 </div>
                 <div className="rate review-card__rate">
-                  {Array.from({ length: 5 }, (_, index) => index).map((item) => (
+                  {Array.from({ length: RATE_COUNT }, (_, index) => index).map((item) => (
                     <svg key={item} width="17" height="16" aria-hidden="true">
                       <use xlinkHref={item < review.rating ? '#icon-full-star' : '#icon-star'}></use>
                     </svg>

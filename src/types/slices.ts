@@ -5,7 +5,6 @@ export type CameraSlice = {
   isLoadingProducts: boolean;
   isLoadingOneProduct: boolean;
   oneProduct: Product | null;
-  error: boolean;
   similarProducts: Product[];
 }
 

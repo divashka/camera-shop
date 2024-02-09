@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ProductReviewThanks from './review-thanks-modal';
-import { withHistory } from '../../utils/with-history';
+import { getHistory } from '../../utils/get-history';
 import { withStore } from '../../utils/with-store';
 import { makeMockStore } from '../../utils/mocks';
 
@@ -10,7 +10,7 @@ describe('Component ReviewThanksModal', () => {
 
   beforeEach(()=> {
     const { withStoreComponent } = withStore(<ProductReviewThanks />, mockStore);
-    const preparedComponent = withHistory(withStoreComponent);
+    const preparedComponent = getHistory(withStoreComponent);
 
     render(preparedComponent);
   });

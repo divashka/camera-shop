@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { withHistory } from '../../utils/with-history';
+import { getHistory } from '../../utils/get-history';
 import { withStore } from '../../utils/with-store';
 import { makeMockStore } from '../../utils/mocks';
 import Footer from './footer';
@@ -10,7 +10,7 @@ describe('Component Footer', () => {
 
   beforeEach(() => {
     const { withStoreComponent } = withStore(<Footer />, mockStore);
-    const preparedComponent = withHistory(withStoreComponent);
+    const preparedComponent = getHistory(withStoreComponent);
 
     render(preparedComponent);
   });

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import ProductReviewModal from './review-modal';
 import { withStore } from '../../utils/with-store';
-import { withHistory } from '../../utils/with-history';
+import { getHistory } from '../../utils/get-history';
 import userEvent from '@testing-library/user-event';
 import { APIRoute, SliceNameSpace } from '../../const/const';
 import { makeMockStore } from '../../utils/mocks';
@@ -15,7 +15,7 @@ describe('Component ReviewModal', () => {
     it('should render correctly inputs and submit button', () => {
       const { withStoreComponent } = withStore(<ProductReviewModal id={'1'} />, mockStore);
 
-      const preparedComponent = withHistory(withStoreComponent);
+      const preparedComponent = getHistory(withStoreComponent);
 
       render(preparedComponent);
 
@@ -33,7 +33,7 @@ describe('Component ReviewModal', () => {
     beforeEach(() => {
       const { withStoreComponent } = withStore(<ProductReviewModal id={'1'} />, mockStore);
 
-      const preparedComponent = withHistory(withStoreComponent);
+      const preparedComponent = getHistory(withStoreComponent);
 
       render(preparedComponent);
     });
@@ -99,7 +99,7 @@ describe('Component ReviewModal', () => {
 
       mockAxiosAdapter.onPost(APIRoute.Reviews).reply(200, {});
 
-      const preparedComponent = withHistory(withStoreComponent);
+      const preparedComponent = getHistory(withStoreComponent);
 
       render(preparedComponent);
 

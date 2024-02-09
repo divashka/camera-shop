@@ -5,8 +5,6 @@ export const getProducts = (state: State) => state[SliceNameSpace.Camera].produc
 
 export const getOneProduct = (state: State) => state[SliceNameSpace.Camera].oneProduct;
 
-export const getErrorStatus = (state: State) => state[SliceNameSpace.Camera].error;
-
 export const getLoadingProductsStatus = (state: State) => state[SliceNameSpace.Camera].isLoadingProducts;
 
 export const getLoadingOneProductStatus = (state: State) => state[SliceNameSpace.Camera].isLoadingOneProduct;

@@ -33,3 +33,5 @@ export const REVIEWS_PER_COUNT = 3;
 
 export const RATING_TITLES = ['Ужасно', 'Плохо', 'Нормально', 'Хорошо', 'Отлично'];
 
+export const RATE_COUNT = 5;
+

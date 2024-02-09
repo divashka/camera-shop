@@ -8,7 +8,6 @@ const initialState: CameraSlice = {
   isLoadingProducts: false,
   isLoadingOneProduct: false,
   oneProduct: null,
-  error: false,
   similarProducts: []
 };
 

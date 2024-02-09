@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../hooks';
 import { fetchAddReviewAction } from '../../store/api-actions';
 import { Review } from '../../types';
 import classNames from 'classnames';
-import { RATING_TITLES } from '../../const/const';
+import { RATING_TITLES, RATE_COUNT } from '../../const/const';
 import { useAppSelector } from '../../hooks';
 import { getIsActiveModalStatus } from '../../store/app-slice/selectors';
 import { getStatusLoadingReview } from '../../store/review-slice/selectors';
@@ -91,7 +91,7 @@ function ProductReviewModalComponent({ id }: ProductReviewModalProps): JSX.Eleme
                 </legend>
                 <div className="rate__bar">
                   <div className="rate__group">
-                    {Array.from({ length: 5 }, (_, index: number) => ++index)
+                    {Array.from({ length: RATE_COUNT }, (_, index: number) => ++index)
                       .reverse()
                       .map((item) => (
                         <Fragment key={`star-${item}`}>

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import RelatedProducts from './related-products';
 import { makeMockStore, mockProducts } from '../../utils/mocks';
 import { withStore } from '../../utils/with-store';
-import { withHistory } from '../../utils/with-history';
+import { getHistory } from '../../utils/get-history';
 
 describe('Component RelatedProducts', () => {
 
@@ -13,7 +13,7 @@ describe('Component RelatedProducts', () => {
 
       const { withStoreComponent } = withStore(<RelatedProducts products={mockProducts} />, mockStore);
 
-      const preparedComponent = withHistory(withStoreComponent);
+      const preparedComponent = getHistory(withStoreComponent);
 
       render(preparedComponent);
 

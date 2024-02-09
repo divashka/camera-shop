@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Banner from './banner';
-import { withHistory } from '../../utils/with-history';
+import { getHistory } from '../../utils/get-history';
 
 describe('Component Banner', () => {
 

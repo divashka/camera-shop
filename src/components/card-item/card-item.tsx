@@ -1,6 +1,6 @@
 import { Product } from '../../types';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const/const';
+import { AppRoute, RATE_COUNT } from '../../const/const';
 
 type CardItemProps = {
   product: Product;
@@ -22,7 +22,7 @@ function CardItem({ product }: CardItemProps): JSX.Element {
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          {Array.from({ length: 5 }, (_, index) => index).map((item) => (
+          {Array.from({ length: RATE_COUNT }, (_, index) => index).map((item) => (
             <svg key={item} width="17" height="16" aria-hidden="true">
               <use xlinkHref={item < rating ? '#icon-full-star' : '#icon-star'}></use>
             </svg>

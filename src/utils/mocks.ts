@@ -91,9 +91,8 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
     products: [],
     isLoadingProducts: false,
     isLoadingOneProduct: false,
-    oneProduct: null,
-    error: false,
-    similarProducts: []
+    oneProduct: mockProduct,
+    similarProducts: [...mockProducts]
   },
   REVIEW: {
     reviews: [],
