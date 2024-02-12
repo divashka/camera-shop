@@ -1,5 +1,17 @@
-.slider-controls {
-  pointer-events: auto !important;
+.slider-controls.slider-controls--next {
+  pointer-events: auto;
+}
+
+.slider-controls.slider-controls--prev {
+  pointer-events: auto;
+}
+
+.slider-controls.slider-controls--points {
+  pointer-events: none;
+}
+
+.slider-controls.slider-controls--points {
+  pointer-events: none;
 }
 
 .slick-slide {

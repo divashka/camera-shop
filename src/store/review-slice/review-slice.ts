@@ -6,12 +6,16 @@ import { fetchAddReviewAction, fetchReviewsAction } from '../api-actions';
 const initialState: ReviewSlice = {
   reviews: [],
   isLoadingReview: false,
+  isSuccesAddReview: false
 };
 
 export const reviewReducer = createSlice({
   name: SliceNameSpace.Review,
   initialState,
   reducers: {
+    changeIsSuccesAddReview: (state) => {
+      state.isSuccesAddReview = !state.isSuccesAddReview;
+    }
   },
   extraReducers(builder) {
     builder
@@ -21,13 +25,17 @@ export const reviewReducer = createSlice({
       .addCase(fetchAddReviewAction.fulfilled, (state, action) => {
         state.reviews.push(action.payload);
         state.isLoadingReview = false;
+        state.isSuccesAddReview = true;
       })
       .addCase(fetchAddReviewAction.pending, (state) => {
         state.isLoadingReview = true;
       })
       .addCase(fetchAddReviewAction.rejected, (state) => {
         state.isLoadingReview = false;
+        state.isSuccesAddReview = false;
       });
 
   }
 });
+
+export const { changeIsSuccesAddReview } = reviewReducer.actions;

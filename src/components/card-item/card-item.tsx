@@ -1,6 +1,8 @@
 import { Product } from '../../types';
 import { Link } from 'react-router-dom';
 import { AppRoute, RATE_COUNT } from '../../const/const';
+import { setModalActive } from '../../store/app-slice/app-slice';
+import { useAppDispatch } from '../../hooks';
 
 type CardItemProps = {
   product: Product;
@@ -9,6 +11,12 @@ type CardItemProps = {
 function CardItem({ product }: CardItemProps): JSX.Element {
 
   const { id, name, previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, rating, reviewCount, price } = product;
+
+  const dispatch = useAppDispatch();
+
+  function handleBuyButtonClick() {
+    dispatch(setModalActive());
+  }
 
   return (
     <div className="product-card">
@@ -35,7 +43,7 @@ function CardItem({ product }: CardItemProps): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить
+        <button className="btn btn--purple product-card__btn" type="button" onClick={handleBuyButtonClick}>Купить
         </button>
         <Link className="btn btn--transparent" to={`${AppRoute.Product}${id}`}>Подробнее
         </Link>

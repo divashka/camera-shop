@@ -9,6 +9,9 @@ import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
 import { useCallback } from 'react';
 import { MAX_COUNT_PER_PAGE } from '../../const/const';
+import Modal from '../../components/modal/modal';
+import AddProductModal from '../../components/add-product-modal/add-product-modal';
+import ClosePopupButton from '../../components/close-popup-button/close-popup-button';
 
 function Catalog(): JSX.Element {
 
@@ -19,11 +22,11 @@ function Catalog(): JSX.Element {
 
   const currentPage = Number(searchParams.get('page') || '1');
 
-  const start = Number(currentPage - 1) * productsPerPage;
+  const endIndex = Number(currentPage) * productsPerPage;
 
-  const end = start + productsPerPage;
+  const startIndex = endIndex - productsPerPage;
 
-  const currentProducts = products.slice(start, end);
+  const currentProducts = products.slice(startIndex, endIndex);
 
   const calculatePaginate = useCallback((pageNumber: number) => setSearchParams({ page: String(pageNumber) }), [setSearchParams]);
 
@@ -77,7 +80,7 @@ function Catalog(): JSX.Element {
                         <legend className="title title--h5">Категория</legend>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="photocamera" checked></input>
+                            <input type="checkbox" name="photocamera"></input>
                             <span className="custom-checkbox__icon">
                             </span>
                             <span className="custom-checkbox__label">Фотокамера</span>
@@ -95,12 +98,12 @@ function Catalog(): JSX.Element {
                         <legend className="title title--h5">Тип камеры</legend>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="digital" checked></input><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
+                            <input type="checkbox" name="digital"></input><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
                           </label>
                         </div>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="film" disabled></input><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Плёночная</span>
+                            <input type="checkbox" name="film"></input><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Плёночная</span>
                           </label>
                         </div>
                         <div className="custom-checkbox catalog-filter__item">
@@ -110,7 +113,7 @@ function Catalog(): JSX.Element {
                         </div>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="collection" checked disabled></input>
+                            <input type="checkbox" name="collection"></input>
                             <span className="custom-checkbox__icon">
                             </span>
                             <span className="custom-checkbox__label">Коллекционная</span>
@@ -121,7 +124,7 @@ function Catalog(): JSX.Element {
                         <legend className="title title--h5">Уровень</legend>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="zero" checked></input><span className="custom-checkbox__icon"></span>
+                            <input type="checkbox" name="zero"></input><span className="custom-checkbox__icon"></span>
                             <span className="custom-checkbox__label">Нулевой</span>
                           </label>
                         </div>
@@ -153,7 +156,7 @@ function Catalog(): JSX.Element {
                         <p className="title title--h5">Сортировать:</p>
                         <div className="catalog-sort__type">
                           <div className="catalog-sort__btn-text">
-                            <input type="radio" id="sortPrice" name="sort" checked></input>
+                            <input type="radio" id="sortPrice" name="sort"></input>
                             <label htmlFor="sortPrice">по цене</label>
                           </div>
                           <div className="catalog-sort__btn-text">
@@ -163,7 +166,7 @@ function Catalog(): JSX.Element {
                         </div>
                         <div className="catalog-sort__order">
                           <div className="catalog-sort__btn catalog-sort__btn--up">
-                            <input type="radio" id="up" name="sort-icon" checked aria-label="По возрастанию"></input>
+                            <input type="radio" id="up" name="sort-icon" aria-label="По возрастанию"></input>
                             <label htmlFor="up">
                               <svg width="16" height="14" aria-hidden="true">
                                 <use xlinkHref="#icon-sort"></use>
@@ -191,7 +194,6 @@ function Catalog(): JSX.Element {
                       currentPage={currentPage}
                       totalProducts={products.length}
                       productsPerPage={productsPerPage}
-                      end={end}
                       onPaginateButtonClick={calculatePaginate}
                     />
                   }
@@ -202,8 +204,14 @@ function Catalog(): JSX.Element {
         </div>
       </main>
 
+      <Modal>
+        <AddProductModal />
+
+        <ClosePopupButton />
+      </Modal>
+
       <Footer></Footer>
-    </div >
+    </div>
   );
 }
 

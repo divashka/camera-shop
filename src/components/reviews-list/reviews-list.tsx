@@ -93,7 +93,7 @@ function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
             ))}
           </ul>
           {
-            shownReviews <= reviews.length &&
+            shownReviews < reviews.length &&
             <div className="review-block__buttons">
               <button
                 className="btn btn--purple"

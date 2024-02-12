@@ -1,16 +1,16 @@
 import classNames from 'classnames';
 import { PAGES_PER_COUNT } from '../../const/const';
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
 
 type PaginationProps = {
   currentPage: number;
   totalProducts: number;
   productsPerPage: number;
-  end: number;
   onPaginateButtonClick: (pageNumber: number) => void;
 }
 
-function PaginationComponent({ currentPage, totalProducts, productsPerPage, end, onPaginateButtonClick }: PaginationProps): JSX.Element {
+function PaginationComponent({ currentPage, totalProducts, productsPerPage, onPaginateButtonClick }: PaginationProps): JSX.Element {
 
   const pagesCount = Math.ceil(totalProducts / productsPerPage);
 
@@ -26,33 +26,25 @@ function PaginationComponent({ currentPage, totalProducts, productsPerPage, end,
     onPaginateButtonClick(pageNumber);
   }
 
-  function handlePaginatePrevClick() {
-    onPaginateButtonClick(currentPage - 1);
-  }
-
-  function handlePaginateNextClick() {
-    onPaginateButtonClick(currentPage + 1);
-  }
-
   return (
     <div className="pagination" data-testid="pagination">
       <ul className="pagination__list">
         {
-          currentPage > 1 &&
-          <li className="pagination__item">
-            <a
-              onClick={handlePaginatePrevClick}
+          currentPerPages > 1 &&
+          <li className="pagination__item" onClick={() => handlePaginateButtonClick(startPage - 1)}>
+            <Link
+              to=''
               className="pagination__link pagination__link--text"
             >
               {'Назад'}
-            </a>
+            </Link>
           </li>
         }
         {
           pageNumbers.slice(startPage - 1, endPage).map((number) => (
-            <li key={number} className="pagination__item">
-              <a
-                onClick={() => handlePaginateButtonClick(number)}
+            <li key={number} className="pagination__item" onClick={() => handlePaginateButtonClick(number)}>
+              <Link
+                to=''
                 className={
                   classNames(
                     'pagination__link',
@@ -61,19 +53,19 @@ function PaginationComponent({ currentPage, totalProducts, productsPerPage, end,
                 }
               >
                 {number}
-              </a>
+              </Link>
             </li>
           ))
         }
         {
-          end < totalProducts &&
-          <li className="pagination__item">
-            <a
-              onClick={handlePaginateNextClick}
+          currentPerPages * PAGES_PER_COUNT < pagesCount &&
+          <li className="pagination__item" onClick={() => handlePaginateButtonClick(endPage + 1)}>
+            <Link
+              to=''
               className="pagination__link pagination__link--text"
             >
               {'Далее'}
-            </a>
+            </Link>
           </li>
         }
       </ul>

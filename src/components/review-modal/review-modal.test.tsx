@@ -86,7 +86,7 @@ describe('Component ReviewModal', () => {
 
   describe('should dispatch send action when user clicked send button', () => {
 
-    it('should render thanks modal after send review', async () => {
+    it('should render thanks modal when isSuccesAddReview true', () => {
       const { withStoreComponent, mockAxiosAdapter } = withStore(<ProductReviewModal id={'1'} />, {
         [SliceNameSpace.App]: {
           modalIsActive: false
@@ -94,6 +94,7 @@ describe('Component ReviewModal', () => {
         [SliceNameSpace.Review]: {
           reviews: [],
           isLoadingReview: false,
+          isSuccesAddReview: true
         }
       });
 
@@ -102,8 +103,6 @@ describe('Component ReviewModal', () => {
       const preparedComponent = getHistory(withStoreComponent);
 
       render(preparedComponent);
-
-      await userEvent.click(screen.getByRole('button', { name: 'отправить отзыв' }));
 
       expect(screen.getByRole('button', { name: /вернуться к покупкам/i })).toBeInTheDocument();
     });

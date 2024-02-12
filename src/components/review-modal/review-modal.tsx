@@ -7,9 +7,11 @@ import classNames from 'classnames';
 import { RATING_TITLES, RATE_COUNT } from '../../const/const';
 import { useAppSelector } from '../../hooks';
 import { getIsActiveModalStatus } from '../../store/app-slice/selectors';
-import { getStatusLoadingReview } from '../../store/review-slice/selectors';
+import { getStatusLoadingReview, getSuccessAddReviewStatus } from '../../store/review-slice/selectors';
 import ProductReviewThanks from '../review-thanks-modal/review-thanks-modal';
 import { FormInputs } from '../../types/modal';
+import { changeIsSuccesAddReview } from '../../store/review-slice/review-slice';
+
 
 type ProductReviewModalProps = {
   id: Review['id'];
@@ -25,16 +27,16 @@ function ProductReviewModalComponent({ id }: ProductReviewModalProps): JSX.Eleme
 
   const isLoadingReview = useAppSelector(getStatusLoadingReview);
 
+  const isSuccesAddReview = useAppSelector(getSuccessAddReviewStatus);
+
   const {
     register,
     handleSubmit,
     formState: {
       errors,
-      isSubmitted
     },
     watch,
-    setFocus,
-    reset
+    setFocus
   } = useForm<FormInputs>({
     mode: 'onSubmit'
   });
@@ -45,13 +47,9 @@ function ProductReviewModalComponent({ id }: ProductReviewModalProps): JSX.Eleme
     }, 300);
 
     return () => {
-      if (isSubmitted) {
-        setTimeout(() => {
-          reset();
-        }, 500);
-      }
+      dispatch(changeIsSuccesAddReview());
     };
-  }, [isModalActive, setFocus, isSubmitted, reset]);
+  }, [isModalActive, setFocus, dispatch]);
 
   function handleFormSubmit(data: FormInputs) {
     dispatch(fetchAddReviewAction({
@@ -69,13 +67,17 @@ function ProductReviewModalComponent({ id }: ProductReviewModalProps): JSX.Eleme
   }
 
   return (
-    isSubmitted
-      ? <ProductReviewThanks></ProductReviewThanks>
+    isSuccesAddReview
+      ? <ProductReviewThanks />
       :
       <>
         <p className="title title--h4">Оставить отзыв</p>
         <div className="form-review">
-          <form method="post">
+          <form
+            method="post"
+            onSubmit={(event) =>
+              void handleSubmit(handleFormSubmit)(event)}
+          >
             <div className="form-review__rate">
               <fieldset
                 className={classNames(
@@ -227,8 +229,6 @@ function ProductReviewModalComponent({ id }: ProductReviewModalProps): JSX.Eleme
               type="submit"
               disabled={isLoadingReview}
               aria-label="отправить отзыв"
-              onClick={(event) =>
-                void handleSubmit(handleFormSubmit)(event)}
             >
               Отправить отзыв
             </button>

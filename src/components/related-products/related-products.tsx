@@ -34,7 +34,7 @@ function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Eleme
     afterChange: afterChange
   };
 
-  function goToNext(){
+  function goToNext() {
     if (customeSlider.current) {
       customeSlider.current.slickNext();
     }
@@ -45,6 +45,13 @@ function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Eleme
       customeSlider.current.slickPrev();
     }
   };
+
+  function checkIsLastSlide() {
+    return indexSlide === products.length - PER_SLIDES_COUNT;
+  }
+  function checkIsFirstSlide() {
+    return indexSlide === 0;
+  }
 
   return (
     <div className="page-content__section">
@@ -101,22 +108,28 @@ function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Eleme
               ))}
             </Slider>
             <button
-              className="slider-controls slider-controls--prev"
+              className={classNames(
+                'slider-controls slider-controls--prev',
+                { 'slider-controls--points': checkIsFirstSlide()}
+              )}
               type="button"
               aria-label="Предыдущий слайд"
               onClick={goToPrev}
-              disabled={indexSlide === 0}
+              disabled={checkIsFirstSlide()}
             >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow" />
               </svg>
             </button>
             <button
-              className="slider-controls slider-controls--next"
+              className={classNames(
+                'slider-controls slider-controls--next',
+                { 'slider-controls--points': checkIsLastSlide() }
+              )}
               type="button"
               aria-label="Следующий слайд"
               onClick={goToNext}
-              disabled={indexSlide === products.length - PER_SLIDES_COUNT}
+              disabled={checkIsLastSlide()}
             >
               <svg width={7} height={12} aria-hidden="true">
                 <use xlinkHref="#icon-arrow" />
@@ -125,8 +138,8 @@ function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Eleme
           </div>
         </div>
 
-      </section>
-    </div>
+      </section >
+    </div >
   );
 }
 

@@ -13,7 +13,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        error: true,
         similarProducts: []
       };
 
@@ -29,7 +28,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        error: false,
         similarProducts: []
       };
 
@@ -48,7 +46,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: mockProduct,
-        error: false,
         similarProducts: []
       };
 
@@ -57,7 +54,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        error: false,
         similarProducts: []
       };
 
@@ -77,7 +73,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        error: false,
         similarProducts: []
       };
 
@@ -96,7 +91,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: true,
         isLoadingOneProduct: false,
         oneProduct: null,
-        error: false,
         similarProducts: []
       };
 
@@ -119,7 +113,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: mockProduct,
-        error: false,
         similarProducts: []
       };
 
@@ -140,7 +133,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: true,
         oneProduct: null,
-        error: false,
         similarProducts: []
       };
 
@@ -165,7 +157,6 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        error: false,
         similarProducts: [...mockProducts]
       };
 

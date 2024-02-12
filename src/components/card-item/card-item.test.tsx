@@ -1,12 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import CardItem from './card-item';
-import { mockProducts } from '../../utils/mocks';
+import { makeMockStore, mockProducts } from '../../utils/mocks';
 import { getHistory } from '../../utils/get-history';
+import { withStore } from '../../utils/with-store';
 
 describe('Component CardItem', () => {
 
+  const mockStore = makeMockStore();
+
   beforeEach(() => {
-    const preparedComponent = getHistory(<CardItem product={mockProducts[0]} />);
+    const { withStoreComponent } = withStore(<CardItem product={mockProducts[0]} />, mockStore);
+
+    const preparedComponent = getHistory(withStoreComponent);
 
     render(preparedComponent);
   });
