@@ -97,6 +97,7 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
   REVIEW: {
     reviews: [],
     isLoadingReview: false,
+    isSuccesAddReview: false
   },
   ...initialState ?? {},
 });
