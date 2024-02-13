@@ -6,7 +6,7 @@ import { getReviews } from '../../store/review-slice/selectors';
 import { sortByDate } from '../../utils/utils';
 import { Review } from '../../types';
 import { REVIEWS_PER_COUNT, RATE_COUNT } from '../../const/const';
-import { setModalActive } from '../../store/app-slice/app-slice';
+import { setModalActive, setReviewModalActive } from '../../store/app-slice/app-slice';
 
 type ReviewsListProps = {
   id: number;
@@ -35,7 +35,8 @@ function ReviewsListComponent({ id }: ReviewsListProps): JSX.Element {
   }
 
   function handleReviewButtonClick() {
-    dispatch(setModalActive());
+    dispatch(setModalActive(true));
+    dispatch(setReviewModalActive(true));
   }
 
   return (

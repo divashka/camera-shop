@@ -16,8 +16,6 @@ import RelatedProducts from '../../components/related-products/related-products'
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import ButtonScrollUp from '../../components/button-scroll-up/button-scroll-up';
 import Modal from '../../components/modal/modal';
-import ClosePopupButton from '../../components/close-popup-button/close-popup-button';
-import ProductReviewModal from '../../components/review-modal/review-modal';
 
 function Product(): JSX.Element {
 
@@ -148,12 +146,7 @@ function Product(): JSX.Element {
 
       <ButtonScrollUp></ButtonScrollUp>
 
-      <Modal>
-
-        <ProductReviewModal id={id}></ProductReviewModal>
-
-        <ClosePopupButton></ClosePopupButton>
-      </Modal>
+      <Modal />
 
       <Footer></Footer>
     </div>

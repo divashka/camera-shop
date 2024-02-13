@@ -11,9 +11,12 @@ export type CameraSlice = {
 export type ReviewSlice = {
   reviews: Review[];
   isLoadingReview: boolean;
-  isSuccesAddReview: boolean;
 }
 
 export type AppSlice = {
-  modalIsActive: boolean;
+  isWrapperModalOpen: boolean;
+  isReviewModalOpen: boolean;
+  isSuccessReviewModalOpen: boolean;
+  isProductModalOpen: boolean;
+  isSuccessProductModalOpen: boolean;
 }

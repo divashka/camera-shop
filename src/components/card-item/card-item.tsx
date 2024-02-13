@@ -1,7 +1,7 @@
 import { Product } from '../../types';
 import { Link } from 'react-router-dom';
 import { AppRoute, RATE_COUNT } from '../../const/const';
-import { setModalActive } from '../../store/app-slice/app-slice';
+import { setProductAddModalActive, setModalActive } from '../../store/app-slice/app-slice';
 import { useAppDispatch } from '../../hooks';
 
 type CardItemProps = {
@@ -15,7 +15,8 @@ function CardItem({ product }: CardItemProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   function handleBuyButtonClick() {
-    dispatch(setModalActive());
+    dispatch(setModalActive(true));
+    dispatch(setProductAddModalActive(true));
   }
 
   return (

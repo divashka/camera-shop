@@ -1,6 +1,21 @@
-function AddProductModal(): JSX.Element {
+import { memo, useCallback } from 'react';
+import ClosePopupButton from '../close-popup-button/close-popup-button';
+import { setModalActive, setProductAddModalActive } from '../../store/app-slice/app-slice';
+import { useAppDispatch } from '../../hooks';
+
+function AddProductModalComponent(): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  const handleCloseButtonClick = useCallback(() => {
+    dispatch(setModalActive(false));
+    dispatch(setProductAddModalActive(false));
+  }, [dispatch]);
+
   return (
-    <>
+    <div className="modal__content"
+      onClick={(event) => event.stopPropagation()}
+    >
       <p className="title title--h4">Добавить товар в корзину</p>
       <div className="basket-item basket-item--short">
         <div className="basket-item__img">
@@ -44,8 +59,11 @@ function AddProductModal(): JSX.Element {
           Добавить в корзину
         </button>
       </div>
-    </>
+      <ClosePopupButton onButtonCloseClick={handleCloseButtonClick} />
+    </div>
   );
 }
+
+const AddProductModal = memo(AddProductModalComponent);
 
 export default AddProductModal;

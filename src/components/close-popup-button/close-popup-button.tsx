@@ -1,14 +1,13 @@
 import { memo } from 'react';
 
-import { useAppDispatch } from '../../hooks';
-import { setModalActive } from '../../store/app-slice/app-slice';
+type ClosePopupButtonProps = {
+  onButtonCloseClick: () => void;
+}
 
-function ClosePopupButtonComponent(): JSX.Element {
-
-  const dispatch = useAppDispatch();
+function ClosePopupButtonComponent({ onButtonCloseClick }: ClosePopupButtonProps): JSX.Element {
 
   function handleCloseButtonClick() {
-    dispatch(setModalActive());
+    onButtonCloseClick();
   }
 
   return (

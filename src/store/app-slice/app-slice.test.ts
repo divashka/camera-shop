@@ -7,7 +7,11 @@ describe('AppSlice', () => {
     it('should return initial state with empty action', () => {
       const emptyAction = { type: '' };
       const expectedState = {
-        modalIsActive: false
+        isWrapperModalOpen: false,
+        isReviewModalOpen: false,
+        isSuccessReviewModalOpen: false,
+        isProductModalOpen: false,
+        isSuccessProductModalOpen: false,
       };
 
       const result = appReducer.reducer(expectedState, emptyAction);
@@ -18,7 +22,11 @@ describe('AppSlice', () => {
     it('should return default initial state with empty action and undefined', () => {
       const emptyAction = { type: '' };
       const expectedState = {
-        modalIsActive: false
+        isWrapperModalOpen: false,
+        isReviewModalOpen: false,
+        isSuccessReviewModalOpen: false,
+        isProductModalOpen: false,
+        isSuccessProductModalOpen: false,
       };
 
       const result = appReducer.reducer(undefined, emptyAction);
@@ -30,15 +38,23 @@ describe('AppSlice', () => {
 
   describe('setModalActive', () => {
 
-    it('should set modal active with setModalActive action', () => {
+    it('should set modal wrapper active with setModalActive action', () => {
       const initialState = {
-        modalIsActive: false
+        isWrapperModalOpen: false,
+        isReviewModalOpen: false,
+        isSuccessReviewModalOpen: false,
+        isProductModalOpen: false,
+        isSuccessProductModalOpen: false,
       };
       const expectedState = {
-        modalIsActive: true
+        isWrapperModalOpen: true,
+        isReviewModalOpen: false,
+        isSuccessReviewModalOpen: false,
+        isProductModalOpen: false,
+        isSuccessProductModalOpen: false,
       };
 
-      const result = appReducer.reducer(initialState, setModalActive());
+      const result = appReducer.reducer(initialState, setModalActive(true));
 
       expect(result).toEqual(expectedState);
     });
