@@ -10,7 +10,7 @@ describe('Component Modal', () => {
   describe('should render correctly', () => {
 
     it('should render modal wrapper', () => {
-      const { withStoreComponent } = withStore(<Modal><p>Модальное окно</p></Modal>, mockStore);
+      const { withStoreComponent } = withStore(<Modal></Modal>, mockStore);
 
       render(withStoreComponent);
 

@@ -10,7 +10,11 @@ describe('Component ClosePopupButton', () => {
   describe('should render correctly', () => {
 
     it('should render button close popup', () => {
-      const { withStoreComponent } = withStore(<ClosePopupButton />, mockStore);
+      function handleButtonCloseClick() {
+        jest.fn();
+      }
+
+      const { withStoreComponent } = withStore(<ClosePopupButton onButtonCloseClick={handleButtonCloseClick} />, mockStore);
 
       render(withStoreComponent);
 

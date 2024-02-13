@@ -3,7 +3,6 @@ import ProductReviewModal from './review-modal';
 import { withStore } from '../../utils/with-store';
 import { getHistory } from '../../utils/get-history';
 import userEvent from '@testing-library/user-event';
-import { APIRoute, SliceNameSpace } from '../../const/const';
 import { makeMockStore } from '../../utils/mocks';
 
 describe('Component ReviewModal', () => {
@@ -13,7 +12,7 @@ describe('Component ReviewModal', () => {
   describe('should render correctly', () => {
 
     it('should render correctly inputs and submit button', () => {
-      const { withStoreComponent } = withStore(<ProductReviewModal id={'1'} />, mockStore);
+      const { withStoreComponent } = withStore(<ProductReviewModal />, mockStore);
 
       const preparedComponent = getHistory(withStoreComponent);
 
@@ -31,7 +30,7 @@ describe('Component ReviewModal', () => {
   describe('should render correctly when user enter', () => {
 
     beforeEach(() => {
-      const { withStoreComponent } = withStore(<ProductReviewModal id={'1'} />, mockStore);
+      const { withStoreComponent } = withStore(<ProductReviewModal />, mockStore);
 
       const preparedComponent = getHistory(withStoreComponent);
 
@@ -80,31 +79,6 @@ describe('Component ReviewModal', () => {
       );
 
       expect(screen.getByDisplayValue(expectedReviewValue)).toBeInTheDocument();
-    });
-
-  });
-
-  describe('should dispatch send action when user clicked send button', () => {
-
-    it('should render thanks modal when isSuccesAddReview true', () => {
-      const { withStoreComponent, mockAxiosAdapter } = withStore(<ProductReviewModal id={'1'} />, {
-        [SliceNameSpace.App]: {
-          modalIsActive: false
-        },
-        [SliceNameSpace.Review]: {
-          reviews: [],
-          isLoadingReview: false,
-          isSuccesAddReview: true
-        }
-      });
-
-      mockAxiosAdapter.onPost(APIRoute.Reviews).reply(200, {});
-
-      const preparedComponent = getHistory(withStoreComponent);
-
-      render(preparedComponent);
-
-      expect(screen.getByRole('button', { name: /вернуться к покупкам/i })).toBeInTheDocument();
     });
 
   });

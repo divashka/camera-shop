@@ -85,7 +85,11 @@ export const review: Review = {
 
 export const makeMockStore = (initialState?: Partial<State>): State => ({
   APP: {
-    modalIsActive: false
+    isWrapperModalOpen: false,
+    isReviewModalOpen: false,
+    isSuccessReviewModalOpen: false,
+    isProductModalOpen: false,
+    isSuccessProductModalOpen: false,
   },
   CAMERA: {
     products: [],
@@ -97,7 +101,6 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
   REVIEW: {
     reviews: [],
     isLoadingReview: false,
-    isSuccesAddReview: false
   },
   ...initialState ?? {},
 });
