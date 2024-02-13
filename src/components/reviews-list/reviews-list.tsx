@@ -7,6 +7,17 @@ import { sortByDate } from '../../utils/utils';
 import { Review } from '../../types';
 import { REVIEWS_PER_COUNT, RATE_COUNT } from '../../const/const';
 import { setModalActive, setReviewModalActive } from '../../store/app-slice/app-slice';
+import updateLocale from 'dayjs/plugin/updateLocale';
+
+dayjs.extend(updateLocale);
+
+dayjs.updateLocale('en', {
+  months: [
+    'Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля',
+    'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'
+  ]
+});
+
 
 type ReviewsListProps = {
   id: number;
