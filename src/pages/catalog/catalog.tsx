@@ -10,8 +10,6 @@ import Pagination from '../../components/pagination/pagination';
 import { useCallback } from 'react';
 import { MAX_COUNT_PER_PAGE } from '../../const/const';
 import Modal from '../../components/modal/modal';
-import AddProductModal from '../../components/add-product-modal/add-product-modal';
-import ClosePopupButton from '../../components/close-popup-button/close-popup-button';
 
 function Catalog(): JSX.Element {
 
@@ -204,11 +202,7 @@ function Catalog(): JSX.Element {
         </div>
       </main>
 
-      <Modal>
-        <AddProductModal />
-
-        <ClosePopupButton />
-      </Modal>
+      <Modal></Modal>
 
       <Footer></Footer>
     </div>
