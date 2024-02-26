@@ -37,3 +37,6 @@ export const RATE_COUNT = 5;
 
 export const MAX_COUNT_PER_PAGE = 9;
 
+export const MIN_COUNT_SEARCH_RESULTS = 3;
+export const NAME_KEY_ENTER = 'Enter';
+
