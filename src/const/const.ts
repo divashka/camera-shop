@@ -25,6 +25,26 @@ export enum TabsName {
   Feature = 'feature'
 }
 
+export enum SortNames {
+  Price = 'Price',
+  Popular = 'Popular'
+}
+
+export const SortMap = {
+  Price: 'по цене',
+  Popular: 'по популярности',
+} as const;
+
+export enum DirectionFlowCatalog {
+  Up = 'Up',
+  Down = 'Down'
+}
+
+export const DirectionFlowMap = {
+  Up: 'По возрастанию',
+  Down: 'По убыванию'
+} as const;
+
 export const PAGES_PER_COUNT = 3;
 
 export const ESCAPE_KEY_NAME = 'Escape';

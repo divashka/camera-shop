@@ -10,6 +10,9 @@ import Pagination from '../../components/pagination/pagination';
 import { useCallback } from 'react';
 import { MAX_COUNT_PER_PAGE } from '../../const/const';
 import Modal from '../../components/modal/modal';
+import CatalogSort from '../../components/catalog-sort/catalog-sort';
+import { SortNames, DirectionFlowCatalog } from '../../const/const';
+import { Product } from '../../types';
 
 function Catalog(): JSX.Element {
 
@@ -18,6 +21,24 @@ function Catalog(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const [productsPerPage] = useState(MAX_COUNT_PER_PAGE);
 
+  const [activeSortItem, setActiveSortItem] = useState<'' | SortNames>('');
+
+  const [activeFlowDirection, setActiveFlowDirection] = useState<'' | DirectionFlowCatalog>('');
+
+  function changeActiveSortItem(item: SortNames) {
+    setActiveSortItem(item);
+    if (activeFlowDirection === '') {
+      setActiveFlowDirection(DirectionFlowCatalog.Up);
+    }
+  }
+
+  function changeActiveFlowDirection(item: DirectionFlowCatalog) {
+    if (activeSortItem === '') {
+      setActiveSortItem(SortNames.Price);
+    }
+    setActiveFlowDirection(item);
+  }
+
   const currentPage = Number(searchParams.get('page') || '1');
 
   const endIndex = Number(currentPage) * productsPerPage;
@@ -25,6 +46,25 @@ function Catalog(): JSX.Element {
   const startIndex = endIndex - productsPerPage;
 
   const currentProducts = products.slice(startIndex, endIndex);
+
+  function sortProducts(item: '' | SortNames) {
+    switch (item) {
+      case SortNames.Popular:
+        if (activeFlowDirection === DirectionFlowCatalog.Up) {
+          return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductA.rating - ProductB.rating);
+        }
+        return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductB.rating - ProductA.rating);
+      case SortNames.Price:
+        if (activeFlowDirection === DirectionFlowCatalog.Up) {
+          return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductA.price - ProductB.price);
+        }
+        return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductB.price - ProductA.price);
+      default:
+        return currentProducts;
+    }
+  }
+
+  const currentProductsSort = sortProducts(activeSortItem);
 
   const calculatePaginate = useCallback((pageNumber: number) => setSearchParams({ page: String(pageNumber) }), [setSearchParams]);
 
@@ -148,43 +188,15 @@ function Catalog(): JSX.Element {
                   </div>
                 </div>
                 <div className="catalog__content">
-                  <div className="catalog-sort">
-                    <form action="#">
-                      <div className="catalog-sort__inner">
-                        <p className="title title--h5">Сортировать:</p>
-                        <div className="catalog-sort__type">
-                          <div className="catalog-sort__btn-text">
-                            <input type="radio" id="sortPrice" name="sort"></input>
-                            <label htmlFor="sortPrice">по цене</label>
-                          </div>
-                          <div className="catalog-sort__btn-text">
-                            <input type="radio" id="sortPopular" name="sort"></input>
-                            <label htmlFor="sortPopular">по популярности</label>
-                          </div>
-                        </div>
-                        <div className="catalog-sort__order">
-                          <div className="catalog-sort__btn catalog-sort__btn--up">
-                            <input type="radio" id="up" name="sort-icon" aria-label="По возрастанию"></input>
-                            <label htmlFor="up">
-                              <svg width="16" height="14" aria-hidden="true">
-                                <use xlinkHref="#icon-sort"></use>
-                              </svg>
-                            </label>
-                          </div>
-                          <div className="catalog-sort__btn catalog-sort__btn--down">
-                            <input type="radio" id="down" name="sort-icon" aria-label="По убыванию"></input>
-                            <label htmlFor="down">
-                              <svg width="16" height="14" aria-hidden="true">
-                                <use xlinkHref="#icon-sort"></use>
-                              </svg>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+                  <CatalogSort
+                    activeSortItem={activeSortItem}
+                    changeActiveSortItem={changeActiveSortItem}
+                    changeActiveFlowDirection={changeActiveFlowDirection}
+                    activeFlowDirection={activeFlowDirection}
+                  >
+                  </CatalogSort>
 
-                  <CardsList products={currentProducts}></CardsList>
+                  <CardsList products={currentProductsSort}></CardsList>
 
                   {
                     products.length > MAX_COUNT_PER_PAGE &&
