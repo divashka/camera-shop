@@ -7,8 +7,8 @@ export type CameraSlice = {
   isLoadingOneProduct: boolean;
   oneProduct: Product | null;
   similarProducts: Product[];
-  activeSortItem: SortNames | string;
-  activeFlowDirection: DirectionFlowCatalog | string;
+  activeSortItem: SortNames | '';
+  activeFlowDirection: DirectionFlowCatalog | '';
 }
 
 export type ReviewSlice = {
