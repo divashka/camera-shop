@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
@@ -13,6 +13,13 @@ import Modal from '../../components/modal/modal';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import { SortNames, DirectionFlowCatalog } from '../../const/const';
 import { Product } from '../../types';
+import { capitalizeFirstLetter } from '../../utils/utils';
+
+type Params = {
+  page: string;
+  sort?: string;
+  dir?: string;
+}
 
 function Catalog(): JSX.Element {
 
@@ -21,22 +28,35 @@ function Catalog(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const [productsPerPage] = useState(MAX_COUNT_PER_PAGE);
 
-  const [activeSortItem, setActiveSortItem] = useState<'' | SortNames>('');
+  const activeSortItem: SortNames | '' = searchParams.get('sort') as SortNames || '';
 
-  const [activeFlowDirection, setActiveFlowDirection] = useState<'' | DirectionFlowCatalog>('');
+  const activeFlowDirection: DirectionFlowCatalog | '' = searchParams.get('dir') as DirectionFlowCatalog || '';
+
+  function getParams() {
+    return {
+      page: '1',
+    };
+  }
+
+  const params: Params = useMemo(() => getParams(), []);
 
   function changeActiveSortItem(item: SortNames) {
-    setActiveSortItem(item);
+    params.sort = capitalizeFirstLetter(item);
+
+    setSearchParams(params);
     if (activeFlowDirection === '') {
-      setActiveFlowDirection(DirectionFlowCatalog.Up);
+      params.dir = capitalizeFirstLetter(DirectionFlowCatalog.Up);
+      setSearchParams(params);
     }
   }
 
   function changeActiveFlowDirection(item: DirectionFlowCatalog) {
     if (activeSortItem === '') {
-      setActiveSortItem(SortNames.Price);
+      params.sort = capitalizeFirstLetter(SortNames.Price);
+      setSearchParams(params);
     }
-    setActiveFlowDirection(item);
+    params.dir = capitalizeFirstLetter(item);
+    setSearchParams(params);
   }
 
   const currentPage = Number(searchParams.get('page') || '1');
@@ -49,13 +69,13 @@ function Catalog(): JSX.Element {
 
   function sortProducts(item: '' | SortNames) {
     switch (item) {
-      case SortNames.Popular:
-        if (activeFlowDirection === DirectionFlowCatalog.Up) {
+      case capitalizeFirstLetter(SortNames.Popular):
+        if (activeFlowDirection === capitalizeFirstLetter(DirectionFlowCatalog.Up)) {
           return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductA.rating - ProductB.rating);
         }
         return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductB.rating - ProductA.rating);
-      case SortNames.Price:
-        if (activeFlowDirection === DirectionFlowCatalog.Up) {
+      case capitalizeFirstLetter(SortNames.Price):
+        if (activeFlowDirection === capitalizeFirstLetter(DirectionFlowCatalog.Up)) {
           return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductA.price - ProductB.price);
         }
         return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductB.price - ProductA.price);
@@ -66,7 +86,10 @@ function Catalog(): JSX.Element {
 
   const currentProductsSort = sortProducts(activeSortItem);
 
-  const calculatePaginate = useCallback((pageNumber: number) => setSearchParams({ page: String(pageNumber) }), [setSearchParams]);
+  const calculatePaginate = useCallback((pageNumber: number) => {
+    params.page = String(pageNumber);
+    setSearchParams(params);
+  }, [setSearchParams, params]);
 
   return (
     <div className="wrapper">

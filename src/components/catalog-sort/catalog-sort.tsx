@@ -24,7 +24,7 @@ function CatalogSortComponent({ activeSortItem, changeActiveSortItem, changeActi
                   id={`sort${type}`}
                   name="sort"
                   onChange={() => changeActiveSortItem(type as SortNames)}
-                  checked={type === activeSortItem}
+                  checked={capitalizeFirstLetter(type) === activeSortItem}
                 >
                 </input>
                 <label htmlFor={`sort${type}`}>{label}</label>
@@ -40,7 +40,7 @@ function CatalogSortComponent({ activeSortItem, changeActiveSortItem, changeActi
                   name="sort-icon"
                   aria-label={label}
                   onChange={() => changeActiveFlowDirection(type as DirectionFlowCatalog)}
-                  checked={type === activeFlowDirection}
+                  checked={capitalizeFirstLetter(type) === activeFlowDirection}
                 >
                 </input>
                 <label htmlFor={type}>
