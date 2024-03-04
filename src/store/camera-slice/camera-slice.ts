@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CameraSlice } from '../../types/slices';
-import { SliceNameSpace } from '../../const/const';
+import { SliceNameSpace, SortNames, DirectionFlowCatalog } from '../../const/const';
 import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction } from '../api-actions';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: CameraSlice = {
   products: [],
   isLoadingProducts: false,
   isLoadingOneProduct: false,
   oneProduct: null,
-  similarProducts: []
+  similarProducts: [],
+  activeSortItem: '',
+  activeFlowDirection: ''
 };
 
 export const cameraReducer = createSlice({
@@ -18,6 +21,12 @@ export const cameraReducer = createSlice({
     dropProduct: (state) => {
       state.oneProduct = null;
     },
+    setActiveSortItem: (state, action: PayloadAction<SortNames | ''>) => {
+      state.activeSortItem = action.payload;
+    },
+    setActiveFlowDirection: (state, action: PayloadAction<DirectionFlowCatalog | ''>) => {
+      state.activeFlowDirection = action.payload;
+    }
   },
   extraReducers(builder) {
     builder
@@ -46,4 +55,4 @@ export const cameraReducer = createSlice({
   }
 });
 
-export const { dropProduct } = cameraReducer.actions;
+export const { dropProduct, setActiveSortItem, setActiveFlowDirection } = cameraReducer.actions;

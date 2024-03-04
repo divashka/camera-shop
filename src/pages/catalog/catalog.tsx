@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import CardsList from '../../components/cards-list/cards-list';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProducts } from '../../store/camera-slice/selectors';
 import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
@@ -12,8 +12,9 @@ import { MAX_COUNT_PER_PAGE } from '../../const/const';
 import Modal from '../../components/modal/modal';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
 import { SortNames, DirectionFlowCatalog } from '../../const/const';
-import { Product } from '../../types';
+import { getSortedProducts } from '../../store/camera-slice/selectors';
 import { capitalizeFirstLetter } from '../../utils/utils';
+import { setActiveSortItem, setActiveFlowDirection } from '../../store/camera-slice/camera-slice';
 
 type Params = {
   page: string;
@@ -24,6 +25,8 @@ type Params = {
 function Catalog(): JSX.Element {
 
   const products = useAppSelector(getProducts);
+
+  const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [productsPerPage] = useState(MAX_COUNT_PER_PAGE);
@@ -44,9 +47,11 @@ function Catalog(): JSX.Element {
     params.sort = capitalizeFirstLetter(item);
 
     setSearchParams(params);
+    dispatch(setActiveSortItem(capitalizeFirstLetter(item) as SortNames));
     if (activeFlowDirection === '') {
       params.dir = capitalizeFirstLetter(DirectionFlowCatalog.Up);
       setSearchParams(params);
+      dispatch(setActiveFlowDirection(capitalizeFirstLetter(DirectionFlowCatalog.Up) as DirectionFlowCatalog));
     }
   }
 
@@ -54,9 +59,11 @@ function Catalog(): JSX.Element {
     if (activeSortItem === '') {
       params.sort = capitalizeFirstLetter(SortNames.Price);
       setSearchParams(params);
+      dispatch(setActiveSortItem(capitalizeFirstLetter(SortNames.Price) as SortNames));
     }
     params.dir = capitalizeFirstLetter(item);
     setSearchParams(params);
+    dispatch(setActiveFlowDirection(capitalizeFirstLetter(item) as DirectionFlowCatalog));
   }
 
   const currentPage = Number(searchParams.get('page') || '1');
@@ -67,24 +74,7 @@ function Catalog(): JSX.Element {
 
   const currentProducts = products.slice(startIndex, endIndex);
 
-  function sortProducts(item: '' | SortNames) {
-    switch (item) {
-      case capitalizeFirstLetter(SortNames.Popular):
-        if (activeFlowDirection === capitalizeFirstLetter(DirectionFlowCatalog.Up)) {
-          return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductA.rating - ProductB.rating);
-        }
-        return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductB.rating - ProductA.rating);
-      case capitalizeFirstLetter(SortNames.Price):
-        if (activeFlowDirection === capitalizeFirstLetter(DirectionFlowCatalog.Up)) {
-          return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductA.price - ProductB.price);
-        }
-        return currentProducts.slice().sort((ProductA: Product, ProductB: Product) => ProductB.price - ProductA.price);
-      default:
-        return currentProducts;
-    }
-  }
-
-  const currentProductsSort = sortProducts(activeSortItem);
+  const currentProductsSort = useAppSelector(getSortedProducts(currentProducts));
 
   const calculatePaginate = useCallback((pageNumber: number) => {
     params.page = String(pageNumber);

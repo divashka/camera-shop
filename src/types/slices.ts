@@ -1,4 +1,5 @@
 import { Product, Review } from '.';
+import { SortNames, DirectionFlowCatalog } from '../const/const';
 
 export type CameraSlice = {
   products: Product[];
@@ -6,6 +7,8 @@ export type CameraSlice = {
   isLoadingOneProduct: boolean;
   oneProduct: Product | null;
   similarProducts: Product[];
+  activeSortItem: SortNames | string;
+  activeFlowDirection: DirectionFlowCatalog | string;
 }
 
 export type ReviewSlice = {
