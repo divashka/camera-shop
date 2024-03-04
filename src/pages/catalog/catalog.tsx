@@ -43,20 +43,21 @@ function Catalog(): JSX.Element {
 
   const params: Params = useMemo(() => getParams(), []);
 
-  function changeActiveSortItem(item: SortNames) {
+  const changeActiveSortItem = useCallback((item: SortNames) => {
     params.sort = capitalizeFirstLetter(item);
 
     setSearchParams(params);
     dispatch(setActiveSortItem(capitalizeFirstLetter(item) as SortNames));
-    if (activeFlowDirection === '') {
+    if (!activeFlowDirection) {
       params.dir = capitalizeFirstLetter(DirectionFlowCatalog.Up);
       setSearchParams(params);
       dispatch(setActiveFlowDirection(capitalizeFirstLetter(DirectionFlowCatalog.Up) as DirectionFlowCatalog));
     }
-  }
+  }, [activeFlowDirection, dispatch, params, setSearchParams]);
 
-  function changeActiveFlowDirection(item: DirectionFlowCatalog) {
-    if (activeSortItem === '') {
+
+  const changeActiveFlowDirection = useCallback((item: DirectionFlowCatalog)=> {
+    if (!activeSortItem) {
       params.sort = capitalizeFirstLetter(SortNames.Price);
       setSearchParams(params);
       dispatch(setActiveSortItem(capitalizeFirstLetter(SortNames.Price) as SortNames));
@@ -64,7 +65,7 @@ function Catalog(): JSX.Element {
     params.dir = capitalizeFirstLetter(item);
     setSearchParams(params);
     dispatch(setActiveFlowDirection(capitalizeFirstLetter(item) as DirectionFlowCatalog));
-  }
+  }, [activeSortItem, dispatch, params, setSearchParams]);
 
   const currentPage = Number(searchParams.get('page') || '1');
 
