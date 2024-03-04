@@ -1,6 +1,7 @@
 import { cameraReducer, dropProduct } from './camera-slice';
 import { mockProduct, mockProducts } from '../../utils/mocks';
 import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction } from '../api-actions';
+import { DirectionFlowCatalog, SortNames } from '../../const/const';
 
 describe('CameraSlice', () => {
 
@@ -13,7 +14,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: SortNames.Popular,
+        activeFlowDirection: DirectionFlowCatalog.Up
       };
 
       const result = cameraReducer.reducer(expectedState, emptyAction);
@@ -28,7 +31,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: '',
+        activeFlowDirection: ''
       };
 
       const result = cameraReducer.reducer(undefined, emptyAction);
@@ -46,7 +51,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: mockProduct,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: SortNames.Popular,
+        activeFlowDirection: DirectionFlowCatalog.Up
       };
 
       const expectedState = {
@@ -54,7 +61,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: SortNames.Popular,
+        activeFlowDirection: DirectionFlowCatalog.Up
       };
 
       const result = cameraReducer.reducer(initialState, dropProduct());
@@ -73,7 +82,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: '',
+        activeFlowDirection: ''
       };
 
       const result = cameraReducer.reducer(
@@ -91,7 +102,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: true,
         isLoadingOneProduct: false,
         oneProduct: null,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: '',
+        activeFlowDirection: ''
       };
 
       const result = cameraReducer.reducer(
@@ -113,7 +126,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: mockProduct,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: '',
+        activeFlowDirection: ''
       };
 
       const result = cameraReducer.reducer(
@@ -133,7 +148,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: true,
         oneProduct: null,
-        similarProducts: []
+        similarProducts: [],
+        activeSortItem: '',
+        activeFlowDirection: ''
       };
 
       const result = cameraReducer.reducer(
@@ -157,7 +174,9 @@ describe('CameraSlice', () => {
         isLoadingProducts: false,
         isLoadingOneProduct: false,
         oneProduct: null,
-        similarProducts: [...mockProducts]
+        similarProducts: [...mockProducts],
+        activeSortItem: '',
+        activeFlowDirection: ''
       };
 
       const result = cameraReducer.reducer(

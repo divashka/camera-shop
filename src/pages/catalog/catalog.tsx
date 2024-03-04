@@ -204,11 +204,10 @@ function Catalog(): JSX.Element {
                 <div className="catalog__content">
                   <CatalogSort
                     activeSortItem={activeSortItem}
+                    activeFlowDirection={activeFlowDirection}
                     changeActiveSortItem={changeActiveSortItem}
                     changeActiveFlowDirection={changeActiveFlowDirection}
-                    activeFlowDirection={activeFlowDirection}
-                  >
-                  </CatalogSort>
+                  />
 
                   <CardsList products={currentProductsSort}></CardsList>
 

@@ -2,6 +2,7 @@ import { Product, Review, State } from '../types';
 import { Action } from 'redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { createAPI } from '../services/api';
+import { SortNames, DirectionFlowCatalog } from '../const/const';
 
 export const mockProduct: Product = {
   id: 1,
@@ -96,7 +97,9 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
     isLoadingProducts: false,
     isLoadingOneProduct: false,
     oneProduct: mockProduct,
-    similarProducts: [...mockProducts]
+    similarProducts: [...mockProducts],
+    activeSortItem: SortNames.Popular,
+    activeFlowDirection: DirectionFlowCatalog.Up
   },
   REVIEW: {
     reviews: [],
