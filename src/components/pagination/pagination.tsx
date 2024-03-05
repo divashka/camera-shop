@@ -40,7 +40,7 @@ function PaginationComponent({ currentPage, totalProducts, productsPerPage, onPa
             </Link>
           </li>
         }
-        {
+        {pageNumbers.length > 1 &&
           pageNumbers.slice(startPage - 1, endPage).map((number) => (
             <li key={number} className="pagination__item" onClick={() => handlePaginateButtonClick(number)}>
               <Link
@@ -55,8 +55,7 @@ function PaginationComponent({ currentPage, totalProducts, productsPerPage, onPa
                 {number}
               </Link>
             </li>
-          ))
-        }
+          ))}
         {
           currentPerPages * PAGES_PER_COUNT < pagesCount &&
           <li className="pagination__item" onClick={() => handlePaginateButtonClick(endPage + 1)}>

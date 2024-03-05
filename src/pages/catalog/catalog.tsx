@@ -81,6 +81,7 @@ function Catalog(): JSX.Element {
 
   function handleChangeFilter(item: Filters, key: KeyFilters) {
     params[key] = item;
+    params.page = '1';
     setSearchParams(params);
   }
 
@@ -97,33 +98,9 @@ function Catalog(): JSX.Element {
 
   const startIndex = endIndex - productsPerPage;
 
-  const currentProducts = products.slice(startIndex, endIndex);
+  const [productsByPriceRange, setProductsByPriceRange] = useState(products);
 
-  const currentProductsSortByPrice = currentProducts.slice().sort((productA: Product, productB: Product) => productA.price - productB.price);
-
-  const minPrice = currentProductsSortByPrice[0].price;
-  const maxPrice = currentProductsSortByPrice[productsPerPage - 1].price;
-
-  const initialPrice = {
-    from: String(minPrice),
-    to: String(maxPrice)
-  };
-
-  const [filterPrice, setFilterPrice] = useState(initialPrice);
-
-  const [productsByPriceRange, setProductsByPriceRange] = useState(currentProducts);
-
-  useEffect(() => {
-    fetch(`https://camera-shop.accelerator.htmlacademy.pro/cameras?_start=${startIndex}&_end=${endIndex}&price_gte=${filterPrice.from}&price_lte=${filterPrice.to}`)
-      .then((res) => res.json())
-      .then((json: Product[]) => setProductsByPriceRange(json));
-  }, [filterPrice.from, filterPrice.to, startIndex, endIndex]);
-
-  function handleChangeFilterPrice(event: ChangeEvent<HTMLInputElement>, key: string) {
-    setFilterPrice({ ...filterPrice, [key]: event.target.value });
-  }
-
-  const currentProductsFilter = productsByPriceRange.filter((product) => {
+  const productsFilter = productsByPriceRange.filter((product) => {
     if (!activeCategoryFilter) {
       return true;
     }
@@ -142,16 +119,49 @@ function Catalog(): JSX.Element {
       return product.level === activeLevelFilter;
     });
 
+  const currentProductsSlice = productsFilter.slice(startIndex, endIndex);
+
+  const productsSortByRange = productsFilter.slice().sort((productA: Product, productB: Product) => productA.price - productB.price);
+
+  const allProductsSortByRange = products.slice().sort((productA: Product, productB: Product) => productA.price - productB.price);
+
+  let minPrice = '0';
+  let maxPrice = '0';
+
+  if (productsSortByRange.length !== 0) {
+    minPrice = String(productsSortByRange[0].price);
+    maxPrice = String(productsSortByRange[productsSortByRange.length - 1].price);
+  }
+
+  const initialPrice = {
+    from: minPrice,
+    to: maxPrice
+  };
+
+  const [filterPrice, setFilterPrice] = useState(initialPrice);
+
+  useEffect(() => {
+    fetch(`https://camera-shop.accelerator.htmlacademy.pro/cameras?price_gte=${filterPrice.from}&price_lte=${filterPrice.to}`)
+      .then((res) => res.json())
+      .then((json: Product[]) => setProductsByPriceRange(json));
+  }, [filterPrice.from, filterPrice.to, startIndex, endIndex]);
+
+  function handleChangeFilterPrice(event: ChangeEvent<HTMLInputElement>, key: string) {
+    setFilterPrice({ ...filterPrice, [key]: event.target.value });
+  }
 
   function handleResetFilters() {
     delete params.cat;
     delete params.type;
     delete params.lev;
     setSearchParams(params);
-    setFilterPrice(initialPrice);
+    setFilterPrice({
+      from: String(allProductsSortByRange[0].price),
+      to: String(allProductsSortByRange[allProductsSortByRange.length - 1].price)
+    });
   }
 
-  const currentProductsSort = useAppSelector(getSortedProducts(currentProductsFilter));
+  const currentProductsSort = useAppSelector(getSortedProducts(currentProductsSlice));
 
   const calculatePaginate = useCallback((pageNumber: number) => {
     params.page = String(pageNumber);
@@ -188,7 +198,8 @@ function Catalog(): JSX.Element {
                 <div className="catalog__aside">
 
                   <CatalogFilter
-                    price={filterPrice}
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
                     activeCategoryFilter={activeCategoryFilter}
                     activeTypeFilter={activeTypeFilter}
                     activeLevelFilter={activeLevelFilter}
@@ -216,10 +227,10 @@ function Catalog(): JSX.Element {
                   }
 
                   {
-                    products.length > MAX_COUNT_PER_PAGE && currentProductsSort.length !== 0 &&
+                    products.length > MAX_COUNT_PER_PAGE &&
                     <Pagination
                       currentPage={currentPage}
-                      totalProducts={products.length}
+                      totalProducts={productsFilter.length}
                       productsPerPage={productsPerPage}
                       onPaginateButtonClick={calculatePaginate}
                     />

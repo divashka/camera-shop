@@ -1,9 +1,10 @@
 import { memo, KeyboardEvent, ChangeEvent } from 'react';
 import { FILTER_CATEGORIES, FILTER_TYPES, FILTER_LEVELS } from '../../const/const';
-import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters, Price } from '../../types';
+import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters } from '../../types';
 
 type CatalogFilterProps = {
-  price: Price;
+  minPrice: string;
+  maxPrice: string;
   activeCategoryFilter: FilterCategories;
   activeTypeFilter: FilterTypes;
   activeLevelFilter: FilterLevels;
@@ -13,7 +14,7 @@ type CatalogFilterProps = {
   onChangePriceFilter: (event: ChangeEvent<HTMLInputElement>, key: string) => void;
 }
 
-function CatalogFilterComponent({ price, activeCategoryFilter, activeTypeFilter, activeLevelFilter, onChangeFilter, onResetFilters, onChangeFilterKeyDown, onChangePriceFilter }: CatalogFilterProps): JSX.Element {
+function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, activeTypeFilter, activeLevelFilter, onChangeFilter, onResetFilters, onChangeFilterKeyDown, onChangePriceFilter }: CatalogFilterProps): JSX.Element {
   return (
     <div className="catalog-filter">
       <form action="#">
@@ -26,8 +27,7 @@ function CatalogFilterComponent({ price, activeCategoryFilter, activeTypeFilter,
                 <input
                   type="number"
                   name="price"
-                  placeholder="от"
-                  value={price.from}
+                  placeholder={minPrice}
                   onChange={(event) => onChangePriceFilter(event, 'from')}
                 >
                 </input>
@@ -38,8 +38,7 @@ function CatalogFilterComponent({ price, activeCategoryFilter, activeTypeFilter,
                 <input
                   type="number"
                   name="priceUp"
-                  placeholder="до"
-                  value={price.to}
+                  placeholder={maxPrice}
                   onChange={(event) => onChangePriceFilter(event, 'to')}
                 >
                 </input>

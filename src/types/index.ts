@@ -71,8 +71,3 @@ export type Filters = FilterCategories | FilterTypes | FilterLevels;
 
 export type KeyFilters = 'cat' | 'type' | 'lev';
 
-export type Price = {
-  from: string;
-  to: string;
-}
-
