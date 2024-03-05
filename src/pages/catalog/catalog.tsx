@@ -1,4 +1,4 @@
-import { useState, useMemo, KeyboardEvent } from 'react';
+import { useState, useMemo, KeyboardEvent, useEffect, ChangeEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
@@ -16,7 +16,8 @@ import { getSortedProducts } from '../../store/camera-slice/selectors';
 import { capitalizeFirstLetter } from '../../utils/utils';
 import { setActiveSortItem, setActiveFlowDirection } from '../../store/camera-slice/camera-slice';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
-import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters } from '../../types';
+import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters, Product } from '../../types';
+import NotProducts from '../../components/not-products/not-products';
 
 type Params = {
   page: string;
@@ -90,13 +91,6 @@ function Catalog(): JSX.Element {
     }
   }
 
-  function handleResetFilters() {
-    delete params.cat;
-    delete params.type;
-    delete params.lev;
-    setSearchParams(params);
-  }
-
   const currentPage = Number(searchParams.get('page') || '1');
 
   const endIndex = Number(currentPage) * productsPerPage;
@@ -105,7 +99,31 @@ function Catalog(): JSX.Element {
 
   const currentProducts = products.slice(startIndex, endIndex);
 
-  const currentProductsFilter = currentProducts.filter((product) => {
+  const currentProductsSortByPrice = currentProducts.slice().sort((productA: Product, productB: Product) => productA.price - productB.price);
+
+  const minPrice = currentProductsSortByPrice[0].price;
+  const maxPrice = currentProductsSortByPrice[productsPerPage - 1].price;
+
+  const initialPrice = {
+    from: String(minPrice),
+    to: String(maxPrice)
+  };
+
+  const [filterPrice, setFilterPrice] = useState(initialPrice);
+
+  const [productsByPriceRange, setProductsByPriceRange] = useState(currentProducts);
+
+  useEffect(() => {
+    fetch(`https://camera-shop.accelerator.htmlacademy.pro/cameras?_start=${startIndex}&_end=${endIndex}&price_gte=${filterPrice.from}&price_lte=${filterPrice.to}`)
+      .then((res) => res.json())
+      .then((json: Product[]) => setProductsByPriceRange(json));
+  }, [filterPrice.from, filterPrice.to, startIndex, endIndex]);
+
+  function handleChangeFilterPrice(event: ChangeEvent<HTMLInputElement>, key: string) {
+    setFilterPrice({ ...filterPrice, [key]: event.target.value });
+  }
+
+  const currentProductsFilter = productsByPriceRange.filter((product) => {
     if (!activeCategoryFilter) {
       return true;
     }
@@ -123,6 +141,15 @@ function Catalog(): JSX.Element {
       }
       return product.level === activeLevelFilter;
     });
+
+
+  function handleResetFilters() {
+    delete params.cat;
+    delete params.type;
+    delete params.lev;
+    setSearchParams(params);
+    setFilterPrice(initialPrice);
+  }
 
   const currentProductsSort = useAppSelector(getSortedProducts(currentProductsFilter));
 
@@ -161,12 +188,14 @@ function Catalog(): JSX.Element {
                 <div className="catalog__aside">
 
                   <CatalogFilter
+                    price={filterPrice}
                     activeCategoryFilter={activeCategoryFilter}
-                    onChangeFilter={handleChangeFilter}
                     activeTypeFilter={activeTypeFilter}
                     activeLevelFilter={activeLevelFilter}
+                    onChangeFilter={handleChangeFilter}
                     onResetFilters={handleResetFilters}
                     onChangeFilterKeyDown={handleChangeFilterKeyDown}
+                    onChangePriceFilter={handleChangeFilterPrice}
                   />
 
                 </div>
@@ -178,10 +207,16 @@ function Catalog(): JSX.Element {
                     onChangeActiveFlowDirection={handleChangeActiveFlowDirection}
                   />
 
-                  <CardsList products={currentProductsSort} />
+                  {
+                    currentProductsSort.length === 0
+                      ?
+                      <NotProducts />
+                      :
+                      <CardsList products={currentProductsSort} />
+                  }
 
                   {
-                    products.length > MAX_COUNT_PER_PAGE &&
+                    products.length > MAX_COUNT_PER_PAGE && currentProductsSort.length !== 0 &&
                     <Pagination
                       currentPage={currentPage}
                       totalProducts={products.length}

@@ -1,17 +1,19 @@
-import { memo, KeyboardEvent } from 'react';
+import { memo, KeyboardEvent, ChangeEvent } from 'react';
 import { FILTER_CATEGORIES, FILTER_TYPES, FILTER_LEVELS } from '../../const/const';
-import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters } from '../../types';
+import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters, Price } from '../../types';
 
 type CatalogFilterProps = {
+  price: Price;
   activeCategoryFilter: FilterCategories;
-  onChangeFilter: (item: Filters, key: KeyFilters) => void;
   activeTypeFilter: FilterTypes;
   activeLevelFilter: FilterLevels;
+  onChangeFilter: (item: Filters, key: KeyFilters) => void;
   onResetFilters: () => void;
   onChangeFilterKeyDown: (event: KeyboardEvent<HTMLInputElement>, item: Filters, key: KeyFilters) => void;
+  onChangePriceFilter: (event: ChangeEvent<HTMLInputElement>, key: string) => void;
 }
 
-function CatalogFilterComponent({ activeCategoryFilter, onChangeFilter, activeTypeFilter, activeLevelFilter, onResetFilters, onChangeFilterKeyDown }: CatalogFilterProps): JSX.Element {
+function CatalogFilterComponent({ price, activeCategoryFilter, activeTypeFilter, activeLevelFilter, onChangeFilter, onResetFilters, onChangeFilterKeyDown, onChangePriceFilter }: CatalogFilterProps): JSX.Element {
   return (
     <div className="catalog-filter">
       <form action="#">
@@ -21,12 +23,26 @@ function CatalogFilterComponent({ activeCategoryFilter, onChangeFilter, activeTy
           <div className="catalog-filter__price-range">
             <div className="custom-input">
               <label>
-                <input type="number" name="price" placeholder="от"></input>
+                <input
+                  type="number"
+                  name="price"
+                  placeholder="от"
+                  value={price.from}
+                  onChange={(event) => onChangePriceFilter(event, 'from')}
+                >
+                </input>
               </label>
             </div>
             <div className="custom-input">
               <label>
-                <input type="number" name="priceUp" placeholder="до"></input>
+                <input
+                  type="number"
+                  name="priceUp"
+                  placeholder="до"
+                  value={price.to}
+                  onChange={(event) => onChangePriceFilter(event, 'to')}
+                >
+                </input>
               </label>
             </div>
           </div>
@@ -69,7 +85,7 @@ function CatalogFilterComponent({ activeCategoryFilter, onChangeFilter, activeTy
                     name={name}
                     onChange={() => onChangeFilter(label, key)}
                     checked={label === activeTypeFilter}
-                    onKeyDown={(event) => onChangeFilterKeyDown(event,label, key)}
+                    onKeyDown={(event) => onChangeFilterKeyDown(event, label, key)}
                   >
                   </input>
                   <span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">{label}</span>

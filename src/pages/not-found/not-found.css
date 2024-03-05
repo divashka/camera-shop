@@ -7,8 +7,12 @@
 }
 
 .not-found > a {
-  color: #525288;
-  text-decoration: underline;
+  font-weight: 600;
+  background-color: #7575e2;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 20px;
+  margin-top: 15px;
 }
 
 .not-found > h1 {
