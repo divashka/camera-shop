@@ -4,12 +4,12 @@ import { capitalizeFirstLetter } from '../../utils/utils';
 
 type CatalogSortProps = {
   activeSortItem: '' | SortNames;
-  changeActiveSortItem: (type: SortNames) => void;
-  changeActiveFlowDirection: (type: DirectionFlowCatalog) => void;
+  onChangeActiveSortItem: (type: SortNames) => void;
+  onChangeActiveFlowDirection: (type: DirectionFlowCatalog) => void;
   activeFlowDirection: '' | DirectionFlowCatalog;
 };
 
-function CatalogSortComponent({ activeSortItem, changeActiveSortItem, changeActiveFlowDirection, activeFlowDirection }: CatalogSortProps): JSX.Element {
+function CatalogSortComponent({ activeSortItem, onChangeActiveSortItem, onChangeActiveFlowDirection, activeFlowDirection }: CatalogSortProps): JSX.Element {
 
   return (
     <div className="catalog-sort">
@@ -23,7 +23,7 @@ function CatalogSortComponent({ activeSortItem, changeActiveSortItem, changeActi
                   type="radio"
                   id={`sort${type}`}
                   name="sort"
-                  onChange={() => changeActiveSortItem(type as SortNames)}
+                  onChange={() => onChangeActiveSortItem(type as SortNames)}
                   checked={capitalizeFirstLetter(type) === activeSortItem}
                 >
                 </input>
@@ -39,7 +39,7 @@ function CatalogSortComponent({ activeSortItem, changeActiveSortItem, changeActi
                   id={type}
                   name="sort-icon"
                   aria-label={label}
-                  onChange={() => changeActiveFlowDirection(type as DirectionFlowCatalog)}
+                  onChange={() => onChangeActiveFlowDirection(type as DirectionFlowCatalog)}
                   checked={capitalizeFirstLetter(type) === activeFlowDirection}
                 >
                 </input>

@@ -59,4 +59,15 @@ export type State = ReturnType<typeof store.getState>;
 
 export type TabType = 'feature' | 'description';
 
+export type FilterCategories = 'Фотоаппарат' | 'Видеокамера';
+
+export type FilterTypes = 'Цифровая' | 'Пленочная' | 'Моментальная' | 'Коллекционная';
+
+export type FilterLevels = 'Нулевой' | 'Любительский' | 'Профессиональный';
+
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
+
+export type Filters = FilterCategories | FilterTypes | FilterLevels;
+
+export type KeyFilters = 'cat' | 'type' | 'lev';
+
