@@ -1,6 +1,8 @@
 import { memo, KeyboardEvent, ChangeEvent } from 'react';
 import { FILTER_CATEGORIES, FILTER_TYPES, FILTER_LEVELS } from '../../const/const';
-import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters } from '../../types';
+import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters, FilterPrice } from '../../types';
+import { fetchProductsByPriceRange } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks';
 
 type CatalogFilterProps = {
   minPrice: string;
@@ -11,10 +13,34 @@ type CatalogFilterProps = {
   onChangeFilter: (item: Filters, key: KeyFilters) => void;
   onResetFilters: () => void;
   onChangeFilterKeyDown: (event: KeyboardEvent<HTMLInputElement>, item: Filters, key: KeyFilters) => void;
-  onChangePriceFilter: (event: ChangeEvent<HTMLInputElement>, key: string) => void;
+  filterPrice: FilterPrice;
+  onChangePriceFilterFrom: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChangePriceFilterTo: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, activeTypeFilter, activeLevelFilter, onChangeFilter, onResetFilters, onChangeFilterKeyDown, onChangePriceFilter }: CatalogFilterProps): JSX.Element {
+function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, activeTypeFilter, activeLevelFilter, onChangeFilter, onResetFilters, onChangeFilterKeyDown, filterPrice, onChangePriceFilterFrom, onChangePriceFilterTo }: CatalogFilterProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  function handleChangePriceFrom(event: ChangeEvent<HTMLInputElement>) {
+    if (Number(event.target.value) < Number(minPrice)) {
+      event.target.value = minPrice;
+    }
+    onChangePriceFilterFrom(event);
+    dispatch(fetchProductsByPriceRange({ ...filterPrice, from: event.target.value }));
+  }
+
+  function handleChangePriceTo(event: ChangeEvent<HTMLInputElement>) {
+    if (Number(event.target.value) > Number(maxPrice)) {
+      event.target.value = maxPrice;
+    }
+    if (filterPrice.from && Number(filterPrice.from) > Number(event.target.value)) {
+      event.target.value = maxPrice;
+    }
+    onChangePriceFilterTo(event);
+    dispatch(fetchProductsByPriceRange({ ...filterPrice, to: event.target.value }));
+  }
+
   return (
     <div className="catalog-filter">
       <form action="#">
@@ -27,8 +53,10 @@ function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, acti
                 <input
                   type="number"
                   name="price"
-                  placeholder={minPrice}
-                  onChange={(event) => onChangePriceFilter(event, 'from')}
+                  value={filterPrice.from}
+                  placeholder={String(minPrice)}
+                  onChange={onChangePriceFilterFrom}
+                  onBlur={handleChangePriceFrom}
                 >
                 </input>
               </label>
@@ -38,8 +66,10 @@ function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, acti
                 <input
                   type="number"
                   name="priceUp"
+                  value={filterPrice.to}
                   placeholder={maxPrice}
-                  onChange={(event) => onChangePriceFilter(event, 'to')}
+                  onChange={(event) => onChangePriceFilterTo(event)}
+                  onBlur={handleChangePriceTo}
                 >
                 </input>
               </label>
@@ -122,7 +152,7 @@ function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, acti
           Сбросить фильтры
         </button>
       </form>
-    </div>
+    </div >
   );
 }
 

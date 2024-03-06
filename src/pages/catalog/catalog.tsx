@@ -1,4 +1,4 @@
-import { useState, useMemo, KeyboardEvent, useEffect, ChangeEvent } from 'react';
+import { useState, useMemo, KeyboardEvent, ChangeEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
@@ -18,6 +18,7 @@ import { setActiveSortItem, setActiveFlowDirection } from '../../store/camera-sl
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters, Product } from '../../types';
 import NotProducts from '../../components/not-products/not-products';
+import { fetchProductsAction } from '../../store/api-actions';
 
 type Params = {
   page: string;
@@ -35,6 +36,13 @@ function Catalog(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const allProductsSortByRange = products.slice().sort((productA: Product, productB: Product) => productA.price - productB.price);
+
+  const [filterPrice, setFilterPrice] = useState({
+    from: '',
+    to: ''
+  });
 
   const [productsPerPage] = useState(MAX_COUNT_PER_PAGE);
 
@@ -93,14 +101,10 @@ function Catalog(): JSX.Element {
   }
 
   const currentPage = Number(searchParams.get('page') || '1');
-
   const endIndex = Number(currentPage) * productsPerPage;
-
   const startIndex = endIndex - productsPerPage;
 
-  const [productsByPriceRange, setProductsByPriceRange] = useState(products);
-
-  const productsFilter = productsByPriceRange.filter((product) => {
+  const productsFilter = products.filter((product) => {
     if (!activeCategoryFilter) {
       return true;
     }
@@ -123,8 +127,6 @@ function Catalog(): JSX.Element {
 
   const productsSortByRange = productsFilter.slice().sort((productA: Product, productB: Product) => productA.price - productB.price);
 
-  const allProductsSortByRange = products.slice().sort((productA: Product, productB: Product) => productA.price - productB.price);
-
   let minPrice = '0';
   let maxPrice = '0';
 
@@ -133,21 +135,13 @@ function Catalog(): JSX.Element {
     maxPrice = String(productsSortByRange[productsSortByRange.length - 1].price);
   }
 
-  const initialPrice = {
-    from: minPrice,
-    to: maxPrice
-  };
 
-  const [filterPrice, setFilterPrice] = useState(initialPrice);
+  function handleChangeFilterPriceFrom(event: ChangeEvent<HTMLInputElement>) {
+    setFilterPrice({ ...filterPrice, from: event.target.value });
+  }
 
-  useEffect(() => {
-    fetch(`https://camera-shop.accelerator.htmlacademy.pro/cameras?price_gte=${filterPrice.from}&price_lte=${filterPrice.to}`)
-      .then((res) => res.json())
-      .then((json: Product[]) => setProductsByPriceRange(json));
-  }, [filterPrice.from, filterPrice.to, startIndex, endIndex]);
-
-  function handleChangeFilterPrice(event: ChangeEvent<HTMLInputElement>, key: string) {
-    setFilterPrice({ ...filterPrice, [key]: event.target.value });
+  function handleChangeFilterPriceTo(event: ChangeEvent<HTMLInputElement>) {
+    setFilterPrice({ ...filterPrice, to: event.target.value });
   }
 
   function handleResetFilters() {
@@ -159,6 +153,7 @@ function Catalog(): JSX.Element {
       from: String(allProductsSortByRange[0].price),
       to: String(allProductsSortByRange[allProductsSortByRange.length - 1].price)
     });
+    dispatch(fetchProductsAction());
   }
 
   const currentProductsSort = useAppSelector(getSortedProducts(currentProductsSlice));
@@ -206,7 +201,9 @@ function Catalog(): JSX.Element {
                     onChangeFilter={handleChangeFilter}
                     onResetFilters={handleResetFilters}
                     onChangeFilterKeyDown={handleChangeFilterKeyDown}
-                    onChangePriceFilter={handleChangeFilterPrice}
+                    filterPrice={filterPrice}
+                    onChangePriceFilterFrom={handleChangeFilterPriceFrom}
+                    onChangePriceFilterTo={handleChangeFilterPriceTo}
                   />
 
                 </div>

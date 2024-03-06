@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CameraSlice } from '../../types/slices';
 import { SliceNameSpace, SortNames, DirectionFlowCatalog } from '../../const/const';
-import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction } from '../api-actions';
+import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction, fetchProductsByPriceRange } from '../api-actions';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: CameraSlice = {
@@ -51,6 +51,9 @@ export const cameraReducer = createSlice({
       })
       .addCase(fetchRelatedProductsAction.fulfilled, (state, action) => {
         state.similarProducts = action.payload;
+      })
+      .addCase(fetchProductsByPriceRange.fulfilled, (state, action) => {
+        state.products = action.payload;
       });
   }
 });

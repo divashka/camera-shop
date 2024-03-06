@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute } from '../const/const';
-import { Product, AppDispatch, State, Review, ReviewData } from '../types';
+import { Product, AppDispatch, State, Review, ReviewData, FilterPrice } from '../types';
 
 export const fetchProductsAction = createAsyncThunk<Product[], undefined, {
   dispatch: AppDispatch;
@@ -35,6 +35,28 @@ export const fetchRelatedProductsAction = createAsyncThunk<Product[], number, {
   'camera/fetchRelatedProducts',
   async (id, { extra: api }) => {
     const { data } = await api.get<Product[]>(`${APIRoute.Camera}/${id}/similar`);
+    return data;
+  },
+);
+
+export const fetchProductsByPriceRange = createAsyncThunk<Product[], FilterPrice, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'camera/fetchProductsByPriceRange',
+  async (filterPrice, { extra: api }) => {
+    let queryGte = '';
+    let queryLte = '';
+
+    if (filterPrice.from) {
+      queryGte = `price_gte=${filterPrice.from}`;
+    }
+
+    if (filterPrice.to) {
+      queryLte = `&price_lte=${filterPrice.to}`;
+    }
+    const { data } = await api.get<Product[]>(`${APIRoute.Camera}?${queryGte}${queryLte}`);
     return data;
   },
 );
