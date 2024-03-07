@@ -1,4 +1,18 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import { StatusCodes } from 'http-status-codes';
+import { toast } from 'react-toastify';
+
+type DetailMessageType = {
+  error: string;
+}
+
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.NOT_FOUND]: true,
+};
+
+const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
+
 
 const BASE_URL = 'https://camera-shop.accelerator.htmlacademy.pro';
 
@@ -9,6 +23,18 @@ export const createAPI = (): AxiosInstance => {
     baseURL: BASE_URL,
     timeout: TIMEOUT_DURATION,
   });
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError<DetailMessageType>) => {
+      if (error.response && shouldDisplayError(error.response)) {
+        const detailMessage = (error.response.data);
+        toast.warn(detailMessage.error);
+      }
+
+      throw error;
+    }
+  );
 
   return api;
 };
