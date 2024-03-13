@@ -1,4 +1,4 @@
-import { useState, useMemo, KeyboardEvent, ChangeEvent } from 'react';
+import { useState, useMemo, KeyboardEvent, ChangeEvent, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
@@ -7,11 +7,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProducts } from '../../store/camera-slice/selectors';
 import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
-import { useCallback } from 'react';
-import { MAX_COUNT_PER_PAGE, NAME_KEY_ENTER } from '../../const/const';
+import { MAX_COUNT_PER_PAGE, NAME_KEY_ENTER, SortNames, DirectionFlowCatalog } from '../../const/const';
 import Modal from '../../components/modal/modal';
 import CatalogSort from '../../components/catalog-sort/catalog-sort';
-import { SortNames, DirectionFlowCatalog } from '../../const/const';
 import { getSortedProducts } from '../../store/camera-slice/selectors';
 import { capitalizeFirstLetter } from '../../utils/utils';
 import { setActiveSortItem, setActiveFlowDirection } from '../../store/camera-slice/camera-slice';
@@ -19,6 +17,7 @@ import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import { FilterCategories, FilterTypes, FilterLevels, Filters, KeyFilters, Product } from '../../types';
 import NotProducts from '../../components/not-products/not-products';
 import { fetchProductsAction } from '../../store/api-actions';
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 
 type Params = {
   page: string;
@@ -28,6 +27,8 @@ type Params = {
   type?: string;
   lev?: string;
 }
+
+const PARAMS_CAT_NAME = 'cat';
 
 function Catalog(): JSX.Element {
 
@@ -88,6 +89,10 @@ function Catalog(): JSX.Element {
   }, [activeSortItem, dispatch, params, setSearchParams]);
 
   function handleChangeFilter(item: Filters, key: KeyFilters) {
+    if (key === PARAMS_CAT_NAME) {
+      params.lev = '';
+      params.type = '';
+    }
     params[key] = item;
     params.page = '1';
     setSearchParams(params);
@@ -135,7 +140,6 @@ function Catalog(): JSX.Element {
     maxPrice = String(productsSortByRange[productsSortByRange.length - 1].price);
   }
 
-
   function handleChangeFilterPriceFrom(event: ChangeEvent<HTMLInputElement>) {
     setFilterPrice({ ...filterPrice, from: event.target.value });
   }
@@ -173,17 +177,7 @@ function Catalog(): JSX.Element {
         <div className="page-content">
           <div className="breadcrumbs">
             <div className="container">
-              <ul className="breadcrumbs__list">
-                <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="index.html">Главная
-                    <svg width="5" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini"></use>
-                    </svg>
-                  </a>
-                </li>
-                <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">Каталог</span>
-                </li>
-              </ul>
+              <Breadcrumbs />
             </div>
           </div>
           <section className="catalog">

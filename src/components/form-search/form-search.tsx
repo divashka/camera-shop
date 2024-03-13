@@ -1,10 +1,10 @@
-import { memo, useState, ChangeEvent, KeyboardEvent } from 'react';
+import { memo, useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getProducts } from '../../store/camera-slice/selectors';
 import classNames from 'classnames';
 import { Product } from '../../types';
 import { useNavigate } from 'react-router-dom';
-import { AppRoute, MIN_COUNT_SEARCH_RESULTS, NAME_KEY_ENTER } from '../../const/const';
+import { AppRoute, MIN_COUNT_SEARCH_RESULTS, MIN_COUNT_DELETE_SEARCH_RESULTS, NAME_KEY_ENTER } from '../../const/const';
 
 function FormSearchComponent(): JSX.Element {
 
@@ -14,17 +14,36 @@ function FormSearchComponent(): JSX.Element {
 
   const [searchValue, setSearchValue] = useState('');
 
+  const [isListOpen, setIsListOpen] = useState(false);
+
   const [isSelectListOpen, setIsSelectListOpen] = useState(false);
+
+  const [selectedItem, setSelectedItem] = useState(0);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const activeItemRef = useRef<HTMLLIElement>(null);
+
+  // useEffect(() => {
+  //   if (activeItemRef.current) {
+  //     activeItemRef.current.focus();
+  //   }
+  // }, [selectedItem]);
 
   function handleChangeSearchValue(event: ChangeEvent<HTMLInputElement>) {
     setSearchValue(event.target.value);
+    setIsListOpen(false);
     setIsSelectListOpen(false);
 
     products.forEach((product) => {
       const productNameConvert = product.name.toLowerCase().replaceAll(' ', '');
-      const searchConvert = searchValue.toLowerCase().replaceAll(' ', '');
+      const searchConvert = event.target.value.toLowerCase().replaceAll(' ', '');
 
-      if (searchConvert.length >= MIN_COUNT_SEARCH_RESULTS - 1 && productNameConvert.includes(searchConvert)) {
+      if (searchConvert.length >= MIN_COUNT_DELETE_SEARCH_RESULTS) {
+        setIsListOpen(true);
+      }
+
+      if (searchConvert.length >= MIN_COUNT_SEARCH_RESULTS && productNameConvert.includes(searchConvert)) {
         setIsSelectListOpen(true);
       }
     });
@@ -32,7 +51,11 @@ function FormSearchComponent(): JSX.Element {
 
   function handleButtonCloseClick() {
     setSearchValue('');
+    setIsListOpen(false);
     setIsSelectListOpen(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }
 
   function handleSelectItemClick(id: Product['id']) {
@@ -45,10 +68,30 @@ function FormSearchComponent(): JSX.Element {
     }
   }
 
+  const productsFilterBySearch = products.filter((product) => {
+    const productNameConvert = product.name.toLowerCase().replaceAll(' ', '');
+    const searchConvert = searchValue.toLowerCase().replaceAll(' ', '');
+    return productNameConvert.includes(searchConvert);
+  })
+
+  function handleSelectListKeydown(event: KeyboardEvent<HTMLUListElement>) {
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      setSelectedItem((prevSelectedItem) =>
+        prevSelectedItem === 0 ? 0 : prevSelectedItem - 1
+      );
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setSelectedItem((prevSelectedItem) =>
+        prevSelectedItem === productsFilterBySearch.length - 1 ? productsFilterBySearch.length - 1 : prevSelectedItem + 1
+      );
+    }
+  }
+
   return (
     <div className={classNames(
       'form-search',
-      { 'list-opened': isSelectListOpen }
+      { 'list-opened': isListOpen }
     )}
     >
       <form>
@@ -56,18 +99,25 @@ function FormSearchComponent(): JSX.Element {
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
           </svg>
-          <input value={searchValue} onChange={handleChangeSearchValue} className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту">
+          <input
+            value={searchValue}
+            onChange={handleChangeSearchValue}
+            className="form-search__input"
+            type="text"
+            autoComplete="off"
+            placeholder="Поиск по сайту"
+            ref={inputRef}
+          >
           </input>
         </label>
-        <ul className="form-search__select-list">
-          {products
-            .filter((product) => {
-              const productNameConvert = product.name.toLowerCase().replaceAll(' ', '');
-              const searchConvert = searchValue.toLowerCase().replaceAll(' ', '');
-              return productNameConvert.includes(searchConvert);
-            }).map((product) => (
+        {isSelectListOpen && <ul
+          className="form-search__select-list"
+          onKeyDown={handleSelectListKeydown}
+        >
+          {productsFilterBySearch.map((product, index) => (
               <li
                 key={product.id}
+                ref={selectedItem === index ? activeItemRef : null}
                 className="form-search__select-item"
                 tabIndex={0}
                 onClick={() => handleSelectItemClick(product.id)}
@@ -76,7 +126,7 @@ function FormSearchComponent(): JSX.Element {
                 {product.name}
               </li>
             ))}
-        </ul>
+        </ul>}
       </form>
       <button
         className="form-search__reset"

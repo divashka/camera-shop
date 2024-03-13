@@ -101,12 +101,7 @@ function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, acti
         <fieldset className="catalog-filter__block">
           <legend className="title title--h5">Тип камеры</legend>
           {
-            FILTER_TYPES.filter(({ category }) => {
-              if (!activeCategoryFilter) {
-                return true;
-              }
-              return category.includes(activeCategoryFilter);
-            }).map(({ name, label, key }) => (
+            FILTER_TYPES.map(({ name, label, key, category }) => (
               <div key={name} className="custom-checkbox catalog-filter__item">
                 <label>
                   <input
@@ -115,6 +110,7 @@ function CatalogFilterComponent({ minPrice, maxPrice, activeCategoryFilter, acti
                     onChange={() => onChangeFilter(label, key)}
                     checked={label === activeTypeFilter}
                     onKeyDown={(event) => onChangeFilterKeyDown(event, label, key)}
+                    disabled={activeCategoryFilter && !category.includes(activeCategoryFilter)}
                   >
                   </input>
                   <span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">{label}</span>

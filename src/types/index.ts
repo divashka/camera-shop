@@ -61,7 +61,7 @@ export type TabType = 'feature' | 'description';
 
 export type FilterCategories = 'Фотоаппарат' | 'Видеокамера';
 
-export type FilterTypes = 'Цифровая' | 'Пленочная' | 'Моментальная' | 'Коллекционная';
+export type FilterTypes = 'Цифровая' | 'Плёночная' | 'Моментальная' | 'Коллекционная';
 
 export type FilterLevels = 'Нулевой' | 'Любительский' | 'Профессиональный';
 

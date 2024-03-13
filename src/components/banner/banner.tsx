@@ -8,13 +8,13 @@ const slides = [
     id: 1,
     message: 'Новинка!',
     title: 'Ретрокамера Dus Auge lV',
-    description: 'Вы тоже можете прикоснуться к волшебству аналоговой съёмки, заказав этот чудо-аппарат.'
+    description: 'Для истинных ценителей и коллекционеров'
   },
   {
-    id: 2,
+    id: '',
     message: 'Новинка!',
-    title: 'FastShot MR-5',
-    description: 'Вы тоже можете прикоснуться к волшебству аналоговой съёмки, заказав этот чудо-аппарат.'
+    title: 'Cannonball Pro MX 8i',
+    description: 'Профессиональная камера от известного производителя'
   },
   {
     id: 3,
@@ -32,7 +32,8 @@ function Banner(): JSX.Element {
       reloadOnUpdate
       options={{
         prevNextButtons: false,
-        autoPlay: 3000
+        autoPlay: 3000,
+        draggable: false
       }}
       static
     >

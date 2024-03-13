@@ -1,9 +1,9 @@
 import { FilterCategories, FilterTypes, FilterLevels, KeyFilters } from '../types';
 
 export enum AppRoute {
-  Root = '/',
-  Product = '/product/',
-  Basket = '/basket'
+  Root = '/catalog',
+  Product = '/catalog/product/',
+  Basket = '/basket',
 }
 
 export enum APIRoute {
@@ -61,6 +61,8 @@ export const MAX_COUNT_PER_PAGE = 9;
 
 export const MIN_COUNT_SEARCH_RESULTS = 3;
 
+export const MIN_COUNT_DELETE_SEARCH_RESULTS = 3;
+
 export const NAME_KEY_ENTER = 'Enter';
 
 export const FILTER_CATEGORIES: {
@@ -99,7 +101,7 @@ export const FILTER_TYPES: {
       key: 'type',
       category: ['Фотоаппарат'],
       name: 'film',
-      label: 'Пленочная'
+      label: 'Плёночная'
     },
     {
       key: 'type',

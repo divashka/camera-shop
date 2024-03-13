@@ -116,6 +116,7 @@ https://flickity.metafizzy.co
   column-gap: 14px;
   margin: 0;
   list-style: none;
+  cursor: pointer;
 }
 
 .flickity-rtl .flickity-page-dots { direction: rtl; }

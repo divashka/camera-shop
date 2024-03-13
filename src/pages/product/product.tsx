@@ -16,6 +16,7 @@ import RelatedProducts from '../../components/related-products/related-products'
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import ButtonScrollUp from '../../components/button-scroll-up/button-scroll-up';
 import Modal from '../../components/modal/modal';
+import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 
 function Product(): JSX.Element {
 
@@ -65,29 +66,7 @@ function Product(): JSX.Element {
         <div className="page-content">
           <div className="breadcrumbs">
             <div className="container">
-              <ul className="breadcrumbs__list">
-                <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="index.html">
-                    Главная
-                    <svg width={5} height={8} aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini" />
-                    </svg>
-                  </a>
-                </li>
-                <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="catalog.html">
-                    Каталог
-                    <svg width={5} height={8} aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini" />
-                    </svg>
-                  </a>
-                </li>
-                <li className="breadcrumbs__item">
-                  <span className="breadcrumbs__link breadcrumbs__link--active">
-                    {name}
-                  </span>
-                </li>
-              </ul>
+            <Breadcrumbs />
             </div>
           </div>
           <div className="page-content__section">
