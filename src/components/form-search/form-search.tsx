@@ -59,8 +59,6 @@ function FormSearchComponent(): JSX.Element {
     }
   }
 
-  console.log(selectedItem)
-
   function handleSelectItemClick(id: Product['id']) {
     navigate(`${AppRoute.Product}${id}`);
   }
@@ -80,6 +78,9 @@ function FormSearchComponent(): JSX.Element {
   function handleFormSearchKeydown(event: KeyboardEvent<HTMLFormElement>) {
     if (event.key === NAME_KEY_UP) {
       event.preventDefault();
+      if (selectedItem === -1) {
+        setSelectedItem(0);
+      }
       setSelectedItem((prevSelectedItem) =>
         prevSelectedItem === 0 ? 0 : prevSelectedItem - 1
       );
