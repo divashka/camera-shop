@@ -3,24 +3,36 @@ import './flickity.css';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 
-const slides = [
+const SLIDES = [
   {
-    id: 1,
+    id: '6',
     message: 'Новинка!',
-    title: 'Ретрокамера Dus Auge lV',
-    description: 'Для истинных ценителей и коллекционеров'
+    title: 'Click Sap',
+    description: 'Профессиональная камера от известного производителя',
+    img: 'img/content/banner-bg.jpg',
+    img2x: 'img/content/banner-bg@2x.jpg',
+    imgWebp: 'img/content/banner-bg.webp',
+    imgWebp2x: 'img/content/banner-bg@2x.webp'
   },
   {
-    id: '',
+    id: '1',
     message: 'Новинка!',
-    title: 'Cannonball Pro MX 8i',
-    description: 'Профессиональная камера от известного производителя'
+    title: 'Ретрокамера Das Auge IV',
+    description: 'Для истинных ценителей и коллекционеров',
+    img: 'img/content/promo_click-lite-r.jpg',
+    img2x: 'img/content/promo_click-lite-r@2x.jpg',
+    imgWebp: 'img/content/promo_click-lite-r.webp',
+    imgWebp2x: 'img/content/promo_click-lite-r@2x.webp'
   },
   {
-    id: 3,
+    id: '2',
     message: 'Новинка!',
-    title: 'Instaprinter P2',
-    description: 'Вы тоже можете прикоснуться к волшебству аналоговой съёмки, заказав этот чудо-аппарат.'
+    title: 'FastShot MR-5',
+    description: 'Маленькое чудо фотографии',
+    img: 'img/content/promo_click_pro.jpg',
+    img2x: 'img/content/promo_click_pro@2x.jpg',
+    imgWebp: 'img/content/promo_click_pro.webp',
+    imgWebp2x: 'img/content/promo_click_pro@2x.webp'
   }
 ];
 
@@ -38,12 +50,12 @@ function Banner(): JSX.Element {
       static
     >
       {
-        slides.map((product) => (
+        SLIDES.map((product) => (
           <div key={product.id} className='banner' data-testid="slide">
             <picture>
-              <source type="image/webp" srcSet="img/content/banner-bg.webp, img/content/banner-bg@2x.webp 2x"></source>
+              <source type="image/webp" srcSet={`${product.imgWebp}, ${product.imgWebp2x} 2x`}></source>
               <img
-                src="img/content/banner-bg.jpg" srcSet="img/content/banner-bg@2x.jpg 2x" width="1280" height="280"
+                src={product.img} srcSet={`${product.img2x} 2x`} width="1280" height="280"
                 alt="баннер"
               />
             </picture>

@@ -1,10 +1,10 @@
-import { memo, useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
+import { memo, useState, useRef, ChangeEvent, KeyboardEvent, useEffect } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getProducts } from '../../store/camera-slice/selectors';
 import classNames from 'classnames';
 import { Product } from '../../types';
 import { useNavigate } from 'react-router-dom';
-import { AppRoute, MIN_COUNT_SEARCH_RESULTS, MIN_COUNT_DELETE_SEARCH_RESULTS, NAME_KEY_ENTER } from '../../const/const';
+import { AppRoute, MIN_COUNT_SEARCH_RESULTS, MIN_COUNT_DELETE_SEARCH_RESULTS, NAME_KEY_ENTER, NAME_KEY_DOWN, NAME_KEY_UP } from '../../const/const';
 
 function FormSearchComponent(): JSX.Element {
 
@@ -18,17 +18,17 @@ function FormSearchComponent(): JSX.Element {
 
   const [isSelectListOpen, setIsSelectListOpen] = useState(false);
 
-  const [selectedItem, setSelectedItem] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const activeItemRef = useRef<HTMLLIElement>(null);
 
-  // useEffect(() => {
-  //   if (activeItemRef.current) {
-  //     activeItemRef.current.focus();
-  //   }
-  // }, [selectedItem]);
+  useEffect(() => {
+    if (activeItemRef.current) {
+      activeItemRef.current.focus();
+    }
+  }, [selectedItem]);
 
   function handleChangeSearchValue(event: ChangeEvent<HTMLInputElement>) {
     setSearchValue(event.target.value);
@@ -53,10 +53,13 @@ function FormSearchComponent(): JSX.Element {
     setSearchValue('');
     setIsListOpen(false);
     setIsSelectListOpen(false);
+    setSelectedItem(-1);
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }
+
+  console.log(selectedItem)
 
   function handleSelectItemClick(id: Product['id']) {
     navigate(`${AppRoute.Product}${id}`);
@@ -74,13 +77,13 @@ function FormSearchComponent(): JSX.Element {
     return productNameConvert.includes(searchConvert);
   })
 
-  function handleSelectListKeydown(event: KeyboardEvent<HTMLUListElement>) {
-    if (event.key === 'ArrowUp') {
+  function handleFormSearchKeydown(event: KeyboardEvent<HTMLFormElement>) {
+    if (event.key === NAME_KEY_UP) {
       event.preventDefault();
       setSelectedItem((prevSelectedItem) =>
         prevSelectedItem === 0 ? 0 : prevSelectedItem - 1
       );
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === NAME_KEY_DOWN) {
       event.preventDefault();
       setSelectedItem((prevSelectedItem) =>
         prevSelectedItem === productsFilterBySearch.length - 1 ? productsFilterBySearch.length - 1 : prevSelectedItem + 1
@@ -94,7 +97,9 @@ function FormSearchComponent(): JSX.Element {
       { 'list-opened': isListOpen }
     )}
     >
-      <form>
+      <form
+        onKeyDown={handleFormSearchKeydown}
+      >
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
@@ -112,20 +117,19 @@ function FormSearchComponent(): JSX.Element {
         </label>
         {isSelectListOpen && <ul
           className="form-search__select-list"
-          onKeyDown={handleSelectListKeydown}
         >
           {productsFilterBySearch.map((product, index) => (
-              <li
-                key={product.id}
-                ref={selectedItem === index ? activeItemRef : null}
-                className="form-search__select-item"
-                tabIndex={0}
-                onClick={() => handleSelectItemClick(product.id)}
-                onKeyDown={(event) => handleSelectItemFocusClick(event, product.id)}
-              >
-                {product.name}
-              </li>
-            ))}
+            <li
+              key={product.id}
+              ref={selectedItem === index ? activeItemRef : null}
+              className="form-search__select-item"
+              tabIndex={0}
+              onClick={() => handleSelectItemClick(product.id)}
+              onKeyDown={(event) => handleSelectItemFocusClick(event, product.id)}
+            >
+              {product.name}
+            </li>
+          ))}
         </ul>}
       </form>
       <button
