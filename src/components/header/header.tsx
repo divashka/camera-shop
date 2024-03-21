@@ -2,8 +2,13 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 import { memo } from 'react';
 import FormSearch from '../form-search/form-search';
+import { useAppSelector } from '../../hooks';
+import { getProductsFromCart } from '../../store/app-slice/selectors';
 
 function HeaderComponent(): JSX.Element {
+
+  const products = useAppSelector(getProductsFromCart);
+
   return (
     <header className="header" id="header">
       <div className="container">
@@ -25,11 +30,13 @@ function HeaderComponent(): JSX.Element {
           </ul>
         </nav>
         <FormSearch />
-        <a className="header__basket-link" href="#" aria-label="Корзина">
+        <Link className="header__basket-link" to={AppRoute.Basket} aria-label="Корзина">
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
-        </a>
+          {products.length > 0 && <span className="header__basket-count">{products.length}</span>
+          }
+        </Link>
       </div>
     </header>
   );

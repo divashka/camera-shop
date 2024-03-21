@@ -5,6 +5,7 @@ import { useAppSelector } from "../../hooks";
 import { getOneProduct } from "../../store/camera-slice/selectors";
 
 const PATH_TO_PRODUCT = '/catalog/product';
+const PATH_TO_BASKET = '/catalog/basket';
 
 function BreadcrumbsComponent(): JSX.Element {
 
@@ -16,6 +17,7 @@ function BreadcrumbsComponent(): JSX.Element {
  const breadcrumbNameMap = {
   '/': 'Главная',
   '/catalog': 'Каталог',
+  [PATH_TO_BASKET]: 'Корзина',
   [PATH_TO_PRODUCT]: '',
   [`/catalog/product/${product?.id}`]: product?.name
  };

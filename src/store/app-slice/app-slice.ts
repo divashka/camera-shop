@@ -1,8 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AppSlice } from '../../types/slices';
 import { SliceNameSpace } from '../../const/const';
+import { Product } from '../../types';
 
 const initialState: AppSlice = {
+  cart: [],
   isWrapperModalOpen: false,
   isReviewModalOpen: false,
   isSuccessReviewModalOpen: false,
@@ -30,7 +32,10 @@ export const appReducer = createSlice({
     setSuccessAddModalActive: (state, action: PayloadAction<boolean>) => {
       state.isSuccessProductModalOpen = action.payload;
     },
+    addToCart: (state, action: PayloadAction<Product>) => {
+      state.cart.push(action.payload);
+    }
   },
 });
 
-export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive } = appReducer.actions;
+export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive,addToCart } = appReducer.actions;

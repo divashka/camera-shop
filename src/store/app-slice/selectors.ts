@@ -10,3 +10,5 @@ export const getIsSuccessReviewStatus = (state: State) => state[SliceNameSpace.A
 export const getIsProductAddModalStatus = (state: State) => state[SliceNameSpace.App].isProductModalOpen;
 
 export const getIsSuccessAddModalStatus = (state: State) => state[SliceNameSpace.App].isSuccessProductModalOpen;
+
+export const getProductsFromCart = (state: State) => state[SliceNameSpace.App].cart;
