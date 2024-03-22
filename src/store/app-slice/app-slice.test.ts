@@ -7,6 +7,8 @@ describe('AppSlice', () => {
     it('should return initial state with empty action', () => {
       const emptyAction = { type: '' };
       const expectedState = {
+        cart: [],
+        modalProductFromCart: null,
         isWrapperModalOpen: false,
         isReviewModalOpen: false,
         isSuccessReviewModalOpen: false,
@@ -22,6 +24,8 @@ describe('AppSlice', () => {
     it('should return default initial state with empty action and undefined', () => {
       const emptyAction = { type: '' };
       const expectedState = {
+        cart: [],
+        modalProductFromCart: null,
         isWrapperModalOpen: false,
         isReviewModalOpen: false,
         isSuccessReviewModalOpen: false,
@@ -40,6 +44,8 @@ describe('AppSlice', () => {
 
     it('should set modal wrapper active with setModalActive action', () => {
       const initialState = {
+        cart: [],
+        modalProductFromCart: null,
         isWrapperModalOpen: false,
         isReviewModalOpen: false,
         isSuccessReviewModalOpen: false,
@@ -47,6 +53,8 @@ describe('AppSlice', () => {
         isSuccessProductModalOpen: false,
       };
       const expectedState = {
+        cart: [],
+        modalProductFromCart: null,
         isWrapperModalOpen: true,
         isReviewModalOpen: false,
         isSuccessReviewModalOpen: false,

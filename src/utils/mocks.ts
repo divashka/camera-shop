@@ -86,6 +86,8 @@ export const review: Review = {
 
 export const makeMockStore = (initialState?: Partial<State>): State => ({
   APP: {
+    cart: [],
+    modalProductFromCart: null,
     isWrapperModalOpen: false,
     isReviewModalOpen: false,
     isSuccessReviewModalOpen: false,
