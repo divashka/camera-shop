@@ -17,8 +17,7 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import ButtonScrollUp from '../../components/button-scroll-up/button-scroll-up';
 import Modal from '../../components/modal/modal';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { addToCart } from '../../store/app-slice/app-slice';
-import { getProductsFromCart } from '../../store/app-slice/selectors';
+import { setModalActive, setProductAddModalActive, setModalProductFromCart } from '../../store/app-slice/app-slice';
 
 function Product(): JSX.Element {
 
@@ -35,8 +34,6 @@ function Product(): JSX.Element {
   const isLoading = useAppSelector(getLoadingOneProductStatus);
 
   const relatedProducts = useAppSelector(getRelatedProducts);
-
-  const productsCart = useAppSelector(getProductsFromCart);
 
   useEffect(() => {
     if (!id) {
@@ -61,13 +58,10 @@ function Product(): JSX.Element {
 
   function handleAddToCart() {
     if (product) {
-      productsCart.forEach((el) => {
-        if (el.id === product.id) {
-          
-        }
-      })
-      dispatch(addToCart(product));
+      dispatch(setModalProductFromCart(product));
     }
+    dispatch(setModalActive(true));
+    dispatch(setProductAddModalActive(true));
   }
 
   const { name, type, category, vendorCode, level, description, price, rating, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = product;
@@ -81,7 +75,7 @@ function Product(): JSX.Element {
         <div className="page-content">
           <div className="breadcrumbs">
             <div className="container">
-            <Breadcrumbs />
+              <Breadcrumbs />
             </div>
           </div>
           <div className="page-content__section">
@@ -119,9 +113,9 @@ function Product(): JSX.Element {
                     <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
                   </p>
                   <button
-                  className="btn btn--purple"
-                  type="button"
-                  onClick={handleAddToCart}
+                    className="btn btn--purple"
+                    type="button"
+                    onClick={handleAddToCart}
                   >
                     <svg width={24} height={16} aria-hidden="true">
                       <use xlinkHref="#icon-add-basket" />

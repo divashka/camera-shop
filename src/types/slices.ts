@@ -18,6 +18,7 @@ export type ReviewSlice = {
 
 export type AppSlice = {
   cart: Product[];
+  modalProductFromCart: Product | null;
   isWrapperModalOpen: boolean;
   isReviewModalOpen: boolean;
   isSuccessReviewModalOpen: boolean;

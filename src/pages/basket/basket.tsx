@@ -1,27 +1,19 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProductsFromCart } from '../../store/app-slice/selectors';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { useState } from 'react';
 import { Product } from '../../types';
+import { deleteFromCart } from '../../store/app-slice/app-slice';
 
 function Basket(): JSX.Element {
 
+  const dispatch = useAppDispatch();
+
   const products = useAppSelector(getProductsFromCart);
 
-  const [count, setCount] = useState({});
-
-  function handleDecreaseCount(id: Product['id']) {
-    // let value = 0 || count[String(id)] - 1;
-    // if (value) {
-
-    // }
-    // setCount({ [id]: value });
-  }
-
-  function handleIncreaseCount(id: Product['id']) {
-    // setCount((count) => { [id]:  count[String(id)] + 1});
+  function handleDeleteButtonClick(id: Product['id']) {
+    dispatch(deleteFromCart(id));
   }
 
   return (
@@ -78,7 +70,6 @@ function Basket(): JSX.Element {
                         <button
                           className="btn-icon btn-icon--prev"
                           aria-label="уменьшить количество товара"
-                          onClick={() => handleDecreaseCount(product.id)}
                         >
                           <svg width={7} height={12} aria-hidden="true">
                             <use xlinkHref="#icon-arrow" />
@@ -92,12 +83,10 @@ function Basket(): JSX.Element {
                           min={1}
                           max={99}
                           aria-label="количество товара"
-                          value={}
                         />
                         <button
                           className="btn-icon btn-icon--next"
                           aria-label="увеличить количество товара"
-                          onClick={() => handleIncreaseCount(product.id)}
                         >
                           <svg width={7} height={12} aria-hidden="true">
                             <use xlinkHref="#icon-arrow" />
@@ -111,6 +100,7 @@ function Basket(): JSX.Element {
                         className="cross-btn"
                         type="button"
                         aria-label="Удалить товар"
+                        onClick={() => handleDeleteButtonClick(product.id)}
                       >
                         <svg width={10} height={10} aria-hidden="true">
                           <use xlinkHref="#icon-close" />

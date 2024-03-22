@@ -2,15 +2,32 @@ import { memo, useCallback } from 'react';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
 import { setModalActive, setSuccessAddModalActive } from '../../store/app-slice/app-slice';
 import { useAppDispatch } from '../../hooks';
+import { AppRoute } from '../../const/const';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AddProductSuccessModalComponent(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const handleCloseButtonClick = useCallback(() => {
+  const navigate = useNavigate();
+
+  const closeAddSuccessModal = useCallback(() => {
     dispatch(setModalActive(false));
     dispatch(setSuccessAddModalActive(false));
   }, [dispatch]);
+
+  const handleCloseButtonClick = useCallback(() => {
+    closeAddSuccessModal();
+  }, [closeAddSuccessModal]);
+
+  function handleBasketButtonClick() {
+    closeAddSuccessModal();
+    navigate(AppRoute.Basket);
+  }
+
+  function handleCatalogButtonClick() {
+    closeAddSuccessModal();
+  }
 
   return (
     <div className="modal__content"
@@ -21,10 +38,13 @@ function AddProductSuccessModalComponent(): JSX.Element {
         <use xlinkHref="#icon-success" />
       </svg>
       <div className="modal__buttons">
-        <a className="btn btn--transparent modal__btn" href="#">
+        <Link className="btn btn--transparent modal__btn" to={AppRoute.Root} onClick={handleCatalogButtonClick}>
           Продолжить покупки
-        </a>
-        <button className="btn btn--purple modal__btn modal__btn--fit-width">
+        </Link>
+        <button
+          className="btn btn--purple modal__btn modal__btn--fit-width"
+          onClick={handleBasketButtonClick}
+        >
           Перейти в корзину
         </button>
       </div>

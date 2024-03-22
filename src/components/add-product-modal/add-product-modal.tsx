@@ -1,9 +1,13 @@
 import { memo, useCallback } from 'react';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
-import { setModalActive, setProductAddModalActive } from '../../store/app-slice/app-slice';
-import { useAppDispatch } from '../../hooks';
+import { setModalActive, setProductAddModalActive, setSuccessAddModalActive, addToCart } from '../../store/app-slice/app-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getModalProductFromCart } from '../../store/app-slice/selectors';
+import NotFound from '../../pages/not-found/not-found';
 
 function AddProductModalComponent(): JSX.Element {
+
+  const product = useAppSelector(getModalProductFromCart);
 
   const dispatch = useAppDispatch();
 
@@ -11,6 +15,18 @@ function AddProductModalComponent(): JSX.Element {
     dispatch(setModalActive(false));
     dispatch(setProductAddModalActive(false));
   }, [dispatch]);
+
+  if (product === null) {
+    return <NotFound />;
+  }
+
+  function handleAddToCartButtonClick() {
+    if (product) {
+      dispatch(addToCart(product));
+    }
+    dispatch(setProductAddModalActive(false));
+    dispatch(setSuccessAddModalActive(true));
+  }
 
   return (
     <div className="modal__content"
@@ -22,29 +38,29 @@ function AddProductModalComponent(): JSX.Element {
           <picture>
             <source
               type="image/webp"
-              srcSet="img/content/orlenok.webp, img/content/orlenok@2x.webp 2x"
+              srcSet={`${product.previewImgWebp}, ${product.previewImgWebp2x} 2x`}
             />
             <img
-              src="img/content/orlenok.jpg"
-              srcSet="img/content/orlenok@2x.jpg 2x"
+              src={product.previewImg}
+              srcSet={`${product.previewImg2x} 2x`}
               width={140}
               height={120}
-              alt="Фотоаппарат «Орлёнок»"
+              alt={product.name}
             />
           </picture>
         </div>
         <div className="basket-item__description">
-          <p className="basket-item__title">Орлёнок</p>
+          <p className="basket-item__title">{product.name}</p>
           <ul className="basket-item__list">
             <li className="basket-item__list-item">
-              <span className="basket-item__article">Артикул:</span>{ }
-              <span className="basket-item__number">O78DFGSD832</span>
+              <span className="basket-item__article">Артикул: </span>
+              <span className="basket-item__number">{product.vendorCode}</span>
             </li>
-            <li className="basket-item__list-item">Плёночная фотокамера</li>
-            <li className="basket-item__list-item">Любительский уровень</li>
+            <li className="basket-item__list-item">{product.type} фотокамера</li>
+            <li className="basket-item__list-item">{product.level} уровень</li>
           </ul>
           <p className="basket-item__price">
-            <span className="visually-hidden">Цена:</span>18 970 ₽
+            <span className="visually-hidden">Цена:</span>{product.price} ₽
           </p>
         </div>
       </div>
@@ -52,6 +68,7 @@ function AddProductModalComponent(): JSX.Element {
         <button
           className="btn btn--purple modal__btn modal__btn--fit-width"
           type="button"
+          onClick={handleAddToCartButtonClick}
         >
           <svg width={24} height={16} aria-hidden="true">
             <use xlinkHref="#icon-add-basket" />

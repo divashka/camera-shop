@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { RATE_COUNT } from '../../const/const';
+import { RATE_COUNT, AppRoute } from '../../const/const';
 import { Product } from '../../types';
 import './related-products.css';
+import { Link } from 'react-router-dom';
 
 type RelatedProductsProps = {
   products: Product[];
@@ -100,9 +101,8 @@ function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Eleme
                     >
                       Купить
                     </button>
-                    <a className="btn btn--transparent" href="#">
-                      Подробнее
-                    </a>
+                    <Link className="btn btn--transparent" to={`${AppRoute.Product}${product.id}`}>Подробнее
+                    </Link>
                   </div>
                 </div>
               ))}

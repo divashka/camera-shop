@@ -5,6 +5,7 @@ import { Product } from '../../types';
 
 const initialState: AppSlice = {
   cart: [],
+  modalProductFromCart: null,
   isWrapperModalOpen: false,
   isReviewModalOpen: false,
   isSuccessReviewModalOpen: false,
@@ -34,8 +35,14 @@ export const appReducer = createSlice({
     },
     addToCart: (state, action: PayloadAction<Product>) => {
       state.cart.push(action.payload);
-    }
+    },
+    deleteFromCart: (state, action: PayloadAction<Product['id']>) => {
+      state.cart = state.cart.filter((product) => product.id !== action.payload);
+    },
+    setModalProductFromCart: (state, action: PayloadAction<Product>) => {
+      state.modalProductFromCart = action.payload;
+    },
   },
 });
 
-export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive,addToCart } = appReducer.actions;
+export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive, addToCart, deleteFromCart, setModalProductFromCart } = appReducer.actions;

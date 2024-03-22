@@ -9,8 +9,7 @@ import ProductReviewThanks from '../review-thanks-modal/review-thanks-modal';
 import AddProductModal from '../add-product-modal/add-product-modal';
 import AddProductSuccessModal from '../add-product-success-modal/add-product-success-modal';
 
-function ModalComponent():
-  JSX.Element {
+function ModalComponent(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
