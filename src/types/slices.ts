@@ -24,4 +24,6 @@ export type AppSlice = {
   isSuccessReviewModalOpen: boolean;
   isProductModalOpen: boolean;
   isSuccessProductModalOpen: boolean;
+  isRemoveModalOpen: boolean;
+  isSuccesRemoveOpen: boolean;
 }

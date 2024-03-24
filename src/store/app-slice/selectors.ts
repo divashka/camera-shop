@@ -11,6 +11,10 @@ export const getIsProductAddModalStatus = (state: State) => state[SliceNameSpace
 
 export const getIsSuccessAddModalStatus = (state: State) => state[SliceNameSpace.App].isSuccessProductModalOpen;
 
+export const getIsRemoveModalStatus = (state: State) => state[SliceNameSpace.App].isRemoveModalOpen;
+
+export const getIsSuccessRemoveModalStatus = (state: State) => state[SliceNameSpace.App].isSuccesRemoveOpen;
+
 export const getProductsFromCart = (state: State) => state[SliceNameSpace.App].cart;
 
 export const getModalProductFromCart = (state: State) => state[SliceNameSpace.App].modalProductFromCart;

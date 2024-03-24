@@ -1,5 +1,19 @@
+import { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const/const';
+import { useAppDispatch } from '../../hooks';
+import { deleteFromCart, setRemoveModalActive, setSuccessRemoveModalActive } from '../../store/app-slice/app-slice';
 
-function ProductRemoveModal(): JSX.Element {
+function ProductRemoveModalComponent(): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  function handleDeleteButtonClick() {
+    dispatch(deleteFromCart);
+    dispatch(setRemoveModalActive(false));
+    dispatch(setSuccessRemoveModalActive(true));
+  }
+
   return (
     <div className="modal is-active">
       <div className="modal__wrapper">
@@ -38,15 +52,16 @@ function ProductRemoveModal(): JSX.Element {
             <button
               className="btn btn--purple modal__btn modal__btn--half-width"
               type="button"
+              onClick={handleDeleteButtonClick}
             >
               Удалить
             </button>
-            <a
+            <Link
               className="btn btn--transparent modal__btn modal__btn--half-width"
-              href="#"
+              to={AppRoute.Root}
             >
               Продолжить покупки
-            </a>
+            </Link>
           </div>
           <button className="cross-btn" type="button" aria-label="Закрыть попап">
             <svg width={10} height={10} aria-hidden="true">
@@ -59,5 +74,7 @@ function ProductRemoveModal(): JSX.Element {
 
   );
 }
+
+const ProductRemoveModal = memo(ProductRemoveModalComponent);
 
 export default ProductRemoveModal;

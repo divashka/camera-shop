@@ -11,10 +11,12 @@ const initialState: AppSlice = {
   isSuccessReviewModalOpen: false,
   isProductModalOpen: false,
   isSuccessProductModalOpen: false,
+  isRemoveModalOpen: false,
+  isSuccesRemoveOpen: false
 };
 
 export const appReducer = createSlice({
-  name: SliceNameSpace.Review,
+  name: SliceNameSpace.App,
   initialState,
   reducers: {
     setModalActive: (state, action: PayloadAction<boolean>) => {
@@ -33,6 +35,12 @@ export const appReducer = createSlice({
     setSuccessAddModalActive: (state, action: PayloadAction<boolean>) => {
       state.isSuccessProductModalOpen = action.payload;
     },
+    setRemoveModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isRemoveModalOpen = action.payload;
+    },
+    setSuccessRemoveModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isSuccesRemoveOpen = action.payload;
+    },
     addToCart: (state, action: PayloadAction<Product>) => {
       state.cart.push(action.payload);
     },
@@ -45,4 +53,4 @@ export const appReducer = createSlice({
   },
 });
 
-export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive, addToCart, deleteFromCart, setModalProductFromCart } = appReducer.actions;
+export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive, addToCart, deleteFromCart, setModalProductFromCart, setRemoveModalActive, setSuccessRemoveModalActive } = appReducer.actions;
