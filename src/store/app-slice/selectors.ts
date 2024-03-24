@@ -18,3 +18,5 @@ export const getIsSuccessRemoveModalStatus = (state: State) => state[SliceNameSp
 export const getProductsFromCart = (state: State) => state[SliceNameSpace.App].cart;
 
 export const getModalProductFromCart = (state: State) => state[SliceNameSpace.App].modalProductFromCart;
+
+export const getDeleteProductFromCart = (state: State) => state[SliceNameSpace.App].modalDeleteProductFromCart;

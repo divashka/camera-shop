@@ -67,6 +67,10 @@ export const NAME_KEY_ENTER = 'Enter';
 
 export const NAME_KEY_UP = 'ArrowUp';
 
+export const NAME_PHOTOCAMERA = 'Фотокамера';
+
+export const NAME_PHOTOCAMERA_FROM_SERVER = 'Фотоаппарат';
+
 export const NAME_KEY_DOWN = 'ArrowDown';
 
 export const FILTER_CATEGORIES: {

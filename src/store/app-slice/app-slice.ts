@@ -6,6 +6,7 @@ import { Product } from '../../types';
 const initialState: AppSlice = {
   cart: [],
   modalProductFromCart: null,
+  modalDeleteProductFromCart: null,
   isWrapperModalOpen: false,
   isReviewModalOpen: false,
   isSuccessReviewModalOpen: false,
@@ -44,13 +45,16 @@ export const appReducer = createSlice({
     addToCart: (state, action: PayloadAction<Product>) => {
       state.cart.push(action.payload);
     },
-    deleteFromCart: (state, action: PayloadAction<Product['id']>) => {
-      state.cart = state.cart.filter((product) => product.id !== action.payload);
+    deleteFromCart: (state, action: PayloadAction<Product>) => {
+      state.cart = state.cart.filter((product) => product.id !== action.payload.id);
     },
     setModalProductFromCart: (state, action: PayloadAction<Product>) => {
       state.modalProductFromCart = action.payload;
     },
+    setModalProductDeleteFromCart: (state, action: PayloadAction<Product>) => {
+      state.modalDeleteProductFromCart = action.payload;
+    },
   },
 });
 
-export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive, addToCart, deleteFromCart, setModalProductFromCart, setRemoveModalActive, setSuccessRemoveModalActive } = appReducer.actions;
+export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive, addToCart, deleteFromCart, setModalProductFromCart, setRemoveModalActive, setSuccessRemoveModalActive, setModalProductDeleteFromCart } = appReducer.actions;

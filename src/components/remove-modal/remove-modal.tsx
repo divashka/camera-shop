@@ -1,18 +1,37 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
-import { useAppDispatch } from '../../hooks';
-import { deleteFromCart, setRemoveModalActive, setSuccessRemoveModalActive } from '../../store/app-slice/app-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { deleteFromCart, setModalActive, setRemoveModalActive, setSuccessRemoveModalActive } from '../../store/app-slice/app-slice';
+import { getDeleteProductFromCart } from '../../store/app-slice/selectors';
+import NotFound from '../../pages/not-found/not-found';
+import { capitalizeFirstLetter } from '../../utils/utils';
+import ClosePopupButton from '../close-popup-button/close-popup-button';
 
 function ProductRemoveModalComponent(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  const product = useAppSelector(getDeleteProductFromCart);
+
+  const handleCloseButtonClick = useCallback(() => {
+    dispatch(setModalActive(false));
+    dispatch(setRemoveModalActive(false));
+  }, [dispatch]);
+
+  if (!product) {
+    return <NotFound />;
+  }
+
   function handleDeleteButtonClick() {
-    dispatch(deleteFromCart);
+    if (product) {
+      dispatch(deleteFromCart(product));
+    }
     dispatch(setRemoveModalActive(false));
     dispatch(setSuccessRemoveModalActive(true));
   }
+
+  const { vendorCode, name, type, level, category, previewImgWebp, previewImgWebp2x, previewImg, previewImg2x } = product;
 
   return (
     <div className="modal is-active">
@@ -25,26 +44,26 @@ function ProductRemoveModalComponent(): JSX.Element {
               <picture>
                 <source
                   type="image/webp"
-                  srcSet="img/content/orlenok.webp, img/content/orlenok@2x.webp 2x"
+                  srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`}
                 />
                 <img
-                  src="img/content/orlenok.jpg"
-                  srcSet="img/content/orlenok@2x.jpg 2x"
+                  src={previewImg}
+                  srcSet={`${previewImg2x} 2x`}
                   width={140}
                   height={120}
-                  alt="Фотоаппарат «Орлёнок»"
+                  alt={name}
                 />
               </picture>
             </div>
             <div className="basket-item__description">
-              <p className="basket-item__title">Орлёнок</p>
+              <p className="basket-item__title">{name}</p>
               <ul className="basket-item__list">
                 <li className="basket-item__list-item">
-                  <span className="basket-item__article">Артикул:</span>{}
-                  <span className="basket-item__number">O78DFGSD832</span>
+                  <span className="basket-item__article">Артикул:</span>{ }
+                  <span className="basket-item__number">{vendorCode}</span>
                 </li>
-                <li className="basket-item__list-item">Плёночная фотокамера</li>
-                <li className="basket-item__list-item">Любительский уровень</li>
+                <li className="basket-item__list-item">{type} {capitalizeFirstLetter(category)}</li>
+                <li className="basket-item__list-item">{level} уровень</li>
               </ul>
             </div>
           </div>
@@ -63,11 +82,7 @@ function ProductRemoveModalComponent(): JSX.Element {
               Продолжить покупки
             </Link>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап">
-            <svg width={10} height={10} aria-hidden="true">
-              <use xlinkHref="#icon-close" />
-            </svg>
-          </button>
+          <ClosePopupButton onButtonCloseClick={handleCloseButtonClick} />
         </div>
       </div>
     </div>

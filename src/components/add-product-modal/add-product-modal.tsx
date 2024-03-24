@@ -4,6 +4,8 @@ import { setModalActive, setProductAddModalActive, setSuccessAddModalActive, add
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getModalProductFromCart } from '../../store/app-slice/selectors';
 import NotFound from '../../pages/not-found/not-found';
+import { capitalizeFirstLetter } from '../../utils/utils';
+import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA } from '../../const/const';
 
 function AddProductModalComponent(): JSX.Element {
 
@@ -28,6 +30,8 @@ function AddProductModalComponent(): JSX.Element {
     dispatch(setSuccessAddModalActive(true));
   }
 
+  const { vendorCode, name, type, level, category, previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, price } = product;
+
   return (
     <div className="modal__content"
       onClick={(event) => event.stopPropagation()}
@@ -38,29 +42,29 @@ function AddProductModalComponent(): JSX.Element {
           <picture>
             <source
               type="image/webp"
-              srcSet={`${product.previewImgWebp}, ${product.previewImgWebp2x} 2x`}
+              srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`}
             />
             <img
-              src={product.previewImg}
-              srcSet={`${product.previewImg2x} 2x`}
+              src={previewImg}
+              srcSet={`${previewImg2x} 2x`}
               width={140}
               height={120}
-              alt={product.name}
+              alt={name}
             />
           </picture>
         </div>
         <div className="basket-item__description">
-          <p className="basket-item__title">{product.name}</p>
+          <p className="basket-item__title">{name}</p>
           <ul className="basket-item__list">
             <li className="basket-item__list-item">
               <span className="basket-item__article">Артикул: </span>
-              <span className="basket-item__number">{product.vendorCode}</span>
+              <span className="basket-item__number">{vendorCode}</span>
             </li>
-            <li className="basket-item__list-item">{product.type} фотокамера</li>
-            <li className="basket-item__list-item">{product.level} уровень</li>
+            <li className="basket-item__list-item">{type} {category === NAME_PHOTOCAMERA_FROM_SERVER ? capitalizeFirstLetter(NAME_PHOTOCAMERA) : capitalizeFirstLetter(category)}</li>
+            <li className="basket-item__list-item">{level} уровень</li>
           </ul>
           <p className="basket-item__price">
-            <span className="visually-hidden">Цена:</span>{product.price} ₽
+            <span className="visually-hidden">Цена:</span>{price} ₽
           </p>
         </div>
       </div>

@@ -3,8 +3,9 @@ import Footer from '../../components/footer/footer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProductsFromCart } from '../../store/app-slice/selectors';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { setModalActive, setRemoveModalActive } from '../../store/app-slice/app-slice';
+import { setModalActive, setModalProductDeleteFromCart, setRemoveModalActive } from '../../store/app-slice/app-slice';
 import Modal from '../../components/modal/modal';
+import { Product } from '../../types';
 
 function Basket(): JSX.Element {
 
@@ -12,7 +13,8 @@ function Basket(): JSX.Element {
 
   const products = useAppSelector(getProductsFromCart);
 
-  function handleDeleteButtonClick() {
+  function handleDeleteButtonClick(product: Product) {
+    dispatch(setModalProductDeleteFromCart(product));
     dispatch(setModalActive(true));
     dispatch(setRemoveModalActive(true));
   }
@@ -101,7 +103,7 @@ function Basket(): JSX.Element {
                         className="cross-btn"
                         type="button"
                         aria-label="Удалить товар"
-                        onClick={handleDeleteButtonClick}
+                        onClick={() => handleDeleteButtonClick(product)}
                       >
                         <svg width={10} height={10} aria-hidden="true">
                           <use xlinkHref="#icon-close" />

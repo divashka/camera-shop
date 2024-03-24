@@ -1,6 +1,7 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { setModalActive, setSuccessRemoveModalActive } from '../../store/app-slice/app-slice';
+import ClosePopupButton from '../close-popup-button/close-popup-button';
 
 function ProductRemoveThanksModalComponent(): JSX.Element {
 
@@ -10,6 +11,11 @@ function ProductRemoveThanksModalComponent(): JSX.Element {
     dispatch(setModalActive(false));
     dispatch(setSuccessRemoveModalActive(false));
   }
+
+  const handleCloseButtonClick = useCallback(() => {
+    dispatch(setModalActive(false));
+    dispatch(setSuccessRemoveModalActive(false));
+  }, [dispatch]);
 
   return (
     <div className="modal__content">
@@ -26,11 +32,7 @@ function ProductRemoveThanksModalComponent(): JSX.Element {
           Вернуться к покупкам
         </button>
       </div>
-      <button className="cross-btn" type="button" aria-label="Закрыть попап">
-        <svg width={10} height={10} aria-hidden="true">
-          <use xlinkHref="#icon-close" />
-        </svg>
-      </button>
+      <ClosePopupButton onButtonCloseClick={handleCloseButtonClick} />
     </div>
   );
 }
