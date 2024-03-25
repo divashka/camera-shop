@@ -31,6 +31,11 @@ function ProductRemoveModalComponent(): JSX.Element {
     dispatch(setSuccessRemoveModalActive(true));
   }
 
+  function handleCatalogClick() {
+    dispatch(setModalActive(false));
+    dispatch(setRemoveModalActive(false));
+  }
+
   const { vendorCode, name, type, level, category, previewImgWebp, previewImgWebp2x, previewImg, previewImg2x } = product;
 
   return (
@@ -78,6 +83,7 @@ function ProductRemoveModalComponent(): JSX.Element {
             <Link
               className="btn btn--transparent modal__btn modal__btn--half-width"
               to={AppRoute.Root}
+              onClick={handleCatalogClick}
             >
               Продолжить покупки
             </Link>

@@ -27,6 +27,10 @@ export type Product = {
   previewImgWebp2x: string;
 }
 
+export type ProductBasket = Product & {
+  count: number;
+}
+
 export type Review = {
   id: string;
   createAt: string;

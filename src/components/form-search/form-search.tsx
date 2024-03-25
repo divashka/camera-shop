@@ -73,7 +73,7 @@ function FormSearchComponent(): JSX.Element {
     const productNameConvert = product.name.toLowerCase().replaceAll(' ', '');
     const searchConvert = searchValue.toLowerCase().replaceAll(' ', '');
     return productNameConvert.includes(searchConvert);
-  })
+  });
 
   function handleFormSearchKeydown(event: KeyboardEvent<HTMLFormElement>) {
     if (event.key === NAME_KEY_UP) {
@@ -116,22 +116,23 @@ function FormSearchComponent(): JSX.Element {
           >
           </input>
         </label>
-        {isSelectListOpen && <ul
-          className="form-search__select-list"
-        >
-          {productsFilterBySearch.map((product, index) => (
-            <li
-              key={product.id}
-              ref={selectedItem === index ? activeItemRef : null}
-              className="form-search__select-item"
-              tabIndex={0}
-              onClick={() => handleSelectItemClick(product.id)}
-              onKeyDown={(event) => handleSelectItemFocusClick(event, product.id)}
-            >
-              {product.name}
-            </li>
-          ))}
-        </ul>}
+        {isSelectListOpen &&
+          <ul
+            className="form-search__select-list"
+          >
+            {productsFilterBySearch.map((product, index) => (
+              <li
+                key={product.id}
+                ref={selectedItem === index ? activeItemRef : null}
+                className="form-search__select-item"
+                tabIndex={0}
+                onClick={() => handleSelectItemClick(product.id)}
+                onKeyDown={(event) => handleSelectItemFocusClick(event, product.id)}
+              >
+                {product.name}
+              </li>
+            ))}
+          </ul>}
       </form>
       <button
         className="form-search__reset"

@@ -73,6 +73,11 @@ export const NAME_PHOTOCAMERA_FROM_SERVER = 'Фотоаппарат';
 
 export const NAME_KEY_DOWN = 'ArrowDown';
 
+export enum ChangeProductCount {
+  Increase = 'increase',
+  Decrease = 'decrease',
+}
+
 export const FILTER_CATEGORIES: {
   key: KeyFilters;
   name: string;

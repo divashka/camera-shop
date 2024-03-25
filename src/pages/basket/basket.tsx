@@ -1,11 +1,15 @@
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProductsFromCart } from '../../store/app-slice/selectors';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { setModalActive, setModalProductDeleteFromCart, setRemoveModalActive } from '../../store/app-slice/app-slice';
+import { changeProductCountInBasket, setModalActive, setModalProductDeleteFromCart, setRemoveModalActive } from '../../store/app-slice/app-slice';
 import Modal from '../../components/modal/modal';
-import { Product } from '../../types';
+import { ProductBasket } from '../../types';
+import { capitalizeFirstLetter } from '../../utils/utils';
+import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA, ChangeProductCount } from '../../const/const';
+import BasketCount from '../../components/basket-count/basket-count';
 
 function Basket(): JSX.Element {
 
@@ -13,11 +17,29 @@ function Basket(): JSX.Element {
 
   const products = useAppSelector(getProductsFromCart);
 
-  function handleDeleteButtonClick(product: Product) {
+  const price = products.reduce((prev, current) => prev + (current.price * current.count), 0);
+
+  const [total, setTotal] = useState({
+    price: price,
+  });
+
+  useEffect(() => {
+    setTotal({
+      price: price,
+    });
+  }, [price, products]);
+
+  function handleDeleteButtonClick(product: ProductBasket) {
     dispatch(setModalProductDeleteFromCart(product));
     dispatch(setModalActive(true));
     dispatch(setRemoveModalActive(true));
   }
+
+  const handleIncreaseButtonClick = useCallback((id: ProductBasket['id']) => dispatch(changeProductCountInBasket({ type: ChangeProductCount.Increase, id })), [dispatch]);
+
+  const handleDecreaseButtonClick = useCallback((id: ProductBasket['id']) => dispatch(changeProductCountInBasket({ type: ChangeProductCount.Decrease, id })), [dispatch]);
+
+  const handleCountChange = useCallback((event: ChangeEvent<HTMLInputElement>, id: ProductBasket['id']) => dispatch(changeProductCountInBasket({ id: id, count: +event.target.value })), [dispatch]);
 
   return (
     <div className="wrapper">
@@ -59,7 +81,7 @@ function Basket(): JSX.Element {
                             <span className="basket-item__number">{product.vendorCode}</span>
                           </li>
                           <li className="basket-item__list-item">
-                            {product.type} фотокамера
+                            {product.type} {product.category === NAME_PHOTOCAMERA_FROM_SERVER ? capitalizeFirstLetter(NAME_PHOTOCAMERA) : capitalizeFirstLetter(product.category)}
                           </li>
                           <li className="basket-item__list-item">
                             {product.level} уровень
@@ -69,35 +91,11 @@ function Basket(): JSX.Element {
                       <p className="basket-item__price">
                         <span className="visually-hidden">Цена:</span>{product.price} ₽
                       </p>
-                      <div className="quantity">
-                        <button
-                          className="btn-icon btn-icon--prev"
-                          aria-label="уменьшить количество товара"
-                        >
-                          <svg width={7} height={12} aria-hidden="true">
-                            <use xlinkHref="#icon-arrow" />
-                          </svg>
-                        </button>
-                        <label className="visually-hidden" htmlFor="counter1" />
-                        <input
-                          type="number"
-                          id="counter1"
-                          defaultValue={2}
-                          min={1}
-                          max={99}
-                          aria-label="количество товара"
-                        />
-                        <button
-                          className="btn-icon btn-icon--next"
-                          aria-label="увеличить количество товара"
-                        >
-                          <svg width={7} height={12} aria-hidden="true">
-                            <use xlinkHref="#icon-arrow" />
-                          </svg>
-                        </button>
-                      </div>
+
+                      <BasketCount product={product} onIncreaseClick={handleIncreaseButtonClick} onDecreaseClick={handleDecreaseButtonClick} onCountChange={handleCountChange} />
+
                       <div className="basket-item__total-price">
-                        <span className="visually-hidden">Общая цена:</span>37 940 ₽
+                        <span className="visually-hidden">Общая цена:</span>{product.price * product.count} ₽
                       </div>
                       <button
                         className="cross-btn"
@@ -141,7 +139,7 @@ function Basket(): JSX.Element {
                 <div className="basket__summary-order">
                   <p className="basket__summary-item">
                     <span className="basket__summary-text">Всего:</span>
-                    <span className="basket__summary-value">111 390 ₽</span>
+                    <span className="basket__summary-value">{total.price} ₽</span>
                   </p>
                   <p className="basket__summary-item">
                     <span className="basket__summary-text">Скидка:</span>

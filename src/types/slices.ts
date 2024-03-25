@@ -1,4 +1,4 @@
-import { Product, Review } from '.';
+import { Product, Review, ProductBasket } from '.';
 import { SortNames, DirectionFlowCatalog } from '../const/const';
 
 export type CameraSlice = {
@@ -17,7 +17,7 @@ export type ReviewSlice = {
 }
 
 export type AppSlice = {
-  cart: Product[];
+  cart: ProductBasket[];
   modalProductFromCart: Product | null;
   modalDeleteProductFromCart: Product | null;
   isWrapperModalOpen: boolean;
