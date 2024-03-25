@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AppSlice } from '../../types/slices';
 import { SliceNameSpace, ChangeProductCount } from '../../const/const';
 import { Product, ProductBasket } from '../../types';
+import { MAX_COUNT_PRODUCTS, MIN_COUNT_PRODUCTS } from '../../const/const';
 
 type ChangeCount = {
   type?: ChangeProductCount;
@@ -48,12 +49,13 @@ export const appReducer = createSlice({
       } else {
         state.cart = state.cart.map((product) => {
           if (product.id === payload.id && payload.type === ChangeProductCount.Increase) {
+            const newCount = Math.min(product.count + 1, MAX_COUNT_PRODUCTS);
             return {
               ...product,
-              count: ++product.count
+              count: newCount
             };
           } else if (product.id === payload.id && payload.type === ChangeProductCount.Decrease) {
-            const newCount = product.count - 1 > 1 ? product.count - 1 : 1;
+            const newCount = Math.max(product.count - 1, MIN_COUNT_PRODUCTS);
             return {
               ...product,
               count: newCount

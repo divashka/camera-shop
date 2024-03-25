@@ -58,6 +58,10 @@ export const RATE_COUNT = 5;
 
 export const MAX_COUNT_PER_PAGE = 9;
 
+export const MAX_COUNT_PRODUCTS = 99;
+
+export const MIN_COUNT_PRODUCTS = 1;
+
 export const MIN_COUNT_SEARCH_RESULTS = 3;
 
 export const MIN_COUNT_DELETE_SEARCH_RESULTS = 1;

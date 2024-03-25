@@ -1,5 +1,6 @@
 import { memo, ChangeEvent } from 'react';
 import { ProductBasket } from '../../types';
+import { MAX_COUNT_PRODUCTS, MIN_COUNT_PRODUCTS } from '../../const/const';
 
 type BasketCountProps = {
   product: ProductBasket;
@@ -15,6 +16,7 @@ function BasketCountComponent({ product, onIncreaseClick, onDecreaseClick, onCou
         className="btn-icon btn-icon--prev"
         aria-label="уменьшить количество товара"
         onClick={() => onDecreaseClick(product.id)}
+        disabled={product.count === MIN_COUNT_PRODUCTS}
       >
         <svg width={7} height={12} aria-hidden="true">
           <use xlinkHref="#icon-arrow" />
@@ -34,6 +36,7 @@ function BasketCountComponent({ product, onIncreaseClick, onDecreaseClick, onCou
         className="btn-icon btn-icon--next"
         aria-label="увеличить количество товара"
         onClick={() => onIncreaseClick(product.id)}
+        disabled={product.count === MAX_COUNT_PRODUCTS}
       >
         <svg width={7} height={12} aria-hidden="true">
           <use xlinkHref="#icon-arrow" />

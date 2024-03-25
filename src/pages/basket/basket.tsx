@@ -8,7 +8,7 @@ import { changeProductCountInBasket, setModalProductDeleteFromCart } from '../..
 import Modal from '../../components/modal/modal';
 import { ProductBasket } from '../../types';
 import { capitalizeFirstLetter } from '../../utils/utils';
-import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA, ChangeProductCount } from '../../const/const';
+import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA, ChangeProductCount, MAX_COUNT_PRODUCTS } from '../../const/const';
 import BasketCount from '../../components/basket-count/basket-count';
 import { setModalActive, setRemoveModalActive } from '../../store/modal-slice/modal-slice';
 
@@ -40,7 +40,10 @@ function Basket(): JSX.Element {
 
   const handleDecreaseButtonClick = useCallback((id: ProductBasket['id']) => dispatch(changeProductCountInBasket({ type: ChangeProductCount.Decrease, id })), [dispatch]);
 
-  const handleCountChange = useCallback((event: ChangeEvent<HTMLInputElement>, id: ProductBasket['id']) => dispatch(changeProductCountInBasket({ id: id, count: +event.target.value })), [dispatch]);
+  const handleCountChange = useCallback((event: ChangeEvent<HTMLInputElement>, id: ProductBasket['id']) => {
+    const value = Math.min(+event.target.value, MAX_COUNT_PRODUCTS);
+    dispatch(changeProductCountInBasket({ id: id, count: value }));
+  }, [dispatch]);
 
   return (
     <div className="wrapper">
@@ -90,13 +93,13 @@ function Basket(): JSX.Element {
                         </ul>
                       </div>
                       <p className="basket-item__price">
-                        <span className="visually-hidden">Цена:</span>{product.price} ₽
+                        <span className="visually-hidden">Цена:</span>{(product.price).toLocaleString()} ₽
                       </p>
 
                       <BasketCount product={product} onIncreaseClick={handleIncreaseButtonClick} onDecreaseClick={handleDecreaseButtonClick} onCountChange={handleCountChange} />
 
                       <div className="basket-item__total-price">
-                        <span className="visually-hidden">Общая цена:</span>{product.price * product.count} ₽
+                        <span className="visually-hidden">Общая цена:</span>{(product.price * product.count).toLocaleString()} ₽
                       </div>
                       <button
                         className="cross-btn"
@@ -140,7 +143,7 @@ function Basket(): JSX.Element {
                 <div className="basket__summary-order">
                   <p className="basket__summary-item">
                     <span className="basket__summary-text">Всего:</span>
-                    <span className="basket__summary-value">{total.price} ₽</span>
+                    <span className="basket__summary-value">{(total.price).toLocaleString()} ₽</span>
                   </p>
                   <p className="basket__summary-item">
                     <span className="basket__summary-text">Скидка:</span>
