@@ -1,4 +1,4 @@
-import { appReducer, setModalActive } from './app-slice';
+import { appReducer } from './app-slice';
 
 describe('AppSlice', () => {
 
@@ -9,11 +9,7 @@ describe('AppSlice', () => {
       const expectedState = {
         cart: [],
         modalProductFromCart: null,
-        isWrapperModalOpen: false,
-        isReviewModalOpen: false,
-        isSuccessReviewModalOpen: false,
-        isProductModalOpen: false,
-        isSuccessProductModalOpen: false,
+        modalDeleteProductFromCart: null,
       };
 
       const result = appReducer.reducer(expectedState, emptyAction);
@@ -26,43 +22,10 @@ describe('AppSlice', () => {
       const expectedState = {
         cart: [],
         modalProductFromCart: null,
-        isWrapperModalOpen: false,
-        isReviewModalOpen: false,
-        isSuccessReviewModalOpen: false,
-        isProductModalOpen: false,
-        isSuccessProductModalOpen: false,
+        modalDeleteProductFromCart: null,
       };
 
       const result = appReducer.reducer(undefined, emptyAction);
-
-      expect(result).toEqual(expectedState);
-    });
-
-  });
-
-  describe('setModalActive', () => {
-
-    it('should set modal wrapper active with setModalActive action', () => {
-      const initialState = {
-        cart: [],
-        modalProductFromCart: null,
-        isWrapperModalOpen: false,
-        isReviewModalOpen: false,
-        isSuccessReviewModalOpen: false,
-        isProductModalOpen: false,
-        isSuccessProductModalOpen: false,
-      };
-      const expectedState = {
-        cart: [],
-        modalProductFromCart: null,
-        isWrapperModalOpen: true,
-        isReviewModalOpen: false,
-        isSuccessReviewModalOpen: false,
-        isProductModalOpen: false,
-        isSuccessProductModalOpen: false,
-      };
-
-      const result = appReducer.reducer(initialState, setModalActive(true));
 
       expect(result).toEqual(expectedState);
     });
