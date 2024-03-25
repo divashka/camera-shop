@@ -88,11 +88,7 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
   APP: {
     cart: [],
     modalProductFromCart: null,
-    isWrapperModalOpen: false,
-    isReviewModalOpen: false,
-    isSuccessReviewModalOpen: false,
-    isProductModalOpen: false,
-    isSuccessProductModalOpen: false,
+    modalDeleteProductFromCart: null
   },
   CAMERA: {
     products: [],
@@ -106,6 +102,15 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
   REVIEW: {
     reviews: [],
     isLoadingReview: false,
+  },
+  MODAL: {
+    isWrapperModalOpen: false,
+    isReviewModalOpen: false,
+    isSuccessReviewModalOpen: false,
+    isProductModalOpen: false,
+    isSuccessProductModalOpen: false,
+    isRemoveModalOpen: false,
+    isSuccesRemoveOpen: false
   },
   ...initialState ?? {},
 });

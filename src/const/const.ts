@@ -76,6 +76,8 @@ export const NAME_PHOTOCAMERA_FROM_SERVER = 'Фотоаппарат';
 
 export const NAME_KEY_DOWN = 'ArrowDown';
 
+export const NAME_KEY_PRODUCTS_STORAGE = 'products';
+
 export enum ChangeProductCount {
   Increase = 'increase',
   Decrease = 'decrease',

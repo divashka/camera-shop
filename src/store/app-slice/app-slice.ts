@@ -3,6 +3,7 @@ import { AppSlice } from '../../types/slices';
 import { SliceNameSpace, ChangeProductCount } from '../../const/const';
 import { Product, ProductBasket } from '../../types';
 import { MAX_COUNT_PRODUCTS, MIN_COUNT_PRODUCTS } from '../../const/const';
+import { getProductsFromLocalStorage } from '../../utils/utils';
 
 type ChangeCount = {
   type?: ChangeProductCount;
@@ -11,7 +12,7 @@ type ChangeCount = {
 }
 
 const initialState: AppSlice = {
-  cart: [],
+  cart: JSON.parse(localStorage.getItem('products') || '[]') as ProductBasket[],
   modalProductFromCart: null,
   modalDeleteProductFromCart: null,
 };
@@ -23,9 +24,11 @@ export const appReducer = createSlice({
     addToCart: (state, action: PayloadAction<Product>) => {
       const product = { ...action.payload, count: 1 };
       state.cart.push(product);
+      getProductsFromLocalStorage(state.cart);
     },
     deleteFromCart: (state, action: PayloadAction<Product>) => {
       state.cart = state.cart.filter((product) => product.id !== action.payload.id);
+      getProductsFromLocalStorage(state.cart);
     },
     setModalProductFromCart: (state, action: PayloadAction<Product>) => {
       state.modalProductFromCart = action.payload;
@@ -64,6 +67,7 @@ export const appReducer = createSlice({
           return product;
         });
       }
+      getProductsFromLocalStorage(state.cart);
     },
   },
 });
