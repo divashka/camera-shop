@@ -4,12 +4,13 @@ import Footer from '../../components/footer/footer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProductsFromCart } from '../../store/app-slice/selectors';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { changeProductCountInBasket, setModalActive, setModalProductDeleteFromCart, setRemoveModalActive } from '../../store/app-slice/app-slice';
+import { changeProductCountInBasket, setModalProductDeleteFromCart } from '../../store/app-slice/app-slice';
 import Modal from '../../components/modal/modal';
 import { ProductBasket } from '../../types';
 import { capitalizeFirstLetter } from '../../utils/utils';
 import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA, ChangeProductCount } from '../../const/const';
 import BasketCount from '../../components/basket-count/basket-count';
+import { setModalActive, setRemoveModalActive } from '../../store/modal-slice/modal-slice';
 
 function Basket(): JSX.Element {
 

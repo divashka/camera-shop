@@ -17,7 +17,8 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import ButtonScrollUp from '../../components/button-scroll-up/button-scroll-up';
 import Modal from '../../components/modal/modal';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { setModalActive, setProductAddModalActive, setModalProductFromCart } from '../../store/app-slice/app-slice';
+import { setModalProductFromCart } from '../../store/app-slice/app-slice';
+import { setModalActive, setProductAddModalActive } from '../../store/modal-slice/modal-slice';
 
 function Product(): JSX.Element {
 

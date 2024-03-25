@@ -8,7 +8,7 @@ import { useAppSelector } from '../../hooks';
 import { getStatusLoadingReview } from '../../store/review-slice/selectors';
 import { FormInputs } from '../../types/modal';
 import { getOneProduct } from '../../store/camera-slice/selectors';
-import { setReviewModalActive, setSuccessReviewModalActive, setModalActive } from '../../store/app-slice/app-slice';
+import { setReviewModalActive, setSuccessReviewModalActive, setModalActive } from '../../store/modal-slice/modal-slice';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
 
 function ProductReviewModalComponent(): JSX.Element {

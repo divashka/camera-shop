@@ -6,7 +6,7 @@ import { getReviews } from '../../store/review-slice/selectors';
 import { sortByDate } from '../../utils/utils';
 import { Review } from '../../types';
 import { REVIEWS_PER_COUNT, RATE_COUNT } from '../../const/const';
-import { setModalActive, setReviewModalActive } from '../../store/app-slice/app-slice';
+import { setModalActive, setReviewModalActive } from '../../store/modal-slice/modal-slice';
 import updateLocale from 'dayjs/plugin/updateLocale';
 
 dayjs.extend(updateLocale);

@@ -1,7 +1,7 @@
 import { Product } from '../../types';
 import { Link } from 'react-router-dom';
 import { AppRoute, RATE_COUNT } from '../../const/const';
-import { setProductAddModalActive, setModalActive } from '../../store/app-slice/app-slice';
+import { setProductAddModalActive, setModalActive } from '../../store/modal-slice/modal-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setModalProductFromCart } from '../../store/app-slice/app-slice';
 import { getProductsFromCart } from '../../store/app-slice/selectors';

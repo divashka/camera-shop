@@ -16,10 +16,9 @@ export enum APIRoute {
 
 export enum SliceNameSpace {
   Camera = 'CAMERA',
-  Promo = 'PROMO',
   Review = 'REVIEW',
-  Order = 'ORDER',
-  App = 'APP'
+  App = 'APP',
+  Modal = 'MODAL'
 }
 
 export enum TabsName {

@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
-import { setModalActive, setSuccessAddModalActive } from '../../store/app-slice/app-slice';
+import { setModalActive, setSuccessAddModalActive } from '../../store/modal-slice/modal-slice';
 import { useAppDispatch } from '../../hooks';
 import { AppRoute } from '../../const/const';
 import { Link, useNavigate } from 'react-router-dom';

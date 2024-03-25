@@ -1,6 +1,7 @@
 import { memo, useCallback } from 'react';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
-import { setModalActive, setProductAddModalActive, setSuccessAddModalActive, addToCart } from '../../store/app-slice/app-slice';
+import { addToCart } from '../../store/app-slice/app-slice';
+import { setModalActive, setProductAddModalActive, setSuccessAddModalActive } from '../../store/modal-slice/modal-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getModalProductFromCart } from '../../store/app-slice/selectors';
 import NotFound from '../../pages/not-found/not-found';

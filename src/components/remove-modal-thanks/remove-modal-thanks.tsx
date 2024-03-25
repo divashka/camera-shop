@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
 import { useAppDispatch } from '../../hooks';
-import { setModalActive, setSuccessRemoveModalActive } from '../../store/app-slice/app-slice';
+import { setModalActive, setSuccessRemoveModalActive } from '../../store/modal-slice/modal-slice';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
 
 function ProductRemoveThanksModalComponent(): JSX.Element {

@@ -20,6 +20,9 @@ export type AppSlice = {
   cart: ProductBasket[];
   modalProductFromCart: Product | null;
   modalDeleteProductFromCart: Product | null;
+}
+
+export type ModalSlice = {
   isWrapperModalOpen: boolean;
   isReviewModalOpen: boolean;
   isSuccessReviewModalOpen: boolean;
