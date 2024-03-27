@@ -4,10 +4,7 @@ import { PROMOCODES, PROMOCODES_MAP } from '../../const/const';
 import classNames from 'classnames';
 import { useAppDispatch } from '../../hooks';
 import { setPromoCode } from '../../store/app-slice/app-slice';
-
-type FormData = {
-  promo: (typeof PROMOCODES)[number];
-}
+import { FormInputsPromo } from '../../types/modal';
 
 function PromoFormComponent(): JSX.Element {
 
@@ -17,7 +14,7 @@ function PromoFormComponent(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<FormData>(
+  } = useForm<FormInputsPromo>(
     {
       mode: 'onSubmit'
     }
@@ -27,7 +24,7 @@ function PromoFormComponent(): JSX.Element {
     return Boolean(PROMOCODES.find((promo) => promo === value) || false);
   }
 
-  function handleFormSubmit(data: FormData) {
+  function handleFormSubmit(data: FormInputsPromo) {
     const promocode = PROMOCODES_MAP.find((promo) => promo.name === data.promo);
     if (promocode) {
       dispatch(setPromoCode(promocode));
