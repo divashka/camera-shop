@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../hooks';
 import { setModalActive, setSuccessRemoveModalActive } from '../../store/modal-slice/modal-slice';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
 
-function ProductRemoveThanksModalComponent(): JSX.Element {
+function ProductSendThanksModalComponent(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -37,6 +37,6 @@ function ProductRemoveThanksModalComponent(): JSX.Element {
   );
 }
 
-const ProductRemoveThanksModal = memo(ProductRemoveThanksModalComponent);
+const ProductSendThanksModal = memo(ProductSendThanksModalComponent);
 
-export default ProductRemoveThanksModal;
+export default ProductSendThanksModal;

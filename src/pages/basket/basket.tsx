@@ -155,7 +155,11 @@ function Basket(): JSX.Element {
                       {totalPrice.toLocaleString()} ₽
                     </span>
                   </p>
-                  <button className="btn btn--purple" type="submit">
+                  <button
+                    className="btn btn--purple"
+                    type="submit"
+                    disabled={products.length === 0}
+                  >
                     Оформить заказ
                   </button>
                 </div>

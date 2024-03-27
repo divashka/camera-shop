@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { RATING_TITLES, RATE_COUNT } from '../../const/const';
 import { useAppSelector } from '../../hooks';
 import { getStatusLoadingReview } from '../../store/review-slice/selectors';
-import { FormInputs } from '../../types/modal';
+import { FormInputsReview } from '../../types/modal';
 import { getOneProduct } from '../../store/camera-slice/selectors';
 import { setReviewModalActive, setSuccessReviewModalActive, setModalActive } from '../../store/modal-slice/modal-slice';
 import ClosePopupButton from '../close-popup-button/close-popup-button';
@@ -30,7 +30,7 @@ function ProductReviewModalComponent(): JSX.Element {
     watch,
     setFocus,
     reset
-  } = useForm<FormInputs>({
+  } = useForm<FormInputsReview>({
     mode: 'onSubmit'
   });
 
@@ -40,7 +40,7 @@ function ProductReviewModalComponent(): JSX.Element {
     }, 300);
   }, [setFocus, dispatch]);
 
-  function handleFormSubmit(data: FormInputs) {
+  function handleFormSubmit(data: FormInputsReview) {
     if (product) {
       dispatch(fetchAddReviewAction({
         cameraId: product.id,

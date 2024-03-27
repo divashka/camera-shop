@@ -9,7 +9,7 @@ import ProductReviewThanks from '../review-thanks-modal/review-thanks-modal';
 import AddProductModal from '../add-product-modal/add-product-modal';
 import AddProductSuccessModal from '../add-product-success-modal/add-product-success-modal';
 import ProductRemoveModal from '../remove-modal/remove-modal';
-import ProductRemoveThanksModal from '../remove-modal-thanks/remove-modal-thanks';
+import ProductRemoveThanksModal from '../send-modal-thanks/send-modal-thanks';
 
 function ModalComponent(): JSX.Element {
 

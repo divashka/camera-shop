@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { deleteFromCart } from '../../store/app-slice/app-slice';
-import { setModalActive, setRemoveModalActive, setSuccessRemoveModalActive } from '../../store/modal-slice/modal-slice';
+import { setModalActive, setRemoveModalActive } from '../../store/modal-slice/modal-slice';
 import { getDeleteProductFromCart } from '../../store/app-slice/selectors';
 import NotFound from '../../pages/not-found/not-found';
 import { capitalizeFirstLetter } from '../../utils/utils';
@@ -28,8 +28,8 @@ function ProductRemoveModalComponent(): JSX.Element {
     if (product) {
       dispatch(deleteFromCart(product));
     }
+    dispatch(setModalActive(false));
     dispatch(setRemoveModalActive(false));
-    dispatch(setSuccessRemoveModalActive(true));
   }
 
   function handleCatalogClick() {
