@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getProductsFromCart } from '../../store/app-slice/selectors';
+import { getProductsFromCart, getPromoCode } from '../../store/app-slice/selectors';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { changeProductCountInBasket, setModalProductDeleteFromCart } from '../../store/app-slice/app-slice';
 import Modal from '../../components/modal/modal';
@@ -11,12 +11,16 @@ import { capitalizeFirstLetter } from '../../utils/utils';
 import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA, ChangeProductCount, MAX_COUNT_PRODUCTS } from '../../const/const';
 import BasketCount from '../../components/basket-count/basket-count';
 import { setModalActive, setRemoveModalActive } from '../../store/modal-slice/modal-slice';
+import PromoForm from '../../components/promo-form/promo-form';
+import classNames from 'classnames';
 
 function Basket(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
   const products = useAppSelector(getProductsFromCart);
+
+  const promocode = useAppSelector(getPromoCode);
 
   const price = products.reduce((prev, current) => prev + (current.price * current.count), 0);
 
@@ -29,6 +33,10 @@ function Basket(): JSX.Element {
       price: price,
     });
   }, [price, products]);
+
+  const discont = total.price * (promocode.discont / 100);
+
+  const totalPrice = total.price - discont;
 
   function handleDeleteButtonClick(product: ProductBasket) {
     dispatch(setModalProductDeleteFromCart(product));
@@ -121,23 +129,7 @@ function Basket(): JSX.Element {
                     Если у вас есть промокод на скидку, примените его в этом поле
                   </p>
                   <div className="basket-form">
-                    <form action="#">
-                      <div className="custom-input">
-                        <label>
-                          <span className="custom-input__label">Промокод</span>
-                          <input
-                            type="text"
-                            name="promo"
-                            placeholder="Введите промокод"
-                          />
-                        </label>
-                        <p className="custom-input__error">Промокод неверный</p>
-                        <p className="custom-input__success">Промокод принят!</p>
-                      </div>
-                      <button className="btn" type="submit">
-                        Применить
-                      </button>
-                    </form>
+                    <PromoForm />
                   </div>
                 </div>
                 <div className="basket__summary-order">
@@ -147,8 +139,12 @@ function Basket(): JSX.Element {
                   </p>
                   <p className="basket__summary-item">
                     <span className="basket__summary-text">Скидка:</span>
-                    <span className="basket__summary-value basket__summary-value--bonus">
-                      0 ₽
+                    <span className={(classNames(
+                      'basket__summary-value',
+                      { 'basket__summary-value--bonus': Boolean(promocode.discont) }
+                    ))}
+                    >
+                      {discont.toLocaleString()} ₽
                     </span>
                   </p>
                   <p className="basket__summary-item">
@@ -156,7 +152,7 @@ function Basket(): JSX.Element {
                       К оплате:
                     </span>
                     <span className="basket__summary-value basket__summary-value--total">
-                      111 390 ₽
+                      {totalPrice.toLocaleString()} ₽
                     </span>
                   </p>
                   <button className="btn btn--purple" type="submit">

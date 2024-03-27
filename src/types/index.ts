@@ -2,6 +2,7 @@ import { store } from '../store/store';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { createAPI } from '../services/api';
 import { Action } from 'redux';
+import { PROMOCODES } from '../const/const';
 
 export type Features = {
   type: string;
@@ -78,5 +79,10 @@ export type KeyFilters = 'cat' | 'type' | 'lev';
 export type FilterPrice = {
   from: string;
   to: string;
+}
+
+export type Promocode = {
+  name: (typeof PROMOCODES)[number] | '';
+  discont: number;
 }
 

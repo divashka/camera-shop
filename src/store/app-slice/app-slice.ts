@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AppSlice } from '../../types/slices';
 import { SliceNameSpace, ChangeProductCount } from '../../const/const';
-import { Product, ProductBasket } from '../../types';
+import { Product, ProductBasket, Promocode } from '../../types';
 import { MAX_COUNT_PRODUCTS, MIN_COUNT_PRODUCTS } from '../../const/const';
 import { getProductsFromLocalStorage } from '../../utils/utils';
 
@@ -12,6 +12,10 @@ type ChangeCount = {
 }
 
 const initialState: AppSlice = {
+  promocode: {
+    name: '',
+    discont: 0,
+  },
   cart: JSON.parse(localStorage.getItem('products') || '[]') as ProductBasket[],
   modalProductFromCart: null,
   modalDeleteProductFromCart: null,
@@ -69,7 +73,12 @@ export const appReducer = createSlice({
       }
       getProductsFromLocalStorage(state.cart);
     },
+    setPromoCode: (state, action: PayloadAction<Promocode>) => {
+      if (!state.promocode.name) {
+        state.promocode = action.payload;
+      }
+    },
   },
 });
 
-export const { addToCart, deleteFromCart, setModalProductFromCart, setModalProductDeleteFromCart, changeProductCountInBasket } = appReducer.actions;
+export const { addToCart, deleteFromCart, setModalProductFromCart, setModalProductDeleteFromCart, changeProductCountInBasket, setPromoCode } = appReducer.actions;

@@ -78,6 +78,26 @@ export const NAME_KEY_DOWN = 'ArrowDown';
 
 export const NAME_KEY_PRODUCTS_STORAGE = 'products';
 
+export const PROMOCODES = ['camera-333', 'camera-444', 'camera-555'] as const;
+
+export const PROMOCODES_MAP: {
+  name: (typeof PROMOCODES)[number];
+  discont: number;
+}[] = [
+  {
+    name: 'camera-333',
+    discont: 10
+  },
+  {
+    name: 'camera-444',
+    discont: 10
+  },
+  {
+    name: 'camera-555',
+    discont: 15
+  }
+];
+
 export enum ChangeProductCount {
   Increase = 'increase',
   Decrease = 'decrease',
@@ -88,71 +108,71 @@ export const FILTER_CATEGORIES: {
   name: string;
   label: FilterCategories;
   text: string;
-  }[] = [
-    {
-      key: 'cat',
-      name: 'photocamera',
-      label: 'Фотоаппарат',
-      text: 'Фотокамера'
-    },
-    {
-      key: 'cat',
-      name: 'videocamera',
-      label: 'Видеокамера',
-      text: 'Видеокамера'
-    },
-  ];
+}[] = [
+  {
+    key: 'cat',
+    name: 'photocamera',
+    label: 'Фотоаппарат',
+    text: 'Фотокамера'
+  },
+  {
+    key: 'cat',
+    name: 'videocamera',
+    label: 'Видеокамера',
+    text: 'Видеокамера'
+  },
+];
 
 export const FILTER_TYPES: {
   key: KeyFilters;
   category: string[];
   name: string;
   label: FilterTypes;
-  }[] = [
-    {
-      key: 'type',
-      category: ['Фотоаппарат', 'Видеокамера'],
-      name: 'digital',
-      label: 'Цифровая'
-    },
-    {
-      key: 'type',
-      category: ['Фотоаппарат'],
-      name: 'film',
-      label: 'Плёночная'
-    },
-    {
-      key: 'type',
-      category: ['Фотоаппарат'],
-      name: 'snapshot',
-      label: 'Моментальная',
-    },
-    {
-      key: 'type',
-      category: ['Фотоаппарат', 'Видеокамера'],
-      name: 'collection',
-      label: 'Коллекционная'
-    }
-  ];
+}[] = [
+  {
+    key: 'type',
+    category: ['Фотоаппарат', 'Видеокамера'],
+    name: 'digital',
+    label: 'Цифровая'
+  },
+  {
+    key: 'type',
+    category: ['Фотоаппарат'],
+    name: 'film',
+    label: 'Плёночная'
+  },
+  {
+    key: 'type',
+    category: ['Фотоаппарат'],
+    name: 'snapshot',
+    label: 'Моментальная',
+  },
+  {
+    key: 'type',
+    category: ['Фотоаппарат', 'Видеокамера'],
+    name: 'collection',
+    label: 'Коллекционная'
+  }
+];
 
 export const FILTER_LEVELS: {
   key: KeyFilters;
   name: string;
   label: FilterLevels;
-  }[] = [
-    {
-      key: 'lev',
-      name: 'zero',
-      label: 'Нулевой'
-    },
-    {
-      key: 'lev',
-      name: 'non-professional',
-      label: 'Любительский'
-    },
-    {
-      key: 'lev',
-      name: 'professional',
-      label: 'Профессиональный'
-    },
-  ];
+}[] = [
+  {
+    key: 'lev',
+    name: 'zero',
+    label: 'Нулевой'
+  },
+  {
+    key: 'lev',
+    name: 'non-professional',
+    label: 'Любительский'
+  },
+  {
+    key: 'lev',
+    name: 'professional',
+    label: 'Профессиональный'
+  },
+];

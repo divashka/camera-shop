@@ -1,4 +1,4 @@
-import { Product, Review, ProductBasket } from '.';
+import { Product, Review, ProductBasket, Promocode } from '.';
 import { SortNames, DirectionFlowCatalog } from '../const/const';
 
 export type CameraSlice = {
@@ -17,6 +17,7 @@ export type ReviewSlice = {
 }
 
 export type AppSlice = {
+  promocode: Promocode;
   cart: ProductBasket[];
   modalProductFromCart: Product | null;
   modalDeleteProductFromCart: Product | null;
