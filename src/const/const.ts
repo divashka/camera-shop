@@ -18,7 +18,8 @@ export enum SliceNameSpace {
   Camera = 'CAMERA',
   Review = 'REVIEW',
   App = 'APP',
-  Modal = 'MODAL'
+  Modal = 'MODAL',
+  Promo = 'PROMO'
 }
 
 export enum TabsName {
@@ -79,24 +80,6 @@ export const NAME_KEY_DOWN = 'ArrowDown';
 export const NAME_KEY_PRODUCTS_STORAGE = 'products';
 
 export const PROMOCODES = ['camera-333', 'camera-444', 'camera-555'] as const;
-
-export const PROMOCODES_MAP: {
-  name: (typeof PROMOCODES)[number];
-  discont: number;
-}[] = [
-  {
-    name: 'camera-333',
-    discont: 10
-  },
-  {
-    name: 'camera-444',
-    discont: 10
-  },
-  {
-    name: 'camera-555',
-    discont: 15
-  }
-];
 
 export enum ChangeProductCount {
   Increase = 'increase',

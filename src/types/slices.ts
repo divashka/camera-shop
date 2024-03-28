@@ -1,4 +1,4 @@
-import { Product, Review, ProductBasket, Promocode } from '.';
+import { Product, Review, ProductBasket, Promocode, Promo } from '.';
 import { SortNames, DirectionFlowCatalog } from '../const/const';
 
 export type CameraSlice = {
@@ -9,6 +9,13 @@ export type CameraSlice = {
   similarProducts: Product[];
   activeSortItem: SortNames | '';
   activeFlowDirection: DirectionFlowCatalog | '';
+  successOrder: boolean | null;
+}
+
+export type PromoSlice = {
+  promo: Promo[];
+  promocode: Promocode;
+  invalidCoupon: boolean;
 }
 
 export type ReviewSlice = {
@@ -17,7 +24,6 @@ export type ReviewSlice = {
 }
 
 export type AppSlice = {
-  promocode: Promocode;
   cart: ProductBasket[];
   modalProductFromCart: Product | null;
   modalDeleteProductFromCart: Product | null;
@@ -30,5 +36,6 @@ export type ModalSlice = {
   isProductModalOpen: boolean;
   isSuccessProductModalOpen: boolean;
   isRemoveModalOpen: boolean;
-  isSuccesRemoveOpen: boolean;
+  isSuccessOrderOpen: boolean;
+  isErrorOrderOpen: boolean;
 }

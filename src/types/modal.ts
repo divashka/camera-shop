@@ -1,4 +1,4 @@
-import { PROMOCODES } from '../const/const';
+import { PromocodeNames } from '.';
 
 export type FormInputsReview = {
   rating: number;
@@ -9,5 +9,5 @@ export type FormInputsReview = {
 }
 
 export type FormInputsPromo = {
-  promo: (typeof PROMOCODES)[number];
+  promo: PromocodeNames;
 }
