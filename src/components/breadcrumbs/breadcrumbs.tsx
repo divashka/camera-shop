@@ -4,8 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import { getOneProduct } from '../../store/camera-slice/selectors';
 
-const PATH_TO_ROOT = '/';
-
 enum BreadcrumbsName {
   Root = 'Главная',
   Catalog = 'Каталог',
@@ -21,7 +19,6 @@ function BreadcrumbsComponent(): JSX.Element {
   const pathnames = location.pathname.split('/').filter((pathname) => pathname);
 
   const breadcrumbNameMap = {
-    [PATH_TO_ROOT]: BreadcrumbsName.Root,
     [AppRoute.Root]: BreadcrumbsName.Catalog,
     [AppRoute.Basket]: BreadcrumbsName.Basket,
     [AppRoute.Product]: BreadcrumbsName.Product,
@@ -32,7 +29,7 @@ function BreadcrumbsComponent(): JSX.Element {
     <ul className="breadcrumbs__list">
       <li className="breadcrumbs__item">
         <Link className="breadcrumbs__link" to={AppRoute.Root}>
-     Главная
+          Главная
           <svg width={5} height={8} aria-hidden="true">
             <use xlinkHref="#icon-arrow-mini" />
           </svg>
