@@ -16,7 +16,8 @@ describe('CameraSlice', () => {
         oneProduct: null,
         similarProducts: [],
         activeSortItem: SortNames.Popular,
-        activeFlowDirection: DirectionFlowCatalog.Up
+        activeFlowDirection: DirectionFlowCatalog.Up,
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(expectedState, emptyAction);
@@ -33,7 +34,8 @@ describe('CameraSlice', () => {
         oneProduct: null,
         similarProducts: [],
         activeSortItem: '',
-        activeFlowDirection: ''
+        activeFlowDirection: '',
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(undefined, emptyAction);
@@ -53,7 +55,8 @@ describe('CameraSlice', () => {
         oneProduct: mockProduct,
         similarProducts: [],
         activeSortItem: SortNames.Popular,
-        activeFlowDirection: DirectionFlowCatalog.Up
+        activeFlowDirection: DirectionFlowCatalog.Up,
+        successOrder: null
       };
 
       const expectedState = {
@@ -63,7 +66,8 @@ describe('CameraSlice', () => {
         oneProduct: null,
         similarProducts: [],
         activeSortItem: SortNames.Popular,
-        activeFlowDirection: DirectionFlowCatalog.Up
+        activeFlowDirection: DirectionFlowCatalog.Up,
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(initialState, dropProduct());
@@ -84,7 +88,8 @@ describe('CameraSlice', () => {
         oneProduct: null,
         similarProducts: [],
         activeSortItem: '',
-        activeFlowDirection: ''
+        activeFlowDirection: '',
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(
@@ -104,7 +109,8 @@ describe('CameraSlice', () => {
         oneProduct: null,
         similarProducts: [],
         activeSortItem: '',
-        activeFlowDirection: ''
+        activeFlowDirection: '',
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(
@@ -128,7 +134,8 @@ describe('CameraSlice', () => {
         oneProduct: mockProduct,
         similarProducts: [],
         activeSortItem: '',
-        activeFlowDirection: ''
+        activeFlowDirection: '',
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(
@@ -150,7 +157,8 @@ describe('CameraSlice', () => {
         oneProduct: null,
         similarProducts: [],
         activeSortItem: '',
-        activeFlowDirection: ''
+        activeFlowDirection: '',
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(
@@ -176,7 +184,8 @@ describe('CameraSlice', () => {
         oneProduct: null,
         similarProducts: [...mockProducts],
         activeSortItem: '',
-        activeFlowDirection: ''
+        activeFlowDirection: '',
+        successOrder: null
       };
 
       const result = cameraReducer.reducer(

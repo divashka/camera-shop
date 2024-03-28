@@ -97,7 +97,8 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
     oneProduct: mockProduct,
     similarProducts: [...mockProducts],
     activeSortItem: SortNames.Popular,
-    activeFlowDirection: DirectionFlowCatalog.Up
+    activeFlowDirection: DirectionFlowCatalog.Up,
+    successOrder: null
   },
   REVIEW: {
     reviews: [],
@@ -110,7 +111,16 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
     isProductModalOpen: false,
     isSuccessProductModalOpen: false,
     isRemoveModalOpen: false,
-    isSuccesRemoveOpen: false
+    isSuccessOrderOpen: false,
+    isErrorOrderOpen: false
+  },
+  PROMO: {
+    promocode: {
+      name: null,
+      discont: 0,
+    },
+    promo: [],
+    invalidCoupon: false,
   },
   ...initialState ?? {},
 });

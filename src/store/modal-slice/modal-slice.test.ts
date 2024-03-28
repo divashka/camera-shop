@@ -10,7 +10,8 @@ describe('ModalSlice', () => {
         isProductModalOpen: false,
         isSuccessProductModalOpen: false,
         isRemoveModalOpen: false,
-        isSuccesRemoveOpen: false,
+        isSuccessOrderOpen: false,
+        isErrorOrderOpen: false
       };
       const expectedState = {
         isWrapperModalOpen: true,
@@ -19,7 +20,8 @@ describe('ModalSlice', () => {
         isProductModalOpen: false,
         isSuccessProductModalOpen: false,
         isRemoveModalOpen: false,
-        isSuccesRemoveOpen: false,
+        isSuccessOrderOpen: false,
+        isErrorOrderOpen: false
       };
 
       const result = modalReducer.reducer(initialState, setModalActive(true));
