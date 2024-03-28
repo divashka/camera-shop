@@ -1,18 +1,22 @@
+import classNames from 'classnames';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getProductsFromCart, getPromoCode } from '../../store/app-slice/selectors';
+import { getProductsFromCart } from '../../store/app-slice/selectors';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { changeProductCountInBasket, setModalProductDeleteFromCart } from '../../store/app-slice/app-slice';
+import { changeProductCountInBasket, setModalProductDeleteFromCart, resetProductFromCart } from '../../store/app-slice/app-slice';
 import Modal from '../../components/modal/modal';
 import { ProductBasket } from '../../types';
 import { capitalizeFirstLetter } from '../../utils/utils';
 import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA, ChangeProductCount, MAX_COUNT_PRODUCTS } from '../../const/const';
 import BasketCount from '../../components/basket-count/basket-count';
-import { setModalActive, setRemoveModalActive } from '../../store/modal-slice/modal-slice';
-import PromoForm from '../../components/promo-form/promo-form';
-import classNames from 'classnames';
+import { setErrorOrderModalActive, setModalActive, setRemoveModalActive, setSuccessOrderModalActive } from '../../store/modal-slice/modal-slice';
+import PromoForm from '../../components/form-promo/form-promo';
+import { getPromoCode } from '../../store/promo-slice/selectors';
+import { fetchSendOrder } from '../../store/api-actions';
+import { getSuccessOrderStatus } from '../../store/camera-slice/selectors';
+import { setSuccessOrderReset } from '../../store/camera-slice/camera-slice';
 
 function Basket(): JSX.Element {
 
@@ -21,6 +25,8 @@ function Basket(): JSX.Element {
   const products = useAppSelector(getProductsFromCart);
 
   const promocode = useAppSelector(getPromoCode);
+
+  const successOrderStatus = useAppSelector(getSuccessOrderStatus);
 
   const price = products.reduce((prev, current) => prev + (current.price * current.count), 0);
 
@@ -52,6 +58,29 @@ function Basket(): JSX.Element {
     const value = Math.min(+event.target.value, MAX_COUNT_PRODUCTS);
     dispatch(changeProductCountInBasket({ id: id, count: value }));
   }, [dispatch]);
+
+  function handleOrderButtonClick() {
+    const camerasIds = products.map((product) => product.id);
+    dispatch(fetchSendOrder({
+      camerasIds: camerasIds,
+      coupon: promocode.name
+    }));
+  }
+
+  useEffect(() => {
+    if (successOrderStatus) {
+      dispatch(setModalActive(true));
+      dispatch(setSuccessOrderModalActive(true));
+      dispatch(setErrorOrderModalActive(false));
+      dispatch(setSuccessOrderReset());
+      dispatch(resetProductFromCart());
+    } else if (successOrderStatus === false) {
+      dispatch(setModalActive(true));
+      dispatch(setSuccessOrderModalActive(false));
+      dispatch(setErrorOrderModalActive(true));
+      dispatch(setSuccessOrderReset());
+    }
+  }, [dispatch, successOrderStatus]);
 
   return (
     <div className="wrapper">
@@ -159,6 +188,7 @@ function Basket(): JSX.Element {
                     className="btn btn--purple"
                     type="submit"
                     disabled={products.length === 0}
+                    onClick={handleOrderButtonClick}
                   >
                     Оформить заказ
                   </button>

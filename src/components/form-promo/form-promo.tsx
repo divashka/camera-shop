@@ -1,33 +1,35 @@
 import { memo } from 'react';
 import { useForm } from 'react-hook-form';
-import { PROMOCODES, PROMOCODES_MAP } from '../../const/const';
 import classNames from 'classnames';
-import { useAppDispatch } from '../../hooks';
-import { setPromoCode } from '../../store/app-slice/app-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { FormInputsPromo } from '../../types/modal';
+import { setPromoCodeName } from '../../store/promo-slice/promo-slice';
+import { fetchDiscontByCoupon } from '../../store/api-actions';
+import { getPromoCode, getValidCouponStatus } from '../../store/promo-slice/selectors';
 
 function PromoFormComponent(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  const validCouponStatus = useAppSelector(getValidCouponStatus);
+
+  const promocode = useAppSelector(getPromoCode);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
   } = useForm<FormInputsPromo>(
     {
       mode: 'onSubmit'
     }
   );
 
-  function validatePromo(value: string) {
-    return Boolean(PROMOCODES.find((promo) => promo === value) || false);
-  }
-
   function handleFormSubmit(data: FormInputsPromo) {
-    const promocode = PROMOCODES_MAP.find((promo) => promo.name === data.promo);
-    if (promocode) {
-      dispatch(setPromoCode(promocode));
+    if (!promocode.name) {
+      dispatch(setPromoCodeName(data.promo));
+      dispatch(fetchDiscontByCoupon({
+        coupon: data.promo
+      }));
     }
   }
 
@@ -37,8 +39,8 @@ function PromoFormComponent(): JSX.Element {
     >
       <div className={classNames(
         'custom-input',
-        { 'is-invalid': errors?.promo },
-        { 'is-valid': isValid }
+        { 'is-invalid': validCouponStatus },
+        { 'is-valid': promocode.discont !== 0 }
       )}
       >
         <label>
@@ -48,7 +50,6 @@ function PromoFormComponent(): JSX.Element {
             placeholder="Введите промокод"
             {...register('promo', {
               required: true,
-              validate: validatePromo
             })}
           />
         </label>

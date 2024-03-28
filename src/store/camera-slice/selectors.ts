@@ -15,12 +15,12 @@ export const getRelatedProducts = (state: State) => state[SliceNameSpace.Camera]
 
 export const getActiveSortItem = (state: State) => state[SliceNameSpace.Camera].activeSortItem;
 
-export const getActivFlowDirection = (state: State) => state[SliceNameSpace.Camera].activeFlowDirection;
+export const getActiveFlowDirection = (state: State) => state[SliceNameSpace.Camera].activeFlowDirection;
 
 export const getSortedProducts = (products: Product[]) => createSelector(
   [
     getActiveSortItem,
-    getActivFlowDirection
+    getActiveFlowDirection
   ],
   (item, flow) => {
     switch (item) {
@@ -40,3 +40,4 @@ export const getSortedProducts = (products: Product[]) => createSelector(
   }
 );
 
+export const getSuccessOrderStatus = (state: State) => state[SliceNameSpace.Camera].successOrder;

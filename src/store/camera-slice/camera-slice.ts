@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CameraSlice } from '../../types/slices';
 import { SliceNameSpace, SortNames, DirectionFlowCatalog } from '../../const/const';
-import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction, fetchProductsByPriceRange } from '../api-actions';
+import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction, fetchProductsByPriceRange, fetchSendOrder } from '../api-actions';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: CameraSlice = {
@@ -11,7 +11,8 @@ const initialState: CameraSlice = {
   oneProduct: null,
   similarProducts: [],
   activeSortItem: '',
-  activeFlowDirection: ''
+  activeFlowDirection: '',
+  successOrder: null
 };
 
 export const cameraReducer = createSlice({
@@ -26,6 +27,9 @@ export const cameraReducer = createSlice({
     },
     setActiveFlowDirection: (state, action: PayloadAction<DirectionFlowCatalog | ''>) => {
       state.activeFlowDirection = action.payload;
+    },
+    setSuccessOrderReset: (state) => {
+      state.successOrder = null;
     }
   },
   extraReducers(builder) {
@@ -54,8 +58,14 @@ export const cameraReducer = createSlice({
       })
       .addCase(fetchProductsByPriceRange.fulfilled, (state, action) => {
         state.products = action.payload;
+      })
+      .addCase(fetchSendOrder.fulfilled, (state) => {
+        state.successOrder = true;
+      })
+      .addCase(fetchSendOrder.rejected, (state) => {
+        state.successOrder = false;
       });
   }
 });
 
-export const { dropProduct, setActiveSortItem, setActiveFlowDirection } = cameraReducer.actions;
+export const { dropProduct, setActiveSortItem, setActiveFlowDirection, setSuccessOrderReset } = cameraReducer.actions;

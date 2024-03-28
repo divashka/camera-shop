@@ -13,4 +13,6 @@ export const getIsSuccessAddModalStatus = (state: State) => state[SliceNameSpace
 
 export const getIsRemoveModalStatus = (state: State) => state[SliceNameSpace.Modal].isRemoveModalOpen;
 
-export const getIsSuccessRemoveModalStatus = (state: State) => state[SliceNameSpace.Modal].isSuccesRemoveOpen;
+export const getIsSuccessOrderModalStatus = (state: State) => state[SliceNameSpace.Modal].isSuccessOrderOpen;
+
+export const getIsErrorOrderModalStatus = (state: State) => state[SliceNameSpace.Modal].isErrorOrderOpen;

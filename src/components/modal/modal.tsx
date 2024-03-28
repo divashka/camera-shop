@@ -2,14 +2,14 @@ import classNames from 'classnames';
 import { memo, KeyboardEvent } from 'react';
 import { ESCAPE_KEY_NAME } from '../../const/const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { getIsActiveModalStatus, getIsReviewModalStatus, getIsSuccessReviewStatus, getIsSuccessRemoveModalStatus, getIsRemoveModalStatus, getIsProductAddModalStatus, getIsSuccessAddModalStatus } from '../../store/modal-slice/selectors';
-import { setModalActive, setRemoveModalActive, setSuccessRemoveModalActive, setProductAddModalActive, setReviewModalActive, setSuccessAddModalActive, setSuccessReviewModalActive } from '../../store/modal-slice/modal-slice';
+import { getIsActiveModalStatus, getIsReviewModalStatus, getIsSuccessReviewStatus, getIsSuccessOrderModalStatus, getIsRemoveModalStatus, getIsProductAddModalStatus, getIsSuccessAddModalStatus, getIsErrorOrderModalStatus } from '../../store/modal-slice/selectors';
+import { setModalActive, setRemoveModalActive, setSuccessOrderModalActive, setProductAddModalActive, setReviewModalActive, setSuccessAddModalActive, setSuccessReviewModalActive, setErrorOrderModalActive } from '../../store/modal-slice/modal-slice';
 import ProductReviewModal from '../review-modal/review-modal';
 import ProductReviewThanks from '../review-thanks-modal/review-thanks-modal';
 import AddProductModal from '../add-product-modal/add-product-modal';
 import AddProductSuccessModal from '../add-product-success-modal/add-product-success-modal';
 import ProductRemoveModal from '../remove-modal/remove-modal';
-import ProductRemoveThanksModal from '../send-modal-thanks/send-modal-thanks';
+import ProductOrderModal from '../order-modal/order-modal';
 
 function ModalComponent(): JSX.Element {
 
@@ -17,11 +17,12 @@ function ModalComponent(): JSX.Element {
 
   function closeAllModal() {
     dispatch(setRemoveModalActive(false));
-    dispatch(setSuccessRemoveModalActive(false));
+    dispatch(setSuccessOrderModalActive(false));
     dispatch(setReviewModalActive(false));
     dispatch(setSuccessReviewModalActive(false));
     dispatch(setProductAddModalActive(false));
     dispatch(setSuccessAddModalActive(false));
+    dispatch(setErrorOrderModalActive(false));
     dispatch(setModalActive(false));
   }
 
@@ -35,9 +36,11 @@ function ModalComponent(): JSX.Element {
 
   const isSuccessAddModalOpen = useAppSelector(getIsSuccessAddModalStatus);
 
-  const isSuccessRemoveModalOpen = useAppSelector(getIsSuccessRemoveModalStatus);
+  const isSuccessOrderModalOpen = useAppSelector(getIsSuccessOrderModalStatus);
 
   const isRemoveModalOpen = useAppSelector(getIsRemoveModalStatus);
+
+  const isErrorOrderModalOpen = useAppSelector(getIsErrorOrderModalStatus);
 
   function handleOverlayClick() {
     closeAllModal();
@@ -55,7 +58,7 @@ function ModalComponent(): JSX.Element {
       className={classNames(
         'modal',
         { 'is-active': isActiveModal },
-        { 'modal--narrow': isSuccesReviewModalOpen || isSuccessAddModalOpen || isSuccessRemoveModalOpen }
+        { 'modal--narrow': isSuccesReviewModalOpen || isSuccessAddModalOpen || isSuccessOrderModalOpen }
       )}
       onKeyDown={handleEscapeKeydown}
       data-testid="modal-wrapper"
@@ -68,7 +71,8 @@ function ModalComponent(): JSX.Element {
         {isAddModalOpen && <AddProductModal />}
         {isSuccessAddModalOpen && <AddProductSuccessModal />}
         {isRemoveModalOpen && <ProductRemoveModal />}
-        {isSuccessRemoveModalOpen && <ProductRemoveThanksModal />}
+        {isSuccessOrderModalOpen && <ProductOrderModal error={false} />}
+        {isErrorOrderModalOpen && <ProductOrderModal error />}
 
       </div>
     </div>

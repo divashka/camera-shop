@@ -9,7 +9,8 @@ const initialState: ModalSlice = {
   isProductModalOpen: false,
   isSuccessProductModalOpen: false,
   isRemoveModalOpen: false,
-  isSuccesRemoveOpen: false
+  isSuccessOrderOpen: false,
+  isErrorOrderOpen: false
 };
 
 export const modalReducer = createSlice({
@@ -35,10 +36,13 @@ export const modalReducer = createSlice({
     setRemoveModalActive: (state, action: PayloadAction<boolean>) => {
       state.isRemoveModalOpen = action.payload;
     },
-    setSuccessRemoveModalActive: (state, action: PayloadAction<boolean>) => {
-      state.isSuccesRemoveOpen = action.payload;
+    setSuccessOrderModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isSuccessOrderOpen = action.payload;
+    },
+    setErrorOrderModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isErrorOrderOpen = action.payload;
     }
   },
 });
 
-export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive, setRemoveModalActive, setSuccessRemoveModalActive } = modalReducer.actions;
+export const { setModalActive, setReviewModalActive, setSuccessReviewModalActive, setProductAddModalActive, setSuccessAddModalActive, setRemoveModalActive, setSuccessOrderModalActive, setErrorOrderModalActive } = modalReducer.actions;
