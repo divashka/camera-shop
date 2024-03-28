@@ -2,8 +2,9 @@ import { FilterCategories, FilterTypes, FilterLevels, KeyFilters } from '../type
 
 export enum AppRoute {
   Root = '/catalog',
-  Product = '/catalog/product/',
+  Product = '/catalog/product',
   Basket = '/catalog/basket',
+  NotFound = '/not-found'
 }
 
 export enum APIRoute {

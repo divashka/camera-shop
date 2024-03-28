@@ -60,12 +60,12 @@ function FormSearchComponent(): JSX.Element {
   }
 
   function handleSelectItemClick(id: Product['id']) {
-    navigate(`${AppRoute.Product}${id}`);
+    navigate(`${AppRoute.Product}/${id}`);
   }
 
   function handleSelectItemFocusClick(event: KeyboardEvent<HTMLLIElement>, id: Product['id']) {
     if (event.code === NAME_KEY_ENTER) {
-      navigate(`${AppRoute.Product}${id}`);
+      navigate(`${AppRoute.Product}/${id}`);
     }
   }
 

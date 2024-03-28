@@ -101,7 +101,7 @@ function RelatedProductsComponent({ products }: RelatedProductsProps): JSX.Eleme
                     >
                       Купить
                     </button>
-                    <Link className="btn btn--transparent" to={`${AppRoute.Product}${product.id}`}>Подробнее
+                    <Link className="btn btn--transparent" to={`${AppRoute.Product}/${product.id}`}>Подробнее
                     </Link>
                   </div>
                 </div>

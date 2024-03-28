@@ -30,7 +30,7 @@ function App(): JSX.Element {
             element={<Basket />}
           />
           <Route
-            path={`${AppRoute.Product}:id`}
+            path={`${AppRoute.Product}/:id`}
             element={<Product />}
           />
           <Route

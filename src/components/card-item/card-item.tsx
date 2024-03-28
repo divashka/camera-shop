@@ -61,7 +61,7 @@ function CardItem({ product }: CardItemProps): JSX.Element {
           :
           <button className="btn btn--purple product-card__btn" type="button" onClick={handleAddButtonClick}>Купить
           </button>}
-        <Link className="btn btn--transparent" to={`${AppRoute.Product}${id}`}>Подробнее
+        <Link className="btn btn--transparent" to={`${AppRoute.Product}/${id}`}>Подробнее
         </Link>
       </div>
     </div>
