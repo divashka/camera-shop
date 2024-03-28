@@ -3,8 +3,8 @@ import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Action } from 'redux';
-import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction, fetchReviewsAction, fetchAddReviewAction } from './api-actions';
-import { State, ReviewData } from '../types';
+import { fetchProductsAction, fetchOneProductAction, fetchRelatedProductsAction, fetchReviewsAction, fetchAddReviewAction, fetchProductsByPriceRange, fetchPromoAction, fetchDiscontByCoupon, fetchSendOrder } from './api-actions';
+import { State, ReviewData, PromocodeData } from '../types';
 import { APIRoute } from '../const/const';
 import { extractActionsTypes, AppThunkDispatch } from '../utils/mocks';
 
@@ -116,6 +116,93 @@ describe('API ACTIONS', () => {
         expect(actions).toEqual([
           fetchAddReviewAction.pending.type,
           fetchAddReviewAction.fulfilled.type
+        ]);
+      });
+
+  });
+
+  describe('fetchProductsByPriceRange', () => {
+
+    it('should dispatch fetchProductsByPriceRange.pending and fetchProductsByPriceRange.fulfilled with thunk fetchProductsByPriceRange',
+      async () => {
+
+        const filterPrice = {
+          from: '1000',
+          to: '20000'
+        };
+
+        const queryGte = `price_gte=${filterPrice.from}`;
+        const queryLte = `&price_lte=${filterPrice.to}`;
+
+        mockAxiosAdapter.onGet(`${APIRoute.Camera}?${queryGte}${queryLte}`).reply(200);
+
+        await store.dispatch((fetchProductsByPriceRange(filterPrice)));
+        const actions = extractActionsTypes(store.getActions());
+
+        expect(actions).toEqual([
+          fetchProductsByPriceRange.pending.type,
+          fetchProductsByPriceRange.fulfilled.type
+        ]);
+      });
+
+  });
+
+  describe('fetchPromoAction', () => {
+
+    it('should dispatch fetchPromoAction.pending and fetchPromoAction.fulfilled with thunk fetchPromoAction',
+      async () => {
+        mockAxiosAdapter.onGet(`${APIRoute.Promo}`).reply(200);
+
+        await store.dispatch((fetchPromoAction()));
+        const actions = extractActionsTypes(store.getActions());
+
+        expect(actions).toEqual([
+          fetchPromoAction.pending.type,
+          fetchPromoAction.fulfilled.type
+        ]);
+      });
+
+  });
+
+  describe('fetchDiscontByCoupon', () => {
+
+    it('should dispatch fetchDiscontByCoupon.pending and fetchDiscontByCoupon.fulfilled with thunk fetchDiscontByCoupon',
+      async () => {
+
+        const promocodeData: PromocodeData = {
+          coupon: 'camera-333'
+        };
+
+        mockAxiosAdapter.onPost(APIRoute.Coupons, promocodeData).reply(200);
+
+        await store.dispatch((fetchDiscontByCoupon(promocodeData)));
+        const actions = extractActionsTypes(store.getActions());
+
+        expect(actions).toEqual([
+          fetchDiscontByCoupon.pending.type,
+          fetchDiscontByCoupon.fulfilled.type
+        ]);
+      });
+
+  });
+
+  describe('fetchSendOrder', () => {
+
+    it('should dispatch fetchSendOrder.pending and fetchSendOrder.fulfilled with thunk fetchSendOrder',
+      async () => {
+        const orderData = {
+          camerasIds: [1,2,3],
+          coupon: null
+        };
+
+        mockAxiosAdapter.onPost(APIRoute.Orders, orderData).reply(200);
+
+        await store.dispatch((fetchSendOrder(orderData)));
+        const actions = extractActionsTypes(store.getActions());
+
+        expect(actions).toEqual([
+          fetchSendOrder.pending.type,
+          fetchSendOrder.fulfilled.type
         ]);
       });
 
