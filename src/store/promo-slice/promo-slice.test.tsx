@@ -13,7 +13,7 @@ describe('PromoSlice', () => {
           discont: 0,
         },
         promo: [],
-        invalidCoupon: false,
+        validCoupon: false,
       };
 
       const result = promoReducer.reducer(expectedState, emptyAction);
@@ -29,7 +29,7 @@ describe('PromoSlice', () => {
           discont: 0,
         },
         promo: [],
-        invalidCoupon: false,
+        validCoupon: false,
       };
 
       const result = promoReducer.reducer(undefined, emptyAction);
@@ -47,7 +47,7 @@ describe('PromoSlice', () => {
           discont: 0,
         },
         promo: [...mockPromoSlides],
-        invalidCoupon: false,
+        validCoupon: false,
       };
 
       const result = promoReducer.reducer(
@@ -75,7 +75,7 @@ describe('PromoSlice', () => {
           discont: 15,
         },
         promo: [],
-        invalidCoupon: false,
+        validCoupon: false,
       };
 
       const result = promoReducer.reducer(
@@ -87,7 +87,7 @@ describe('PromoSlice', () => {
       expect(result).toEqual(expectedState);
     });
 
-    it('should return invalidCoupon with fetchDiscontByCoupon.rejected action', () => {
+    it('should return validCoupon with fetchDiscontByCoupon.rejected action', () => {
       const coupon: PromocodeData = {
         coupon: 'camera-333'
       };
@@ -98,7 +98,7 @@ describe('PromoSlice', () => {
           discont: 0,
         },
         promo: [],
-        invalidCoupon: true,
+        validCoupon: true,
       };
 
       const result = promoReducer.reducer(

@@ -11,7 +11,7 @@ const initialState: PromoSlice = {
     discont: 0,
   },
   promo: [],
-  invalidCoupon: false,
+  validCoupon: null,
 };
 
 export const promoReducer = createSlice({
@@ -21,6 +21,9 @@ export const promoReducer = createSlice({
     setPromoCodeName: (state, action: PayloadAction<PromocodeNames>) => {
       state.promocode.name = action.payload;
     },
+    setPromoCodeValidStatus: (state, action: PayloadAction<boolean>) => {
+      state.validCoupon = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -29,12 +32,13 @@ export const promoReducer = createSlice({
       })
       .addCase(fetchDiscontByCoupon.fulfilled, (state, action) => {
         state.promocode.discont = action.payload;
-        state.invalidCoupon = false;
+        state.validCoupon = true;
       })
       .addCase(fetchDiscontByCoupon.rejected, (state) => {
-        state.invalidCoupon = true;
+        state.validCoupon = false;
+        state.promocode.name = null;
       });
   }
 });
 
-export const { setPromoCodeName } = promoReducer.actions;
+export const { setPromoCodeName, setPromoCodeValidStatus } = promoReducer.actions;

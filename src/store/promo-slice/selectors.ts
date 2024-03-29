@@ -5,6 +5,6 @@ export const getPromoCode = (state: State) => state[SliceNameSpace.Promo].promoc
 
 export const getPromoSlides = (state: State) => state[SliceNameSpace.Promo].promo;
 
-export const getValidCouponStatus = (state: State) => state[SliceNameSpace.Promo].invalidCoupon;
+export const getValidCouponStatus = (state: State) => state[SliceNameSpace.Promo].validCoupon;
 
 

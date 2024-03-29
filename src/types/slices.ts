@@ -15,7 +15,7 @@ export type CameraSlice = {
 export type PromoSlice = {
   promo: Promo[];
   promocode: Promocode;
-  invalidCoupon: boolean;
+  validCoupon: boolean | null;
 }
 
 export type ReviewSlice = {
