@@ -202,7 +202,7 @@ export const makeMockStore = (initialState?: Partial<State>): State => ({
       discont: 0,
     },
     promo: [],
-    invalidCoupon: false,
+    validCoupon: false,
   },
   ...initialState ?? {},
 });
