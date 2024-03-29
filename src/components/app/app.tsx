@@ -1,5 +1,5 @@
 import { HelmetProvider } from 'react-helmet-async';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../const/const';
 import Catalog from '../../pages/catalog/catalog';
 import Basket from '../../pages/basket/basket';
@@ -21,6 +21,10 @@ function App(): JSX.Element {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
+          <Route
+            path={"/"}
+            element={<Navigate to={AppRoute.Root} />}
+          />
           <Route
             path={AppRoute.Root}
             element={<Catalog />}
