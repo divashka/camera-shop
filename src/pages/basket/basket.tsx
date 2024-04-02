@@ -1,15 +1,15 @@
 import classNames from 'classnames';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getProductsFromCart } from '../../store/app-slice/selectors';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { changeProductCountInBasket, setModalProductDeleteFromCart, resetProductFromCart } from '../../store/app-slice/app-slice';
+import { setModalProductDeleteFromCart, resetProductFromCart } from '../../store/app-slice/app-slice';
 import Modal from '../../components/modal/modal';
 import { ProductBasket } from '../../types';
 import { capitalizeFirstLetter } from '../../utils/utils';
-import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA, ChangeProductCount, MAX_COUNT_PRODUCTS } from '../../const/const';
+import { NAME_PHOTOCAMERA_FROM_SERVER, NAME_PHOTOCAMERA } from '../../const/const';
 import BasketCount from '../../components/basket-count/basket-count';
 import { setErrorOrderModalActive, setModalActive, setRemoveModalActive, setSuccessOrderModalActive } from '../../store/modal-slice/modal-slice';
 import PromoForm from '../../components/form-promo/form-promo';
@@ -28,7 +28,7 @@ function Basket(): JSX.Element {
 
   const successOrderStatus = useAppSelector(getSuccessOrderStatus);
 
-  const price = products.reduce((prev, current) => prev + (current.price * current.count), 0);
+  const price = products.reduce((prev, current) => prev + (current.price * Number(current.count)), 0);
 
   const [total, setTotal] = useState({
     price: price,
@@ -49,15 +49,6 @@ function Basket(): JSX.Element {
     dispatch(setModalActive(true));
     dispatch(setRemoveModalActive(true));
   }
-
-  const handleIncreaseButtonClick = useCallback((id: ProductBasket['id']) => dispatch(changeProductCountInBasket({ type: ChangeProductCount.Increase, id })), [dispatch]);
-
-  const handleDecreaseButtonClick = useCallback((id: ProductBasket['id']) => dispatch(changeProductCountInBasket({ type: ChangeProductCount.Decrease, id })), [dispatch]);
-
-  const handleCountChange = useCallback((event: ChangeEvent<HTMLInputElement>, id: ProductBasket['id']) => {
-    const value = Math.min(+event.target.value, MAX_COUNT_PRODUCTS);
-    dispatch(changeProductCountInBasket({ id: id, count: value }));
-  }, [dispatch]);
 
   function handleOrderButtonClick() {
     const camerasIds = products.map((product) => product.id);
@@ -133,10 +124,10 @@ function Basket(): JSX.Element {
                         <span className="visually-hidden">Цена:</span>{(product.price).toLocaleString()} ₽
                       </p>
 
-                      <BasketCount product={product} onIncreaseClick={handleIncreaseButtonClick} onDecreaseClick={handleDecreaseButtonClick} onCountChange={handleCountChange} />
+                      <BasketCount product={product} />
 
                       <div className="basket-item__total-price">
-                        <span className="visually-hidden">Общая цена:</span>{(product.price * product.count).toLocaleString()} ₽
+                        <span className="visually-hidden">Общая цена:</span>{(product.price * Number(product.count)).toLocaleString()} ₽
                       </div>
                       <button
                         className="cross-btn"

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { FormInputsPromo } from '../../types/modal';
-import { setPromoCodeName, setPromoCodeValidStatus } from '../../store/promo-slice/promo-slice';
+import { setPromoCodeName } from '../../store/promo-slice/promo-slice';
 import { fetchDiscontByCoupon } from '../../store/api-actions';
 import { getPromoCode, getValidCouponStatus } from '../../store/promo-slice/selectors';
 
@@ -30,8 +30,11 @@ function PromoFormComponent(): JSX.Element {
       dispatch(fetchDiscontByCoupon({
         coupon: data.promo
       }));
+    } else {
+      dispatch(fetchDiscontByCoupon({
+        coupon: data.promo
+      }));
     }
-    dispatch(setPromoCodeValidStatus(false));
   }
 
   return (

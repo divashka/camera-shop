@@ -1,22 +1,46 @@
 import { memo, ChangeEvent } from 'react';
 import { ProductBasket } from '../../types';
-import { MAX_COUNT_PRODUCTS, MIN_COUNT_PRODUCTS } from '../../const/const';
+import { MAX_COUNT_PRODUCTS, MIN_COUNT_PRODUCTS, ChangeProductCount } from '../../const/const';
+import { useAppDispatch } from '../../hooks';
+import { changeProductCountInBasket } from '../../store/app-slice/app-slice';
 
 type BasketCountProps = {
   product: ProductBasket;
-  onIncreaseClick: (id: ProductBasket['id']) => void;
-  onDecreaseClick: (id: ProductBasket['id']) => void;
-  onCountChange: (event: ChangeEvent<HTMLInputElement>, id: ProductBasket['id']) => void;
 }
 
-function BasketCountComponent({ product, onIncreaseClick, onDecreaseClick, onCountChange }: BasketCountProps):JSX.Element {
+function BasketCountComponent({ product }: BasketCountProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  function handleIncreaseButtonClick() {
+    dispatch(changeProductCountInBasket({ type: ChangeProductCount.Increase, id: product.id }));
+  }
+
+  function handleDecreaseButtonClick(){
+    dispatch(changeProductCountInBasket({ type: ChangeProductCount.Decrease, id: product.id }));
+  }
+
+  function handleCountChange(event: ChangeEvent<HTMLInputElement>) {
+    if (/[A-Za-zА-яЁё]+/.test(event.target.value)) {
+      return;
+    }
+    const value = Math.min(+event.target.value, MAX_COUNT_PRODUCTS);
+    dispatch(changeProductCountInBasket({ id: product.id, count: value }));
+  }
+
+  function handleInputBlur() {
+    if (product.count === '') {
+      dispatch(changeProductCountInBasket({ id: product.id, count: 1 }));
+    }
+  }
+
   return (
     <div className="quantity">
       <button
         className="btn-icon btn-icon--prev"
         aria-label="уменьшить количество товара"
-        onClick={() => onDecreaseClick(product.id)}
-        disabled={product.count === MIN_COUNT_PRODUCTS}
+        onClick={handleDecreaseButtonClick}
+        disabled={Number(product.count) === MIN_COUNT_PRODUCTS}
       >
         <svg width={7} height={12} aria-hidden="true">
           <use xlinkHref="#icon-arrow" />
@@ -24,19 +48,18 @@ function BasketCountComponent({ product, onIncreaseClick, onDecreaseClick, onCou
       </button>
       <label className="visually-hidden" htmlFor="counter1" />
       <input
-        type="number"
+        type="string"
         id="counter1"
-        min={1}
-        max={99}
         aria-label="количество товара"
         value={product.count}
-        onChange={(event) => onCountChange(event, product.id)}
+        onChange={(event) => handleCountChange(event)}
+        onBlur={handleInputBlur}
       />
       <button
         className="btn-icon btn-icon--next"
         aria-label="увеличить количество товара"
-        onClick={() => onIncreaseClick(product.id)}
-        disabled={product.count === MAX_COUNT_PRODUCTS}
+        onClick={handleIncreaseButtonClick}
+        disabled={Number(product.count) === MAX_COUNT_PRODUCTS}
       >
         <svg width={7} height={12} aria-hidden="true">
           <use xlinkHref="#icon-arrow" />

@@ -5,6 +5,7 @@ import { setProductAddModalActive, setModalActive } from '../../store/modal-slic
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setModalProductFromCart } from '../../store/app-slice/app-slice';
 import { getProductsFromCart } from '../../store/app-slice/selectors';
+import './style.css';
 
 type CardItemProps = {
   product: Product;
@@ -53,7 +54,7 @@ function CardItem({ product }: CardItemProps): JSX.Element {
       <div className="product-card__buttons">
         {isProductinCart
           ?
-          <Link className="btn btn--purple-border" to={AppRoute.Basket}>
+          <Link className='btn btn--purple-border btn-in-basket' to={AppRoute.Basket}>
             <svg width="16" height="16" aria-hidden="true">
               <use xlinkHref="#icon-basket"></use>
             </svg>В корзине

@@ -29,7 +29,7 @@ export type Product = {
 }
 
 export type ProductBasket = Product & {
-  count: number;
+  count: string;
 }
 
 export type Review = {

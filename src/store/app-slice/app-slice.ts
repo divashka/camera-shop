@@ -22,7 +22,7 @@ export const appReducer = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<Product>) => {
-      const product = { ...action.payload, count: 1 };
+      const product = { ...action.payload, count: '1' };
       state.cart.push(product);
       getProductsFromLocalStorage(state.cart);
     },
@@ -42,12 +42,12 @@ export const appReducer = createSlice({
     changeProductCountInBasket: (state, action: PayloadAction<ChangeCount>) => {
       const payload = action.payload;
       const count = payload.count;
-      if (count) {
+      if (count !== undefined) {
         state.cart = state.cart.map((product) => {
           if (product.id === payload.id) {
             return {
               ...product,
-              count: count
+              count: count === 0 ? '' : String(count)
             };
           }
           return product;
@@ -55,16 +55,16 @@ export const appReducer = createSlice({
       } else {
         state.cart = state.cart.map((product) => {
           if (product.id === payload.id && payload.type === ChangeProductCount.Increase) {
-            const newCount = Math.min(product.count + 1, MAX_COUNT_PRODUCTS);
+            const newCount = Math.min(Number(product.count) + 1, MAX_COUNT_PRODUCTS);
             return {
               ...product,
-              count: newCount
+              count: String(newCount)
             };
           } else if (product.id === payload.id && payload.type === ChangeProductCount.Decrease) {
-            const newCount = Math.max(product.count - 1, MIN_COUNT_PRODUCTS);
+            const newCount = Math.max(Number(product.count) - 1, MIN_COUNT_PRODUCTS);
             return {
               ...product,
-              count: newCount
+              count: String(newCount)
             };
           }
           return product;

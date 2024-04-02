@@ -65,7 +65,7 @@ function AddProductModalComponent(): JSX.Element {
             <li className="basket-item__list-item">{level} уровень</li>
           </ul>
           <p className="basket-item__price">
-            <span className="visually-hidden">Цена:</span>{price} ₽
+            <span className="visually-hidden">Цена:</span>{price.toLocaleString()} ₽
           </p>
         </div>
       </div>

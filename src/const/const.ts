@@ -60,7 +60,7 @@ export const RATE_COUNT = 5;
 
 export const MAX_COUNT_PER_PAGE = 9;
 
-export const MAX_COUNT_PRODUCTS = 99;
+export const MAX_COUNT_PRODUCTS = 100;
 
 export const MIN_COUNT_PRODUCTS = 1;
 
