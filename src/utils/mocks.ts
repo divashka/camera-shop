@@ -77,7 +77,7 @@ export const mockProductsBasket: ProductBasket[] =
   [
     {
       id: 1,
-      count: 1,
+      count: '1',
       name: 'Ретрокамера Dus Auge lV',
       vendorCode: 'DA4IU67AD5',
       type: 'Коллекционная',
@@ -94,7 +94,7 @@ export const mockProductsBasket: ProductBasket[] =
     },
     {
       id: 2,
-      count: 1,
+      count: '1',
       name: 'FastShot MR-5',
       vendorCode: 'JH34KHN895',
       type: 'Моментальная',
@@ -111,7 +111,7 @@ export const mockProductsBasket: ProductBasket[] =
     },
     {
       id: 3,
-      count: 1,
+      count: '1',
       name: 'Instaprinter P2',
       vendorCode: 'KLU789GH56',
       type: 'Цифровая',
