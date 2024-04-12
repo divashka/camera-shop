@@ -1,8 +1,17 @@
 # Интернет-магазин фотоаппаратов
 
-Pet-проект с реализацией функционала настоящего интернет-магазина: поиск, корзина, фильтрация и сортировка.
+Pet-проект посвященный реализации функционала настоящего интернет-магазина.
 
-Проект реализован на React + TypeScript.
+Что реализовано в проекте?
+<ul>
+  <li>поиск товаров</li>
+  <li>фильтрация</li>
+  <li>сортировка</li>
+  <li>слайдер</li>
+  <li>корзина</li>
+</ul>
+
+Проект написан на React + TypeScript.
 
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
